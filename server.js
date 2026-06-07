@@ -59,6 +59,25 @@ app.post("/api/alunos", async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
+app.get("/api/teste-aluno", async (req, res) => {
+  const { data, error } = await supabase
+    .from("alunos")
+    .insert([
+      {
+        id: crypto.randomUUID(),
+        nome: "Gui Teste",
+        email: `gui${Date.now()}@teste.com`
+      }
+    ])
+    .select();
+
+  if (error) {
+    return res.status(400).json(error);
+  }
+
+  res.json(data);
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
