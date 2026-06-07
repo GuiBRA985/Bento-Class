@@ -13,21 +13,46 @@ app.get("/", (req, res) => {
 
 app.get("/api/status", async (req, res) => {
   try {
-    const { data, error } = await supabase
-      .from("perfis")
+    const { error } = await supabase
+      .from("alunos")
       .select("*")
       .limit(1);
 
     res.json({
       status: "online",
-      banco: error ? "erro" : "conectado",
-      detalhes: error?.message || "Supabase OK"
+      banco: error ? "erro" : "conectado"
     });
+  } catch (err) {
+    res.status(500).json({
+      erro: err.message
+    });
+  }
+});
+
+app.post("/api/alunos", async (req, res) => {
+  try {
+    const { nome, email } = req.body;
+
+    const { data, error } = await supabase
+      .from("alunos")
+      .insert([
+        {
+          id: crypto.randomUUID(),
+          nome,
+          email
+        }
+      ])
+      .select();
+
+    if (error) {
+      return res.status(400).json(error);
+    }
+
+    res.json(data);
 
   } catch (err) {
     res.status(500).json({
-      status: "erro",
-      mensagem: err.message
+      erro: err.message
     });
   }
 });
