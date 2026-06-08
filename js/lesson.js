@@ -1,7 +1,8 @@
-const params =
-new URLSearchParams(window.location.search);
+const params = new URLSearchParams(window.location.search);
 
-const lessonId = 1;
+const lessonId = Number(params.get('id'));
+
+console.log("ID DA URL:", lessonId);
 async function loadLesson() {
 
     const { data: lesson } =
@@ -36,13 +37,15 @@ async function loadLesson() {
         wordList.appendChild(li);
     });
 
-    const { data: sentences } =
+    const { data: sentences, error: sentencesError } =
     await supabaseClient
     .from('sentences')
     .select('*')
     .eq('lesson_id', lessonId)
     .order('sentence_order');
+
     console.log("SENTENCES:", sentences);
+    console.log("SENTENCES ERROR:", sentencesError);
 
     const sentenceDiv =
     document.getElementById('sentences');
