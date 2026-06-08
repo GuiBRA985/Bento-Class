@@ -1,33 +1,30 @@
-async function loadLessons() {
+async function carregarLicoes() {
 
     const { data, error } = await supabaseClient
         .from('lessons')
         .select('*')
         .order('lesson_number');
 
-    if(error){
+    if (error) {
         console.error(error);
         return;
     }
 
-    const container =
-        document.getElementById('lesson-list');
+    const lista = document.getElementById('lista-licoes');
 
-    data.forEach(lesson => {
+    data.forEach(licao => {
 
-        const card =
-        document.createElement('div');
+        const card = document.createElement('div');
 
         card.className = 'lesson-card';
 
         card.innerHTML = `
-            <a href="lesson.html?id=${lesson.id}">
-                Lesson ${lesson.lesson_number}
-            </a>
+            <h3>Lição ${licao.lesson_number}</h3>
+            <p>${licao.title ?? ''}</p>
         `;
 
-        container.appendChild(card);
+        lista.appendChild(card);
     });
 }
 
-loadLessons();
+carregarLicoes();
