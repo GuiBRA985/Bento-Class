@@ -2,7 +2,6 @@ const params =
 new URLSearchParams(window.location.search);
 
 const lessonId = params.get('id');
-
 async function loadLesson() {
 
     const { data: lesson } =
