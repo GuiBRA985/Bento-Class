@@ -15,12 +15,17 @@ async function carregarLicoes() {
     const lista = document.getElementById('lista-licoes');
 
     data.forEach(licao => {
-        lista.innerHTML += `
-            <div>
-                Lição ${licao.lesson_number}
-            </div>
-        `;
-    });
-}
 
-carregarLicoes();
+    const card = document.createElement('div');
+
+    card.className = 'lesson-card';
+
+    card.innerHTML = `
+        <a href="lesson.html?id=${licao.id}">
+            <h3>Lição ${licao.lesson_number}</h3>
+            <p>${licao.title ?? ''}</p>
+        </a>
+    `;
+
+    lista.appendChild(card);
+}};
