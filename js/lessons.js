@@ -2,28 +2,24 @@ async function carregarLicoes() {
 
     const { data, error } = await supabaseClient
         .from('lessons')
-        .select('*')
-        .order('lesson_number');
+        .select('*');
+
+    console.log("DATA:", data);
+    console.log("ERROR:", error);
 
     if (error) {
-        console.error(error);
+        alert(error.message);
         return;
     }
 
     const lista = document.getElementById('lista-licoes');
 
     data.forEach(licao => {
-
-        const card = document.createElement('div');
-
-        card.className = 'lesson-card';
-
-        card.innerHTML = `
-            <h3>Lição ${licao.lesson_number}</h3>
-            <p>${licao.title ?? ''}</p>
+        lista.innerHTML += `
+            <div>
+                Lição ${licao.lesson_number}
+            </div>
         `;
-
-        lista.appendChild(card);
     });
 }
 
