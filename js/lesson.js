@@ -20,6 +20,8 @@ async function loadLesson() {
     .from('words')
     .select('*')
     .eq('lesson_id', lessonId);
+    console.log("LESSON ID:", lessonId);
+    console.log("WORDS:", words);
 
     const wordList =
     document.getElementById('words');
@@ -40,6 +42,7 @@ async function loadLesson() {
     .select('*')
     .eq('lesson_id', lessonId)
     .order('sentence_order');
+    console.log("SENTENCES:", sentences);
 
     const sentenceDiv =
     document.getElementById('sentences');
