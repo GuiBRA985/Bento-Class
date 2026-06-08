@@ -28,4 +28,4 @@ async function carregarLicoes() {
     `;
 
     lista.appendChild(card);
-}};
+};
