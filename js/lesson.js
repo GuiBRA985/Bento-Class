@@ -23,6 +23,7 @@ async function loadLesson() {
     .eq('lesson_id', lessonId);
     console.log("LESSON ID:", lessonId);
     console.log("WORDS:", words);
+    
     alert(
   "Lição: " + lessonId +
   "\nPalavras encontradas: " + (words ? words.length : 0)
