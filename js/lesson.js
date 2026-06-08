@@ -1,7 +1,7 @@
 const params =
 new URLSearchParams(window.location.search);
 
-const lessonId = params.get('id');
+const lessonId = 1;
 async function loadLesson() {
 
     const { data: lesson } =
