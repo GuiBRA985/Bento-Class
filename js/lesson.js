@@ -30,17 +30,16 @@ async function loadLesson() {
 );
 
     const wordList =
-    document.getElementById('words');
+document.getElementById('words');
 
-    words.forEach(word => {
+wordList.innerHTML = '';
 
-        const li =
-        document.createElement('li');
+words.forEach(word => {
 
-        li.textContent = word.word;
-
-        wordList.appendChild(li);
-    });
+    wordList.innerHTML += `
+        <li>${word.word}</li>
+    `;
+});
 
     const { data: sentences, error: sentencesError } =
     await supabaseClient
