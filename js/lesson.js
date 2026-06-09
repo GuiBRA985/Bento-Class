@@ -41,29 +41,17 @@ words.forEach(word => {
     `;
 });
 
-    const { data: sentences, error: sentencesError } =
-    await supabaseClient
-    .from('sentences')
-    .select('*')
-    .eq('lesson_id', lessonId)
-    .order('sentence_order');
-
-    console.log("SENTENCES:", sentences);
-    console.log("SENTENCES ERROR:", sentencesError);
-
     const sentenceDiv =
-    document.getElementById('sentences');
+document.getElementById('sentences');
 
-    sentences.forEach(sentence => {
+sentenceDiv.innerHTML = '';
 
-        const p =
-        document.createElement('p');
+sentences.forEach(sentence => {
 
-        p.textContent =
-        sentence.sentence;
-
-        sentenceDiv.appendChild(p);
-    });
+    sentenceDiv.innerHTML += `
+        <p>${sentence.sentence}</p>
+    `;
+});
 }
 
 loadLesson();
