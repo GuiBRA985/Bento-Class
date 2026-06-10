@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bento Class</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f8f9fa;
+    color:#222;
+    min-height:100vh;
+}
+
+header{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    padding:20px 40px;
+}
+
+.login-link{
+    text-decoration:none;
+    color:#222;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.hero{
+    min-height:85vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+}
+
+.hero h1{
+    max-width:900px;
+    font-size:clamp(2.5rem, 6vw, 5rem);
+    line-height:1.2;
+    margin-bottom:30px;
+}
+
+.logo{
+    font-size:2.2rem;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+.subtitle{
+    max-width:650px;
+    font-size:1.2rem;
+    line-height:1.6;
+    margin-bottom:40px;
+}
+
+.button{
+    background:#111;
+    color:white;
+    text-decoration:none;
+    padding:16px 40px;
+    border-radius:8px;
+    font-weight:bold;
+    transition:0.2s;
+}
+
+.button:hover{
+    opacity:0.9;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    color:#777;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <a href="login.html" class="login-link">
+        👤 Entrar / Cadastrar
+    </a>
+</header>
+
+<section class="hero">
+
+    <h1>
+        A linguagem é a única coisa
+        que te conecta ao mundo inteiro
+    </h1>
+
+    <div class="logo">
+        Bento Class
+    </div>
+
+    <p class="subtitle">
+        Aprenda inglês através da leitura,
+        fonética e prática diária.
+    </p>
+
+    <a href="signup.html" class="button">
+        COMEÇAR AGORA
+    </a>
+
+</section>
+
+<footer>
+    © 2026 Bento Class
+</footer>
+
+</body>
+</html>
