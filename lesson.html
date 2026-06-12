@@ -1,23 +1,69 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Lesson</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+const params = new URLSearchParams(window.location.search);
 
-<h1 id="title"></h1>
+const lessonId = Number(params.get('id'));
 
-<h2>Words</h2>
-<ul id="words"></ul>
+async function loadLesson() {
 
-<h2>Sentences</h2>
-<div id="sentences"></div>
+// Carrega dados da lição
+const { data: lesson, error: lessonError } =
+    await supabaseClient
+        .from('lessons')
+        .select('*')
+        .eq('id', lessonId)
+        .single();
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase.js"></script>
-<script src="js/lesson.js"></script>
+if (lessonError) {
+    alert('Erro ao carregar lição: ' + lessonError.message);
+    return;
+}
 
-</body>
-</html>
+document.getElementById('title').textContent =
+    `Lesson ${lesson.lesson_number}`;
+
+// Carrega palavras
+const { data: words, error: wordsError } =
+    await supabaseClient
+        .from('words')
+        .select('*')
+        .eq('lesson_id', lessonId)
+        .order('word_order');
+
+if (wordsError) {
+    alert('Erro ao carregar palavras: ' + wordsError.message);
+    return;
+}
+
+const wordList = document.getElementById('words');
+wordList.innerHTML = '';
+
+words.forEach(word => {
+    const li = document.createElement('li');
+    li.textContent = word.word;
+    wordList.appendChild(li);
+});
+
+// Carrega frases
+const { data: sentences, error: sentencesError } =
+    await supabaseClient
+        .from('sentences')
+        .select('*')
+        .eq('lesson_id', lessonId)
+        .order('sentence_order');
+
+if (sentencesError) {
+    alert('Erro ao carregar frases: ' + sentencesError.message);
+    return;
+}
+
+const sentenceDiv = document.getElementById('sentences');
+sentenceDiv.innerHTML = '';
+
+sentences.forEach(sentence => {
+    const p = document.createElement('p');
+    p.textContent = sentence.sentence;
+    sentenceDiv.appendChild(p);
+});
+
+}
+
+loadLesson();
