@@ -95,6 +95,7 @@ recognition.start();
 
 recognition.onresult = function(event) {
 
+    alert("practiceWord carregada");
     const spoken =
         event.results[0][0].transcript
         .trim()
