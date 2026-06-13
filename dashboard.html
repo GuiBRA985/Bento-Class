@@ -2,92 +2,113 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Class Bento - Dashboard</title>
-
+  <title>Admin Panel</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: #fff;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      padding: 30px;
     }
 
     .box {
-      text-align: center;
-      padding: 40px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 16px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      width: 400px;
+      max-width: 900px;
+      margin: auto;
     }
 
-    h1 {
-      margin-bottom: 10px;
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
     }
 
-    .email {
-      font-size: 14px;
-      opacity: 0.8;
-      margin-bottom: 20px;
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #334155;
     }
 
     button {
+      margin-top: 20px;
+      padding: 10px;
       width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      background: #ef4444;
+      background: red;
       color: white;
-      font-weight: bold;
+      border: none;
       cursor: pointer;
-    }
-
-    button:hover {
-      background: #dc2626;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="box">
-    <h1>Dashboard Class Bento</h1>
-    <div class="email" id="userEmail">Carregando usuário...</div>
+<div class="box">
+  <h1>Painel Admin</h1>
+  <p id="status">Verificando acesso...</p>
 
-    <button onclick="logout()">Sair</button>
-  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Role</th>
+        <th>ID</th>
+      </tr>
+    </thead>
+    <tbody id="users"></tbody>
+  </table>
+
+  <button onclick="logout()">Sair</button>
+</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
 
-  const supabaseUrl = "https://ymbkyjdtjpegqelnirzi.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltYmt5amR0anBlZ3FlbG5pcnppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3ODM5NzUsImV4cCI6MjA5NjM1OTk3NX0.2qYLqsc8cgeTCf0edLf-7BeyeqWQcct2ONBGeFgmp4o";
+  const supabase = window.supabase.createClient(
+    "https://ymbkyjdtjpegqelnirzi.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltYmt5amR0anBlZ3FlbG5pcnppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3ODM5NzUsImV4cCI6MjA5NjM1OTk3NX0.2qYLqsc8cgeTCf0edLf-7BeyeqWQcct2ONBGeFgmp4o"
+  );
 
-  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-  const emailEl = document.getElementById("userEmail");
-
-  // 🔒 pega usuário logado
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    // 🚨 expulsa quem não está logado
     window.location.href = "/index.html";
     return;
   }
 
-  // mostra email do usuário
-  emailEl.innerText = "Logado como: " + user.email;
+  // pega perfil do usuário logado
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
 
-  // logout
+  if (!profile || profile.role !== "admin") {
+    document.body.innerHTML = "<h2>Acesso negado</h2>";
+    return;
+  }
+
+  document.getElementById("status").innerText =
+    "Logado como admin: " + user.email;
+
+  // lista todos perfis (SÓ ADMIN CONSEGUE POR CAUSA DO RLS)
+  const { data: users } = await supabase
+    .from("profiles")
+    .select("*");
+
+  const tbody = document.getElementById("users");
+
+  users.forEach(u => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${u.email}</td>
+        <td>${u.role}</td>
+        <td>${u.id}</td>
+      </tr>
+    `;
+  });
+
   window.logout = async function () {
     await supabase.auth.signOut();
     window.location.href = "/index.html";
