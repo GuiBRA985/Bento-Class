@@ -1,0 +1,9 @@
+<script>
+  const { data } = await supabase.auth.getUser();
+
+  if (!data.user) {
+    window.location.href = "/";
+  }
+</script>
+
+<h1>Bem-vindo ao Class Bento</h1>
