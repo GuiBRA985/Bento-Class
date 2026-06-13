@@ -1,126 +1,84 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <title>Admin Panel</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bento Class</title><style>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #0f172a;
-      color: white;
-      padding: 30px;
-    }
+body{
 
-    .box {
-      max-width: 900px;
-      margin: auto;
-    }
+    background:#1565C0;
 
-    table {
-      width: 100%;
-      margin-top: 20px;
-      border-collapse: collapse;
-    }
+    color:white;
 
-    th, td {
-      padding: 10px;
-      border-bottom: 1px solid #334155;
-    }
+    font-family:Arial, sans-serif;
 
-    button {
-      margin-top: 20px;
-      padding: 10px;
-      width: 100%;
-      background: red;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
-</head>
+    text-align:center;
 
-<body>
+    padding:50px;
 
-<div class="box">
-  <h1>Painel Admin</h1>
-  <p id="status">Verificando acesso...</p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Email</th>
-        <th>Role</th>
-        <th>ID</th>
-      </tr>
-    </thead>
-    <tbody id="users"></tbody>
-  </table>
-
-  <button onclick="logout()">Sair</button>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", async () => {
-
-  const supabase = window.supabase.createClient(
-    "https://ymbkyjdtjpegqelnirzi.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltYmt5amR0anBlZ3FlbG5pcnppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3ODM5NzUsImV4cCI6MjA5NjM1OTk3NX0.2qYLqsc8cgeTCf0edLf-7BeyeqWQcct2ONBGeFgmp4o"
-  );
-
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    window.location.href = "/index.html";
-    return;
-  }
-
-  // pega perfil do usuário logado
-  const { data: profile, error } = await supabase
-  .from("profiles")
-  .select("*")
-  .eq("id", user.id)
-  .single();
-
-if (error || !profile) {
-  document.body.innerHTML = "<h2>Acesso negado (sem perfil)</h2>";
-  return;
 }
 
-if (profile.role !== "admin") {
-  document.body.innerHTML = "<h2>Acesso negado (não é admin)</h2>";
-  return;
+.card{
+
+    max-width:700px;
+
+    margin:auto;
+
 }
 
-  document.getElementById("status").innerText =
-    "Logado como admin: " + user.email;
+button{
 
-  // lista todos perfis (SÓ ADMIN CONSEGUE POR CAUSA DO RLS)
-  const { data: users } = await supabase
-    .from("profiles")
-    .select("*");
+    padding:15px 30px;
 
-  const tbody = document.getElementById("users");
+    border:none;
 
-  users.forEach(u => {
-    tbody.innerHTML += `
-      <tr>
-        <td>${u.email}</td>
-        <td>${u.role}</td>
-        <td>${u.id}</td>
-      </tr>
-    `;
-  });
+    border-radius:10px;
 
-  window.logout = async function () {
-    await supabase.auth.signOut();
-    window.location.href = "/index.html";
-  };
+    font-size:16px;
 
-});
-</script>
+    cursor:pointer;
 
-</body>
-</html>
+}
+
+</style></head><body><div class="card"><h1>Bento Class</h1><h2 id="welcome"></h2><p>
+A linguagem é a única coisa que te conecta ao mundo inteiro.
+</p><hr><h3>
+🚧 Aula inaugural em breve
+</h3><p>
+As lições serão liberadas na próxima atualização.
+</p><button onclick="logout()">
+Sair
+</button></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/supabase.js"></script><script>
+
+async function checkUser() {
+
+    const {
+        data: { user }
+    } =
+    await supabaseClient.auth.getUser();
+
+    if (!user) {
+
+        window.location.href =
+            'login.html';
+
+        return;
+    }
+
+    document.getElementById('welcome')
+        .textContent =
+        'Olá, ' + user.email;
+
+}
+
+async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href =
+        'login.html';
+
+}
+
+checkUser();
+
+</script></body></html>
