@@ -16,6 +16,12 @@
 <button id="completeLesson">
     ✅ Concluir Lição
 </button>
+
+<script>
+window.onerror = function(msg, url, line) {
+    alert("ERRO: " + msg + " LINHA: " + line);
+};
+</script>
     
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase.js"></script>
