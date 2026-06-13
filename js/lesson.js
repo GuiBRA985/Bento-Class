@@ -5,6 +5,19 @@ alert("ID recebido: " + lessonId);
 
 async function loadLesson() {
 
+    const result = await supabaseClient
+        .from('lessons')
+        .select('*');
+
+    console.log(result);
+    alert("Lições encontradas: " + result.data.length);
+
+}
+
+loadLesson();
+
+async function loadLesson() {
+
 const lessonResult = await supabaseClient
     .from('lessons')
     .select('*')
