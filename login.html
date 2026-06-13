@@ -1,16 +1,188 @@
-<!DOCTYPE html><html lang="pt-BR">
-<head>
+<!DOCTYPE html><html lang="pt-BR"><head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Entrar</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body><h1>Entrar</h1><input type="email" id="email" placeholder="Seu e-mail">
-<br><br><input type="password" id="password" placeholder="Sua senha">
-<br><br><button onclick="signIn()">Entrar</button>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Entrar - Bento Class</title><style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:#1565C0;
+
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.card{
+
+    background:white;
+
+    width:400px;
+
+    padding:40px;
+
+    border-radius:20px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+
+}
+
+h1{
+
+    text-align:center;
+
+    color:#1565C0;
+
+    margin-bottom:10px;
+}
+
+p{
+
+    text-align:center;
+
+    color:#666;
+
+    margin-bottom:30px;
+}
+
+input{
+
+    width:100%;
+
+    padding:14px;
+
+    margin-bottom:15px;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+    font-size:16px;
+}
+
+.password-box{
+
+    position:relative;
+}
+
+.password-box button{
+
+    position:absolute;
+
+    right:10px;
+
+    top:10px;
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+    font-size:18px;
+}
+
+.btn{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#1565C0;
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    margin-top:10px;
+}
+
+.link{
+
+    text-align:center;
+
+    margin-top:20px;
+}
+
+.link a{
+
+    color:#1565C0;
+
+    text-decoration:none;
+}
+
+</style></head><body><div class="card"><h1>Bento Class</h1>
 
 <p>
-Não possui conta?
-<a href="signup.html">Cadastrar</a>
-</p><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/supabase.js"></script><script src="js/auth.js"></script></body>
-</html>
+    A linguagem é a única coisa que te conecta ao mundo inteiro.
+</p>
+
+<input
+    type="email"
+    id="email"
+    placeholder="Seu e-mail">
+
+<div class="password-box">
+
+    <input
+        type="password"
+        id="password"
+        placeholder="Senha">
+
+    <button
+        type="button"
+        onclick="togglePassword()">
+        👁
+    </button>
+
+</div>
+
+<button
+    class="btn"
+    onclick="login()">
+    Entrar
+</button>
+
+<button
+    class="btn"
+    onclick="signup()">
+    Criar Conta
+</button>
+
+<div class="link">
+    <a href="index.html">
+        Voltar
+    </a>
+</div>
+
+</div><script>
+
+function togglePassword(){
+
+    const input =
+        document.getElementById('password');
+
+    input.type =
+        input.type === 'password'
+        ? 'text'
+        : 'password';
+
+}
+
+</script></body></html>
