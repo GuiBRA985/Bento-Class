@@ -1,65 +1,68 @@
 const params = new URLSearchParams(window.location.search);
-
-const lessonId = Number(params.get('id'));
+const lessonId = parseInt(params.get('id'));
 
 async function loadLesson() {
 
-    const { data: lesson, error: lessonError } =
-        await supabaseClient
-            .from('lessons')
-            .select('*')
-            .eq('id', lessonId)
-            .single();
+const lessonResult = await supabaseClient
+    .from('lessons')
+    .select('*')
+    .eq('id', lessonId);
 
-    if (lessonError) {
-        alert('Erro ao carregar lição: ' + lessonError.message);
-        return;
-    }
+if (lessonResult.error) {
+    alert('Erro ao carregar lição: ' + lessonResult.error.message);
+    return;
+}
 
-    document.getElementById('title').textContent =
-        `Lesson ${lesson.lesson_number}`;
+if (!lessonResult.data || lessonResult.data.length === 0) {
+    alert('Lição não encontrada');
+    return;
+}
 
-    const { data: words, error: wordsError } =
-        await supabaseClient
-            .from('words')
-            .select('*')
-            .eq('lesson_id', lessonId)
-            .order('word_order');
+const lesson = lessonResult.data[0];
 
-    if (wordsError) {
-        alert('Erro ao carregar palavras: ' + wordsError.message);
-        return;
-    }
+document.getElementById('title').textContent =
+    lesson.title || `Lesson ${lesson.lesson_number}`;
 
-    const wordList = document.getElementById('words');
-    wordList.innerHTML = '';
+const wordsResult = await supabaseClient
+    .from('words')
+    .select('*')
+    .eq('lesson_id', lessonId)
+    .order('word_order');
 
-    words.forEach(word => {
-        const li = document.createElement('li');
-        li.textContent = word.word;
-        wordList.appendChild(li);
-    });
+if (wordsResult.error) {
+    alert('Erro ao carregar palavras: ' + wordsResult.error.message);
+    return;
+}
 
-    const { data: sentences, error: sentencesError } =
-        await supabaseClient
-            .from('sentences')
-            .select('*')
-            .eq('lesson_id', lessonId)
-            .order('sentence_order');
+const wordsList = document.getElementById('words');
+wordsList.innerHTML = '';
 
-    if (sentencesError) {
-        alert('Erro ao carregar frases: ' + sentencesError.message);
-        return;
-    }
+wordsResult.data.forEach(word => {
+    const li = document.createElement('li');
+    li.textContent = word.word;
+    wordsList.appendChild(li);
+});
 
-    const sentenceDiv = document.getElementById('sentences');
-    sentenceDiv.innerHTML = '';
+const sentencesResult = await supabaseClient
+    .from('sentences')
+    .select('*')
+    .eq('lesson_id', lessonId)
+    .order('sentence_order');
 
-    sentences.forEach(sentence => {
-        const p = document.createElement('p');
-        p.textContent = sentence.sentence;
-        sentenceDiv.appendChild(p);
-    });
+if (sentencesResult.error) {
+    alert('Erro ao carregar frases: ' + sentencesResult.error.message);
+    return;
+}
+
+const sentencesDiv = document.getElementById('sentences');
+sentencesDiv.innerHTML = '';
+
+sentencesResult.data.forEach(sentence => {
+    const p = document.createElement('p');
+    p.textContent = sentence.sentence;
+    sentencesDiv.appendChild(p);
+});
+
 }
 
 loadLesson();
