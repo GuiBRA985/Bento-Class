@@ -1,9 +1,100 @@
-<script>
-  const { data } = await supabase.auth.getUser();
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Class Bento - Dashboard</title>
 
-  if (!data.user) {
-    window.location.href = "/";
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .box {
+      text-align: center;
+      padding: 40px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      width: 400px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .email {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 20px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #ef4444;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #dc2626;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <h1>Dashboard Class Bento</h1>
+    <div class="email" id="userEmail">Carregando usuário...</div>
+
+    <button onclick="logout()">Sair</button>
+  </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const supabaseUrl = "https://ymbkyjdtjpegqelnirzi.supabase.co";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltYmt5amR0anBlZ3FlbG5pcnppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3ODM5NzUsImV4cCI6MjA5NjM1OTk3NX0.2qYLqsc8cgeTCf0edLf-7BeyeqWQcct2ONBGeFgmp4o";
+
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+  const emailEl = document.getElementById("userEmail");
+
+  // 🔒 pega usuário logado
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    // 🚨 expulsa quem não está logado
+    window.location.href = "/index.html";
+    return;
   }
+
+  // mostra email do usuário
+  emailEl.innerText = "Logado como: " + user.email;
+
+  // logout
+  window.logout = async function () {
+    await supabase.auth.signOut();
+    window.location.href = "/index.html";
+  };
+
+});
 </script>
 
-<h1>Bem-vindo ao Class Bento</h1>
+</body>
+</html>
