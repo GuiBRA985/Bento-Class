@@ -104,19 +104,25 @@
     <div class="msg" id="msg"></div>
   </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-  const supabaseUrl = "https://ymbkyjdtjpegqelnirzi.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltYmt5amR0anBlZ3FlbG5pcnppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3ODM5NzUsImV4cCI6MjA5NjM1OTk3NX0.2qYLqsc8cgeTCf0edLf-7BeyeqWQcct2ONBGeFgmp4o";
+document.addEventListener("DOMContentLoaded", () => {
+
+  const supabaseUrl = "https://SEU-PROJETO.supabase.co";
+  const supabaseKey = "SUA_ANON_KEY";
 
   const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
   const msg = document.getElementById("msg");
 
   async function login() {
-    msg.innerText = "Entrando...";
+    console.log("clicou login");
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
+
+    msg.innerText = "Entrando...";
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -124,54 +130,41 @@
     });
 
     if (error) {
-      msg.innerText = "Erro no login: " + error.message;
+      console.log(error);
+      msg.innerText = "Erro: " + error.message;
       return;
     }
 
-    msg.innerText = "Login realizado com sucesso!";
+    msg.innerText = "Login OK!";
 
-    setTimeout(() => {
-      window.location.href = "/dashboard.html";
-    }, 800);
+    window.location.href = "/dashboard.html";
   }
 
   async function signup() {
-  msg.innerText = "Criando conta...";
+    console.log("clicou signup");
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password
-  });
+    msg.innerText = "Criando conta...";
 
-  if (error) {
-    msg.innerText = "Erro no cadastro: " + error.message;
-    return;
+    const { error } = await supabase.auth.signUp({
+      email,
+      password
+    });
+
+    if (error) {
+      console.log(error);
+      msg.innerText = "Erro: " + error.message;
+      return;
+    }
+
+    msg.innerText = "Conta criada! Faça login.";
   }
 
-  msg.innerText = "Conta criada! Entrando...";
+  // expõe globalmente (IMPORTANTE)
+  window.login = login;
+  window.signup = signup;
 
-  // tenta logar automaticamente após cadastro
-  const { error: loginError } = await supabase.auth.signInWithPassword({
-    email,
-    password
-  });
-
-  if (loginError) {
-    msg.innerText = "Conta criada, mas login falhou.";
-    return;
-  }
-
-  setTimeout(() => {
-    window.location.href = "/dashboard.html";
-  }, 800);
-}
-
-    msg.innerText = "Conta criada! Verifique seu e-mail (se confirmação estiver ativa).";
-  }
+});
 </script>
-
-</body>
-</html>
