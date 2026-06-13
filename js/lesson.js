@@ -9,11 +9,11 @@ const lessonResult = await supabaseClient
     .eq('id', lessonId);
 
 if (lessonResult.error) {
-    alert(lessonResult.error.message);
+    alert('Erro ao carregar lição: ' + lessonResult.error.message);
     return;
 }
 
-if (lessonResult.data.length === 0) {
+if (!lessonResult.data || lessonResult.data.length === 0) {
     alert('Lição não encontrada');
     return;
 }
@@ -21,6 +21,8 @@ if (lessonResult.data.length === 0) {
 const lesson = lessonResult.data[0];
 
 document.getElementById('title').textContent = lesson.title;
+
+// WORDS
 
 const wordsResult = await supabaseClient
     .from('words')
@@ -36,14 +38,16 @@ wordsResult.data.forEach(word => {
     const li = document.createElement('li');
 
     li.innerHTML =
-word.word +
-' <button onclick="speakWord(\'' + word.word + '\')">🔊</button>' +
-' <button onclick="practiceWord(\'' + word.word + '\')">🎤</button>' +
-' <span id="result-' + word.word + '"></span>';
+        word.word +
+        ' <button onclick="speakWord(\'' + word.word + '\')">🔊</button>' +
+        ' <button onclick="practiceWord(\'' + word.word + '\')">🎤</button>' +
+        ' <span id="result-' + word.word + '"></span>';
 
     wordsList.appendChild(li);
 
 });
+
+// SENTENCES
 
 const sentencesResult = await supabaseClient
     .from('sentences')
@@ -66,6 +70,8 @@ sentencesResult.data.forEach(sentence => {
 
 }
 
+// OUVIR PALAVRA
+
 function speakWord(word) {
 
 const utterance = new SpeechSynthesisUtterance(word);
@@ -77,16 +83,7 @@ speechSynthesis.speak(utterance);
 
 }
 
-function practiceWord(expectedWord) {
-
-const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
-
-if (!SpeechRecognition) {
-    alert('Seu navegador não suporta reconhecimento de voz.');
-    return;
-}
+// PRATICAR PRONÚNCIA
 
 function practiceWord(expectedWord) {
 
@@ -95,7 +92,7 @@ const SpeechRecognition =
     window.webkitSpeechRecognition;
 
 if (!SpeechRecognition) {
-    alert('Seu navegador não suporta reconhecimento de voz.');
+    alert('Reconhecimento de voz não suportado.');
     return;
 }
 
@@ -119,9 +116,15 @@ recognition.onresult = function(event) {
         );
 
     if (spoken === expected) {
-        result.innerHTML = ' ✅ ' + spoken;
+
+        result.innerHTML =
+            ' ✅ Correto';
+
     } else {
-        result.innerHTML = ' ❌ ' + spoken;
+
+        result.innerHTML =
+            ' ❌ Você disse: ' + spoken;
+
     }
 
 };
@@ -129,4 +132,5 @@ recognition.onresult = function(event) {
 recognition.start();
 
 }
+
 loadLesson();
