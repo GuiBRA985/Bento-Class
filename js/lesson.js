@@ -89,5 +89,16 @@ sentencesResult.data.forEach(sentence => {
 });
 
 }
+                         
+function speakWord(word) {
 
+const utterance = new SpeechSynthesisUtterance(word);
+
+utterance.lang = 'en-US';
+utterance.rate = 0.8;
+
+speechSynthesis.speak(utterance);
+
+}
+                         
 loadLesson();
