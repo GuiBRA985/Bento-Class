@@ -88,13 +88,23 @@ if (!SpeechRecognition) {
     return;
 }
 
+function practiceWord(expectedWord) {
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+if (!SpeechRecognition) {
+    alert('Seu navegador não suporta reconhecimento de voz.');
+    return;
+}
+
 const recognition = new SpeechRecognition();
 
 recognition.lang = 'en-US';
-recognition.start();
 
 recognition.onresult = function(event) {
-    alert("practiceWord carregada");
+
     const spoken =
         event.results[0][0].transcript
         .trim()
@@ -109,19 +119,13 @@ recognition.onresult = function(event) {
         );
 
     if (spoken === expected) {
-
-        result.innerHTML =
-            ' ✅ ' + spoken;
-
+        result.innerHTML = ' ✅ ' + spoken;
     } else {
-
-        result.innerHTML =
-            ' ❌ ' + spoken;
-
+        result.innerHTML = ' ❌ ' + spoken;
     }
 
 };
 
-}
+recognition.start();
 
-loadLesson();
+}
