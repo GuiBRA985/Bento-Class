@@ -1,170 +1,175 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Class Bento - Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Bento Class</title><style>
 
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #fff;
-    }
+body{
 
-    .container {
-      width: 380px;
-      padding: 40px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 16px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      text-align: center;
-    }
+    min-height:100vh;
 
-    h1 {
-      margin-bottom: 10px;
-    }
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-    .slogan {
-      font-size: 13px;
-      opacity: 0.8;
-      margin-bottom: 25px;
-      font-style: italic;
-      line-height: 1.4;
-    }
+    font-family:Arial, Helvetica, sans-serif;
 
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-      font-size: 14px;
-    }
+    background:linear-gradient(
+        135deg,
+        #0D47A1,
+        #1565C0,
+        #1976D2
+    );
 
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: bold;
-      color: white;
-    }
+    color:white;
 
-    .login {
-      background: #3b82f6;
-    }
+    text-align:center;
+}
 
-    .login:hover {
-      background: #2563eb;
-    }
+.container{
 
-    .signup {
-      background: #10b981;
-    }
+    max-width:900px;
+    padding:40px;
 
-    .signup:hover {
-      background: #059669;
-    }
+}
 
-    .msg {
-      margin-top: 10px;
-      font-size: 12px;
-      opacity: 0.85;
-    }
-  </style>
-</head>
+.logo{
 
-<body>
+    font-size:4rem;
+    font-weight:700;
 
-  <div class="container">
-    <h1>Class Bento</h1>
+    margin-bottom:20px;
 
-    <div class="slogan">
-      “A língua é a única coisa que te conecta com o mundo inteiro”
-    </div>
+    letter-spacing:2px;
+}
 
-    <input id="email" type="email" placeholder="Seu e-mail" />
-    <input id="password" type="password" placeholder="Sua senha" />
+.slogan{
 
-    <button class="login" onclick="login()">Entrar</button>
-    <button class="signup" onclick="signup()">Cadastrar</button>
+    font-size:2rem;
+    font-weight:300;
 
-    <div class="msg" id="msg"></div>
-  </div>
+    line-height:1.5;
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+    margin-bottom:25px;
+}
 
-  // 🔑 TROQUE AQUI
-  const supabaseUrl = "https://ymbkyjdtjpegqelnirzi.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltYmt5amR0anBlZ3FlbG5pcnppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3ODM5NzUsImV4cCI6MjA5NjM1OTk3NX0.2qYLqsc8cgeTCf0edLf-7BeyeqWQcct2ONBGeFgmp4o";
+.subtitle{
 
-  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    font-size:1.2rem;
 
-  const msg = document.getElementById("msg");
+    opacity:0.9;
 
-  async function login() {
-    msg.innerText = "Entrando...";
+    margin-bottom:50px;
+}
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+.description{
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    });
+    font-size:1.1rem;
 
-    if (error) {
-      msg.innerText = "Erro: " + error.message;
-      return;
-    }
+    line-height:1.8;
 
-    msg.innerText = "Login realizado!";
+    max-width:700px;
 
-    setTimeout(() => {
-      window.location.href = "/dashboard.html";
-    }, 800);
-  }
+    margin:0 auto 50px auto;
 
-  async function signup() {
-    msg.innerText = "Criando conta...";
+    opacity:0.9;
+}
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+.buttons{
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password
-    });
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
 
-    if (error) {
-      msg.innerText = "Erro: " + error.message;
-      return;
-    }
+.btn{
 
-    msg.innerText = "Conta criada! Agora faça login.";
-  }
+    display:inline-block;
 
-  // expõe funções para os botões
-  window.login = login;
-  window.signup = signup;
+    background:white;
+    color:#0D47A1;
 
-});
-</script>
+    padding:15px 35px;
 
-</body>
+    border-radius:12px;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    transition:0.3s;
+}
+
+.btn:hover{
+
+    transform:translateY(-3px);
+
+}
+
+.btn-secondary{
+
+    background:transparent;
+
+    color:white;
+
+    border:2px solid white;
+}
+
+.footer{
+
+    margin-top:60px;
+
+    opacity:0.7;
+
+    font-size:0.9rem;
+}
+
+</style></head><body><div class="container"><div class="logo">
+    Bento Class
+</div>
+
+<div class="slogan">
+    A linguagem é a única coisa que te conecta ao mundo inteiro.
+</div>
+
+<div class="subtitle">
+    Language is the only thing that connects you to the whole world.
+</div>
+
+<div class="description">
+
+    Aprenda inglês através da leitura,
+    da fonética, da escrita e da prática.
+
+    Menos memorização.
+    Mais compreensão.
+
+    Porque aprender uma língua é abrir
+    uma porta para o mundo.
+
+</div>
+
+<div class="buttons">
+
+    <a href="lessons.html" class="btn">
+        Iniciar Estudos
+    </a>
+
+    <a href="#" class="btn btn-secondary">
+        Entrar
+    </a>
+
+</div>
+
+<div class="footer">
+    © Bento Class • Read • Speak • Write
+</div>
+
+</div></body>
 </html>
