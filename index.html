@@ -18,9 +18,9 @@
     }
 
     .container {
-      width: 360px;
+      width: 380px;
       padding: 40px;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.06);
       border-radius: 16px;
       backdrop-filter: blur(10px);
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
@@ -30,52 +30,49 @@
     h1 {
       margin-bottom: 10px;
       font-size: 26px;
+      letter-spacing: 1px;
     }
 
-    p {
-      font-size: 14px;
+    .slogan {
+      font-size: 13px;
       opacity: 0.8;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 14px;
     }
 
     .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
       width: 100%;
       padding: 12px;
-      margin: 10px 0;
+      margin-top: 12px;
       border-radius: 10px;
       border: none;
       cursor: pointer;
       font-size: 14px;
-      transition: 0.2s;
       font-weight: bold;
+      background: #3b82f6;
+      color: #fff;
+      transition: 0.2s;
     }
 
     .btn:hover {
       transform: scale(1.03);
-    }
-
-    .google {
-      background: #ffffff;
-      color: #000;
-    }
-
-    .facebook {
-      background: #1877f2;
-      color: #fff;
-    }
-
-    .twitter {
-      background: #000000;
-      color: #fff;
+      background: #2563eb;
     }
 
     .footer {
-      margin-top: 20px;
-      font-size: 12px;
+      margin-top: 18px;
+      font-size: 11px;
       opacity: 0.6;
     }
   </style>
@@ -85,14 +82,18 @@
 
   <div class="container">
     <h1>Class Bento</h1>
-    <p>Entre para acessar sua área de aprendizado</p>
 
-    <button class="btn google">🔵 Continuar com Google</button>
-    <button class="btn facebook">📘 Continuar com Facebook</button>
-    <button class="btn twitter">𝕏 Continuar com Twitter</button>
+    <div class="slogan">
+      “A língua é a única coisa que te conecta com o mundo inteiro”
+    </div>
+
+    <input type="email" placeholder="Seu e-mail" />
+    <input type="password" placeholder="Sua senha" />
+
+    <button class="btn">Entrar</button>
 
     <div class="footer">
-      acesso seguro • class.bento.host
+      class.bento.host
     </div>
   </div>
 
