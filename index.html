@@ -1,83 +1,88 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bento Class</title><style>
-    *{
-        margin:0;
-        padding:0;
-        box-sizing:border-box;
-        font-family:Arial, sans-serif;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Class Bento - Login</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
     }
 
-    body{
-        background:#ffffff;
-        min-height:100vh;
-        display:flex;
-        flex-direction:column;
+    .container {
+      width: 360px;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      text-align: center;
     }
 
-    header{
-        display:flex;
-        justify-content:flex-end;
-        padding:20px;
-        gap:10px;
+    h1 {
+      margin-bottom: 10px;
+      font-size: 26px;
     }
 
-    .btn{
-        padding:10px 20px;
-        border:none;
-        border-radius:8px;
-        cursor:pointer;
-        text-decoration:none;
-        font-weight:bold;
+    p {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 30px;
     }
 
-    .login{
-        background:#f1f1f1;
-        color:#333;
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.2s;
     }
 
-    .signup{
-        background:#000;
-        color:#fff;
+    .btn:hover {
+      transform: scale(1.03);
     }
 
-    main{
-        flex:1;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        text-align:center;
-        padding:40px;
-    }
+    .google { background: #fff; color: #000; }
+    .github { background: #24292e; color: #fff; }
+    .facebook { background: #1877f2; color: #fff; }
 
-    h1{
-        font-size:3rem;
-        max-width:900px;
-        line-height:1.3;
-        font-weight:700;
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      opacity: 0.6;
     }
-
-    .subtitle{
-        margin-top:20px;
-        color:#666;
-        font-size:1.1rem;
-    }
-</style>
-
+  </style>
 </head>
-<body><header>
-    <a href="login.html" class="btn login">Entrar</a>
-    <a href="signup.html" class="btn signup">Cadastrar</a>
-</header><main>
-    <div>
-        <h1>
-            A linguagem é a única coisa que te conecta ao mundo inteiro
-        </h1>    <p class="subtitle">
-        Aprenda inglês através da leitura fonética estruturada.
-    </p>
-</div>
 
-</main></body>
+<body>
+
+  <div class="container">
+    <h1>Class Bento</h1>
+    <p>Entre para acessar sua área de aprendizado</p>
+
+    <button class="btn google">🔵 Entrar com Google</button>
+    <button class="btn github">🐙 Entrar com GitHub</button>
+    <button class="btn facebook">📘 Entrar com Facebook</button>
+
+    <div class="footer">
+      acesso seguro • class.bento.host
+    </div>
+  </div>
+
+</body>
 </html>
