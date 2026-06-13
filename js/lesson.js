@@ -53,9 +53,19 @@ const wordsList = document.getElementById('words');
 wordsList.innerHTML = '';
 
 wordsResult.data.forEach(word => {
-    const li = document.createElement('li');
-    li.textContent = word.word;
-    wordsList.appendChild(li);
+    wordsResult.data.forEach(word => {
+
+const li = document.createElement('li');
+
+li.innerHTML = `
+    ${word.word}
+    <button onclick="speakWord('${word.word}')">
+        🔊
+    </button>
+`;
+
+wordList.appendChild(li);
+
 });
 
 const sentencesResult = await supabaseClient
