@@ -58,14 +58,25 @@ const sentencesResult = await supabaseClient
 const sentencesDiv = document.getElementById('sentences');
 sentencesResult.data.forEach(sentence => {
 
-    const p = document.createElement('p');
+const div = document.createElement('div');
 
-    p.textContent = sentence.sentence;
+div.className = 'sentence-card';
 
-    sentencesDiv.appendChild(p);
+div.innerHTML = `
+    <p>${sentence.sentence}</p>
+
+    <button onclick="practiceSentence(${sentence.id}, '${sentence.sentence.replace(/'/g, "\\'")}')">
+        🎤 Validar frase
+    </button>
+
+    <span id="sentence-result-${sentence.id}"></span>
+
+    <hr>
+`;
+
+sentencesDiv.appendChild(div);
 
 });
-
 }
 
 // OUVIR PALAVRA
