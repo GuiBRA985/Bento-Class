@@ -129,3 +129,5 @@ recognition.onresult = function(event) {
 recognition.start();
 
 }
+
+loadLesson();
