@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Class Bento - Login</title>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     body {
       margin: 0;
@@ -29,8 +31,6 @@
 
     h1 {
       margin-bottom: 10px;
-      font-size: 26px;
-      letter-spacing: 1px;
     }
 
     .slogan {
@@ -38,7 +38,6 @@
       opacity: 0.8;
       margin-bottom: 25px;
       font-style: italic;
-      line-height: 1.4;
     }
 
     input {
@@ -51,7 +50,7 @@
       font-size: 14px;
     }
 
-    .btn {
+    button {
       width: 100%;
       padding: 12px;
       margin-top: 12px;
@@ -61,19 +60,17 @@
       font-size: 14px;
       font-weight: bold;
       background: #3b82f6;
-      color: #fff;
-      transition: 0.2s;
+      color: white;
     }
 
-    .btn:hover {
-      transform: scale(1.03);
+    button:hover {
       background: #2563eb;
     }
 
-    .footer {
-      margin-top: 18px;
-      font-size: 11px;
-      opacity: 0.6;
+    .msg {
+      margin-top: 10px;
+      font-size: 12px;
+      opacity: 0.8;
     }
   </style>
 </head>
@@ -87,15 +84,46 @@
       “A língua é a única coisa que te conecta com o mundo inteiro”
     </div>
 
-    <input type="email" placeholder="Seu e-mail" />
-    <input type="password" placeholder="Sua senha" />
+    <input id="email" type="email" placeholder="Seu e-mail" />
+    <input id="password" type="password" placeholder="Sua senha" />
 
-    <button class="btn">Entrar</button>
+    <button onclick="login()">Entrar</button>
 
-    <div class="footer">
-      class.bento.host
-    </div>
+    <div class="msg" id="msg"></div>
   </div>
+
+<script>
+  // 🔑 COLE AQUI SEUS DADOS DO SUPABASE
+  const supabaseUrl = "https://SEU-PROJETO.supabase.co";
+  const supabaseKey = "SUA_ANON_KEY";
+
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+  async function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const msg = document.getElementById("msg");
+
+    msg.innerText = "Entrando...";
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      msg.innerText = "Erro: " + error.message;
+      return;
+    }
+
+    msg.innerText = "Login realizado com sucesso!";
+
+    // redireciona após login
+    setTimeout(() => {
+      window.location.href = "/dashboard.html";
+    }, 1000);
+  }
+</script>
 
 </body>
 </html>
