@@ -77,4 +77,51 @@ speechSynthesis.speak(utterance);
 
 }
 
+function practiceWord(expectedWord) {
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+if (!SpeechRecognition) {
+    alert('Seu navegador não suporta reconhecimento de voz.');
+    return;
+}
+
+const recognition = new SpeechRecognition();
+
+recognition.lang = 'en-US';
+recognition.start();
+
+recognition.onresult = function(event) {
+
+    const spoken =
+        event.results[0][0].transcript
+        .trim()
+        .toLowerCase();
+
+    const expected =
+        expectedWord.toLowerCase();
+
+    const result =
+        document.getElementById(
+            'result-' + expectedWord
+        );
+
+    if (spoken === expected) {
+
+        result.innerHTML =
+            ' ✅ ' + spoken;
+
+    } else {
+
+        result.innerHTML =
+            ' ❌ ' + spoken;
+
+    }
+
+};
+
+}
+
 loadLesson();
