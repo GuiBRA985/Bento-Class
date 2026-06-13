@@ -78,16 +78,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // pega perfil do usuário logado
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
+  const { data: profile, error } = await supabase
+  .from("profiles")
+  .select("*")
+  .eq("id", user.id)
+  .single();
 
-  if (!profile || profile.role !== "admin") {
-    document.body.innerHTML = "<h2>Acesso negado</h2>";
-    return;
-  }
+if (error || !profile) {
+  document.body.innerHTML = "<h2>Acesso negado (sem perfil)</h2>";
+  return;
+}
+
+if (profile.role !== "admin") {
+  document.body.innerHTML = "<h2>Acesso negado (não é admin)</h2>";
+  return;
+}
 
   document.getElementById("status").innerText =
     "Logado como admin: " + user.email;
