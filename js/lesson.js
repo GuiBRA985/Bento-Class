@@ -56,8 +56,6 @@ const sentencesResult = await supabaseClient
     .order('sentence_order');
 
 const sentencesDiv = document.getElementById('sentences');
-sentencesDiv.innerHTML = '';
-
 sentencesResult.data.forEach(sentence => {
 
     const p = document.createElement('p');
