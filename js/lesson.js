@@ -1,6 +1,8 @@
 const params = new URLSearchParams(window.location.search);
 const lessonId = parseInt(params.get('id'));
 
+alert("ID recebido: " + lessonId);
+
 async function loadLesson() {
 
 const lessonResult = await supabaseClient
