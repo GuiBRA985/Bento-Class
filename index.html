@@ -136,20 +136,38 @@
   }
 
   async function signup() {
-    msg.innerText = "Criando conta...";
+  msg.innerText = "Criando conta...";
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password
-    });
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password
+  });
 
-    if (error) {
-      msg.innerText = "Erro no cadastro: " + error.message;
-      return;
-    }
+  if (error) {
+    msg.innerText = "Erro no cadastro: " + error.message;
+    return;
+  }
+
+  msg.innerText = "Conta criada! Entrando...";
+
+  // tenta logar automaticamente após cadastro
+  const { error: loginError } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (loginError) {
+    msg.innerText = "Conta criada, mas login falhou.";
+    return;
+  }
+
+  setTimeout(() => {
+    window.location.href = "/dashboard.html";
+  }, 800);
+}
 
     msg.innerText = "Conta criada! Verifique seu e-mail (se confirmação estiver ativa).";
   }
