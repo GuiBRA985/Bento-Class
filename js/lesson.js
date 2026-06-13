@@ -36,10 +36,10 @@ wordsResult.data.forEach(word => {
     const li = document.createElement('li');
 
     li.innerHTML =
-        word.word +
-        ' <button onclick="speakWord(\'' +
-        word.word +
-        '\')">🔊</button>';
+word.word +
+' <button onclick="speakWord(\'' + word.word + '\')">🔊</button>' +
+' <button onclick="practiceWord(\'' + word.word + '\')">🎤</button>' +
+' <span id="result-' + word.word + '"></span>';
 
     wordsList.appendChild(li);
 
