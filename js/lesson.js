@@ -142,4 +142,54 @@ recognition.start();
 
 }
 
+async function practiceSentence(sentenceId, expectedSentence) {
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+if (!SpeechRecognition) {
+    alert('Reconhecimento de voz não suportado.');
+    return;
+}
+
+const recognition = new SpeechRecognition();
+
+recognition.lang = 'en-US';
+recognition.interimResults = false;
+recognition.maxAlternatives = 1;
+
+recognition.onresult = async function(event) {
+
+    const spoken =
+        event.results[0][0].transcript.trim();
+
+    const result =
+        document.getElementById(
+            'sentence-result-' + sentenceId
+        );
+
+    result.innerHTML =
+        `<br>Esperado: ${expectedSentence}
+         <br>Você disse: ${spoken}
+         <br>✅ Registrado`;
+
+    const { error } =
+        await supabaseClient
+            .from('sentence_submissions')
+            .insert({
+                sentence_id: sentenceId,
+                audio_url: spoken
+            });
+
+    if (error) {
+        console.error(error);
+    }
+
+};
+
+recognition.start();
+
+}
+
 loadLesson();
