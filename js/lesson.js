@@ -1,21 +1,6 @@
 const params = new URLSearchParams(window.location.search);
 const lessonId = parseInt(params.get('id'));
 
-alert("ID recebido: " + lessonId);
-
-async function loadLesson() {
-
-    const result = await supabaseClient
-        .from('lessons')
-        .select('*');
-
-    console.log(result);
-    alert("Lições encontradas: " + result.data.length);
-
-}
-
-loadLesson();
-
 async function loadLesson() {
 
 const lessonResult = await supabaseClient
@@ -53,18 +38,15 @@ const wordsList = document.getElementById('words');
 wordsList.innerHTML = '';
 
 wordsResult.data.forEach(word => {
-    wordsResult.data.forEach(word => {
 
-const li = document.createElement('li');
+    const li = document.createElement('li');
 
-li.innerHTML = `
-    ${word.word}
-    <button onclick="speakWord('${word.word}')">
-        🔊
-    </button>
-`;
+    li.innerHTML = `
+        ${word.word}
+        <button onclick="speakWord('${word.word}')">🔊</button>
+    `;
 
-wordList.appendChild(li);
+    wordsList.appendChild(li);
 
 });
 
@@ -83,13 +65,17 @@ const sentencesDiv = document.getElementById('sentences');
 sentencesDiv.innerHTML = '';
 
 sentencesResult.data.forEach(sentence => {
+
     const p = document.createElement('p');
+
     p.textContent = sentence.sentence;
+
     sentencesDiv.appendChild(p);
+
 });
 
 }
-                         
+
 function speakWord(word) {
 
 const utterance = new SpeechSynthesisUtterance(word);
@@ -100,5 +86,5 @@ utterance.rate = 0.8;
 speechSynthesis.speak(utterance);
 
 }
-                         
+
 loadLesson();
