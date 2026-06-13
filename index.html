@@ -53,24 +53,35 @@
     button {
       width: 100%;
       padding: 12px;
-      margin-top: 12px;
+      margin-top: 10px;
       border-radius: 10px;
       border: none;
       cursor: pointer;
       font-size: 14px;
       font-weight: bold;
-      background: #3b82f6;
       color: white;
     }
 
-    button:hover {
+    .login {
+      background: #3b82f6;
+    }
+
+    .login:hover {
       background: #2563eb;
+    }
+
+    .signup {
+      background: #10b981;
+    }
+
+    .signup:hover {
+      background: #059669;
     }
 
     .msg {
       margin-top: 10px;
       font-size: 12px;
-      opacity: 0.8;
+      opacity: 0.85;
     }
   </style>
 </head>
@@ -87,41 +98,60 @@
     <input id="email" type="email" placeholder="Seu e-mail" />
     <input id="password" type="password" placeholder="Sua senha" />
 
-    <button onclick="login()">Entrar</button>
+    <button class="login" onclick="login()">Entrar</button>
+    <button class="signup" onclick="signup()">Cadastrar</button>
 
     <div class="msg" id="msg"></div>
   </div>
 
 <script>
-  // 🔑 COLE AQUI SEUS DADOS DO SUPABASE
   const supabaseUrl = "https://SEU-PROJETO.supabase.co";
   const supabaseKey = "SUA_ANON_KEY";
 
   const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-  async function login() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const msg = document.getElementById("msg");
+  const msg = document.getElementById("msg");
 
+  async function login() {
     msg.innerText = "Entrando...";
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password
     });
 
     if (error) {
-      msg.innerText = "Erro: " + error.message;
+      msg.innerText = "Erro no login: " + error.message;
       return;
     }
 
     msg.innerText = "Login realizado com sucesso!";
 
-    // redireciona após login
     setTimeout(() => {
       window.location.href = "/dashboard.html";
-    }, 1000);
+    }, 800);
+  }
+
+  async function signup() {
+    msg.innerText = "Criando conta...";
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password
+    });
+
+    if (error) {
+      msg.innerText = "Erro no cadastro: " + error.message;
+      return;
+    }
+
+    msg.innerText = "Conta criada! Verifique seu e-mail (se confirmação estiver ativa).";
   }
 </script>
 
