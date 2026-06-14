@@ -46,6 +46,7 @@ wordsResult.data.forEach(word => {
     wordsList.appendChild(li);
 
 });
+}
 
 // SENTENCES
 
