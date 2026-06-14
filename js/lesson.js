@@ -130,7 +130,7 @@ function practiceWord(expectedWord) {
     const SpeechRecognition =
         window.SpeechRecognition ||
         window.webkitSpeechRecognition;
-
+}
     if (!SpeechRecognition) {
         alert('Reconhecimento de voz não suportado.');
         return;
