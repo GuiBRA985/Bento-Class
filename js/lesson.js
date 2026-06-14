@@ -113,14 +113,35 @@ async function loadLesson() {
 // OUVIR PALAVRA
 
 function speakWord(word) {
+    const letras = word.toUpperCase().split('');
+    let index = 0;
 
-    const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.8;
-    speechSynthesis.speak(utterance);
+    function falarProximaLetra() {
+        if (index < letras.length) {
+            const utterance = new SpeechSynthesisUtterance(letras[index]);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.7;
 
+            utterance.onend = function() {
+                index++;
+                setTimeout(falarProximaLetra, 400);
+            };
+
+            speechSynthesis.speak(utterance);
+
+        } else {
+            // Terminou de soletrar, fala a palavra completa
+            setTimeout(() => {
+                const utterancePalavra = new SpeechSynthesisUtterance(word);
+                utterancePalavra.lang = 'en-US';
+                utterancePalavra.rate = 0.8;
+                speechSynthesis.speak(utterancePalavra);
+            }, 600);
+        }
+    }
+
+    falarProximaLetra();
 }
-
 // PRATICAR PALAVRA
 
 function practiceWord(expectedWord) {
