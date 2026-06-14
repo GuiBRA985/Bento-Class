@@ -160,13 +160,13 @@ recognition.onresult = function(event) {
     .replace(/[.,!?']/g, '')
     .trim();
 
-const expected =
+   const expected =
     expectedWord
     .toLowerCase()
     .replace(/[.,!?']/g, '')
     .trim();
 
-    const result =
+   const result =
         document.getElementById(
             'result-' + expectedWord
         );
