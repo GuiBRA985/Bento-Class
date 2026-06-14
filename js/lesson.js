@@ -194,4 +194,60 @@ recognition.start();
 
 }
 
+function practiceSentence(expectedSentence) {
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+if (!SpeechRecognition) {
+
+    alert(
+        'Reconhecimento de voz não suportado.'
+    );
+
+    return;
+}
+
+const recognition =
+    new SpeechRecognition();
+
+recognition.lang = 'en-US';
+
+recognition.start();
+
+recognition.onresult =
+    function(event) {
+
+    const spoken =
+        event.results[0][0]
+        .transcript
+        .trim()
+        .toLowerCase();
+
+    const expected =
+        expectedSentence
+        .toLowerCase();
+
+    if (spoken === expected) {
+
+        alert(
+            '✅ Excelente!'
+        );
+
+    } else {
+
+        alert(
+            '❌ Você disse:\n\n' +
+            spoken +
+            '\n\nEsperado:\n\n' +
+            expectedSentence
+        );
+
+    }
+
+};
+
+}
+
 loadLesson();
