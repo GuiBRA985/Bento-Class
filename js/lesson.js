@@ -7,7 +7,7 @@ async function loadLesson() {
         .from('lessons')
         .select('*')
         .eq('id', lessonId);
-}
+    }
     if (lessonResult.error) {
         alert('Erro ao carregar lição: ' + lessonResult.error.message);
         return;
