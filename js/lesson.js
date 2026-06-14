@@ -112,12 +112,17 @@ recognition.lang = 'en-US';
 recognition.onresult = function(event) {
 
     const spoken =
-        event.results[0][0].transcript
-        .trim()
-        .toLowerCase();
+    event.results[0][0]
+    .transcript
+    .toLowerCase()
+    .replace(/[.,!?']/g, '')
+    .trim();
 
     const expected =
-        expectedWord.toLowerCase();
+    expectedWord
+    .toLowerCase()
+    .replace(/[.,!?']/g, '')
+    .trim();
 
     const result =
         document.getElementById(
