@@ -134,7 +134,7 @@ recognition.onresult = function(event) {
         result.innerHTML =
             ' ❌ Você disse: ' + spoken;
 
-    }
+  
 
 };
 
