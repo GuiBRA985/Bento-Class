@@ -110,8 +110,6 @@ async function loadLesson() {
 
     });
 
-}
-
 // OUVIR PALAVRA
 
 function speakWord(word) {
