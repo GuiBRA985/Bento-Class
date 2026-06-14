@@ -152,49 +152,26 @@ recognition.interimResults = false;
 recognition.maxAlternatives = 5;
 
 recognition.onresult = function(event) {
+    const spoken = event.results[0][0]
+        .transcript
+        .toLowerCase()
+        .replace(/[.,!?'"]/g, '')
+        .trim();
 
-    const spoken =
-    event.results[0][0]
-    .transcript
-    .toLowerCase()
-    .replace(/[.,!?']/g, '')
-    .trim();
+    const expected = expectedWord
+        .toLowerCase()
+        .replace(/[.,!?'"]/g, '')
+        .trim();
 
-   const expected =
-    expectedWord
-    .toLowerCase()
-    .replace(/[.,!?']/g, '')
-    .trim();
+    const result = document.getElementById('result-' + expected);
 
-   const result =
-        document.getElementById(
-            'result-' + expectedWord
-    );
-
-    const score =
-    similarity(spoken, expected);
-
-    alert(
-        'Falado: [' + spoken + ']\n\n' +
-        'Esperado: [' + expected + ']'
-    );
-}
-if (spoken === expected) {
-
-    alert(
-        '✅ Excelente pronúncia!'
-    );
-
-} else {
-
-    alert(
-        '❌ Você disse:\n\n' +
-        spoken +
-        '\n\nEsperado:\n\n' +
-        expectedSentence
-    );
-
-}
+    // comparação
+    if (spoken === expected) {
+        result.textContent = '✅ Correto!';
+    } else {
+        result.textContent = '❌ Incorreto. Você disse: ' + spoken;
+    }
+};
     
 if (score >= 0.80) {
 
