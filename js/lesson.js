@@ -210,35 +210,73 @@ const recognition =
     new SpeechRecognition();
 
 recognition.lang = 'en-US';
+recognition.interimResults = false;
+recognition.maxAlternatives = 1;
 
 recognition.onresult = function(event) {
 
     const spoken =
-    event.results[0][0]
-    .transcript
-    .toLowerCase()
-    .replace(/[.,!?']/g, '')
-    .trim();
+        event.results[0][0]
+        .transcript
+        .toLowerCase()
+        .replace(/[.,!?']/g, '')
+        .trim();
 
-const expected =
-    expectedSentence
-    .toLowerCase()
-    .replace(/[.,!?']/g, '')
-    .trim();
+    const expected =
+        expectedSentence
+        .toLowerCase()
+        .replace(/[.,!?']/g, '')
+        .trim();
 
-    if (spoken === expected) {
+    const spokenWords =
+        spoken.split(' ');
+
+    const expectedWords =
+        expected.split(' ');
+
+    const matches =
+        spokenWords.filter(
+            word =>
+                expectedWords.includes(word)
+        ).length;
+
+    const score =
+        Math.round(
+            (matches /
+             expectedWords.length) * 100
+        );
+
+    if (score >= 90) {
 
         alert(
-            '✅ Excelente pronúncia!'
+            '✅ Excelente! (' +
+            score +
+            '%)'
+        );
+
+    } else if (score >= 75) {
+
+        alert(
+            '🟡 Muito bom! (' +
+            score +
+            '%)'
+        );
+
+    } else if (score >= 60) {
+
+        alert(
+            '🟡 Quase lá! (' +
+            score +
+            '%)'
         );
 
     } else {
 
         alert(
-            '❌ Você disse:\n\n' +
-            spoken +
-            '\n\nEsperado:\n\n' +
-            expectedSentence
+            '❌ Vamos tentar novamente.\n\n' +
+            'Pontuação: ' +
+            score +
+            '%'
         );
 
     }
