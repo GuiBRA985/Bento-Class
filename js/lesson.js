@@ -108,6 +108,9 @@ if (!SpeechRecognition) {
 const recognition = new SpeechRecognition();
 
 recognition.lang = 'en-US';
+recognition.continuous = false;
+recognition.interimResults = false;
+recognition.maxAlternatives = 5;
 
 recognition.onresult = function(event) {
 
