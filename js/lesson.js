@@ -195,7 +195,6 @@ recognition.start();
 }
 
 function practiceSentence(expectedSentence) {
-
 const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
