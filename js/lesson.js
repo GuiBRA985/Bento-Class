@@ -39,21 +39,42 @@ wordsList.innerHTML = '';
 wordsResult.data.forEach(word => {
 
     const li =
-        document.createElement('li');
+document.createElement('li');
 
-    li.innerHTML =
-        word.word +
-        ' <button onclick="speakWord(\'' +
-        word.word +
-        '\')">🔊</button>' +
-        ' <button onclick="practiceWord(\'' +
-        word.word +
-        '\')">🎤</button>' +
-        ' <span id="result-' +
-        word.word +
-        '"></span>';
+const speakButton =
+document.createElement('button');
 
-    wordsList.appendChild(li);
+speakButton.textContent = '🔊';
+
+speakButton.onclick = function() {
+speakWord(word.word);
+};
+
+const practiceButton =
+document.createElement('button');
+
+practiceButton.textContent = '🎤';
+
+practiceButton.onclick = function() {
+practiceWord(word.word);
+};
+
+const result =
+document.createElement('span');
+
+result.id =
+'result-' + word.word;
+
+li.append(
+document.createTextNode(word.word + ' '),
+speakButton,
+document.createTextNode(' '),
+practiceButton,
+document.createTextNode(' '),
+result
+);
+
+wordsList.appendChild(li);
 
 });
 
