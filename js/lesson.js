@@ -195,6 +195,7 @@ recognition.start();
 }
 
 function practiceSentence(expectedSentence) {
+
 const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
@@ -213,10 +214,7 @@ const recognition =
 
 recognition.lang = 'en-US';
 
-recognition.start();
-
-recognition.onresult =
-    function(event) {
+recognition.onresult = function(event) {
 
     const spoken =
         event.results[0][0]
@@ -231,7 +229,7 @@ recognition.onresult =
     if (spoken === expected) {
 
         alert(
-            '✅ Excelente!'
+            '✅ Excelente pronúncia!'
         );
 
     } else {
@@ -246,6 +244,8 @@ recognition.onresult =
     }
 
 };
+
+recognition.start();
 
 }
 
