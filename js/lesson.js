@@ -111,6 +111,7 @@ recognition.lang = 'en-US';
 recognition.continuous = false;
 recognition.interimResults = false;
 recognition.maxAlternatives = 5;
+console.log(event.results[0]);
 
 recognition.onresult = function(event) {
 
