@@ -60,16 +60,19 @@ sentencesResult.data.forEach(sentence => {
 
 const div = document.createElement('div');
 
-div.className = 'sentence-card';
-
 div.innerHTML = `
     <p>${sentence.sentence}</p>
 
-    <button onclick="practiceSentence(${sentence.id}, '${sentence.sentence.replace(/'/g, "\\'")}')">
-        🎤 Validar frase
+    <button
+        onclick="practiceSentence(
+            '${sentence.sentence}'
+        )">
+        🎤 Praticar frase
     </button>
 
-    <span id="sentence-result-${sentence.id}"></span>
+    <span
+        id="sentence-result-${sentence.id}">
+    </span>
 
     <hr>
 `;
@@ -77,7 +80,6 @@ div.innerHTML = `
 sentencesDiv.appendChild(div);
 
 });
-}
 
 // OUVIR PALAVRA
 
