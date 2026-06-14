@@ -168,10 +168,10 @@ const expected =
             'result-' + expectedWord
         );
 
-    if (spoken === expected) {
+    const score =
+    similarity(spoken, expected);
 
-        result.innerHTML =
-            ' ✅ Correto';
+if (score >= 0.80) {
 
     } else {
 
