@@ -169,7 +169,7 @@ recognition.onresult = function(event) {
    const result =
         document.getElementById(
             'result-' + expectedWord
-     );
+    );
 
     const score =
     similarity(spoken, expected);
