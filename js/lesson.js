@@ -138,7 +138,7 @@ if (!SpeechRecognition) {
 
     alert(
         'Reconhecimento de voz não suportado.'
-    );
+);
 
     return;
 }
