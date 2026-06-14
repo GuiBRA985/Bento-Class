@@ -188,39 +188,42 @@ function practiceSentence(expectedSentence) {
 
     recognition.onresult = function(event) {
 
-        const spoken = event.results[0][0]
-            .transcript
-            .toLowerCase()
-            .replace(/[.,!?'"]/g, '')
-            .trim();
+    // ✅ Só processa o resultado final
+    if (!event.results[0].isFinal) return;
 
-        const expected = expectedSentence
-            .toLowerCase()
-            .replace(/[.,!?'"]/g, '')
-            .trim();
+    const spoken = event.results[0][0]
+        .transcript
+        .toLowerCase()
+        .replace(/[.,!?'"]/g, '')
+        .trim();
 
-        const spokenWords = spoken.split(' ');
-        const expectedWords = expected.split(' ');
+    const expected = expectedSentence
+        .toLowerCase()
+        .replace(/[.,!?'"]/g, '')
+        .trim();
 
-        const matches = spokenWords.filter(
-            word => expectedWords.includes(word)
-        ).length;
+    const spokenWords = spoken.split(' ');
+    const expectedWords = expected.split(' ');
 
-        const score = Math.round(
-            (matches / expectedWords.length) * 100
-        );
+    const matches = spokenWords.filter(
+        word => expectedWords.includes(word)
+    ).length;
 
-        if (score >= 90) {
-            alert('✅ Excelente! (' + score + '%)');
-        } else if (score >= 75) {
-            alert('🟡 Muito bom! (' + score + '%)');
-        } else if (score >= 60) {
-            alert('🟡 Quase lá! (' + score + '%)');
-        } else {
-            alert('❌ Vamos tentar novamente.\n\nPontuação: ' + score + '%');
-        }
+    const score = Math.round(
+        (matches / expectedWords.length) * 100
+    );
 
-    };
+    if (score >= 90) {
+        alert('✅ Excelente! (' + score + '%)');
+    } else if (score >= 75) {
+        alert('🟡 Muito bom! (' + score + '%)');
+    } else if (score >= 60) {
+        alert('🟡 Quase lá! (' + score + '%)');
+    } else {
+        alert('❌ Vamos tentar novamente.\n\nPontuação: ' + score + '%');
+    }
+
+};
 
     recognition.start();
 
