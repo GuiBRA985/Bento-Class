@@ -3,202 +3,230 @@ const lessonId = parseInt(params.get('id'));
 
 async function loadLesson() {
 
-const lessonResult = await supabaseClient
-    .from('lessons')
-    .select('*')
-    .eq('id', lessonId);
+    const lessonResult = await supabaseClient
+        .from('lessons')
+        .select('*')
+        .eq('id', lessonId);
 
-if (lessonResult.error) {
-    alert('Erro ao carregar lição: ' + lessonResult.error.message);
-    return;
-}
+    if (lessonResult.error) {
+        alert('Erro ao carregar lição: ' + lessonResult.error.message);
+        return;
+    }
 
-if (!lessonResult.data || lessonResult.data.length === 0) {
-    alert('Lição não encontrada');
-    return;
-}
+    if (!lessonResult.data || lessonResult.data.length === 0) {
+        alert('Lição não encontrada');
+        return;
+    }
 
-const lesson = lessonResult.data[0];
+    const lesson = lessonResult.data[0];
 
-document.getElementById('title').textContent = lesson.title;
+    document.getElementById('title').textContent =
+        lesson.title || `Lesson ${lesson.lesson_number}`;
 
-// WORDS
+    // WORDS
 
-const wordsResult = await supabaseClient
-    .from('words')
-    .select('*')
-    .eq('lesson_id', lessonId)
-    .order('word_order');
+    const wordsResult = await supabaseClient
+        .from('words')
+        .select('*')
+        .eq('lesson_id', lessonId)
+        .order('word_order');
 
-const wordsList = document.getElementById('words');
-wordsList.innerHTML = '';
+    // FIX #4: verificação de erro adicionada
+    if (wordsResult.error) {
+        alert('Erro ao carregar palavras: ' + wordsResult.error.message);
+        return;
+    }
 
-wordsResult.data.forEach(word => {
+    const wordsList = document.getElementById('words');
+    wordsList.innerHTML = '';
 
-    const li = document.createElement('li');
+    wordsResult.data.forEach(word => {
 
-    li.innerHTML =
-        word.word +
-        ' <button onclick="speakWord(\'' + word.word + '\')">🔊</button>' +
-        ' <button onclick="practiceWord(\'' + word.word + '\')">🎤</button>' +
-        ' <span id="result-' + word.word + '"></span>';
+        const li = document.createElement('li');
 
-    wordsList.appendChild(li);
+        const speakButton = document.createElement('button');
+        speakButton.textContent = '🔊';
+        speakButton.onclick = function() {
+            speakWord(word.word);
+        };
 
-});
+        const practiceButton = document.createElement('button');
+        practiceButton.textContent = '🎤';
+        practiceButton.onclick = function() {
+            practiceWord(word.word);
+        };
 
-// SENTENCES
+        const result = document.createElement('span');
 
-const sentencesResult = await supabaseClient
-    .from('sentences')
-    .select('*')
-    .eq('lesson_id', lessonId)
-    .order('sentence_order');
+        // FIX #2: normalizar o ID igual ao que é usado no getElementById
+        result.id = 'result-' + word.word.toLowerCase().replace(/[.,!?'"]/g, '').trim();
 
-const sentencesDiv = document.getElementById('sentences');
-sentencesResult.data.forEach(sentence => {
+        li.append(
+            document.createTextNode(word.word + ' '),
+            speakButton,
+            document.createTextNode(' '),
+            practiceButton,
+            document.createTextNode(' '),
+            result
+        );
 
-const div = document.createElement('div');
+        wordsList.appendChild(li);
 
-div.className = 'sentence-card';
+    });
 
-div.innerHTML = `
-    <p>${sentence.sentence}</p>
+    // SENTENCES
 
-    <button onclick="practiceSentence(${sentence.id}, '${sentence.sentence.replace(/'/g, "\\'")}')">
-        🎤 Validar frase
-    </button>
+    const sentencesResult = await supabaseClient
+        .from('sentences')
+        .select('*')
+        .eq('lesson_id', lessonId)
+        .order('sentence_order');
 
-    <span id="sentence-result-${sentence.id}"></span>
+    // FIX #4: verificação de erro adicionada
+    if (sentencesResult.error) {
+        alert('Erro ao carregar sentenças: ' + sentencesResult.error.message);
+        return;
+    }
 
-    <hr>
-`;
+    const sentencesDiv = document.getElementById('sentences');
+    sentencesDiv.innerHTML = '';
 
-sentencesDiv.appendChild(div);
+    sentencesResult.data.forEach(sentence => {
 
-});
+        const div = document.createElement('div');
+
+        const p = document.createElement('p');
+        p.textContent = sentence.sentence;
+
+        // FIX #3: substituído innerHTML com onclick inline por addEventListener
+        const btn = document.createElement('button');
+        btn.textContent = '🎤 Praticar frase';
+        btn.addEventListener('click', () => practiceSentence(sentence.sentence));
+
+        const hr = document.createElement('hr');
+
+        div.append(p, btn, hr);
+        sentencesDiv.appendChild(div);
+
+    });
+
 }
 
 // OUVIR PALAVRA
 
 function speakWord(word) {
 
-const utterance = new SpeechSynthesisUtterance(word);
-
-utterance.lang = 'en-US';
-utterance.rate = 0.8;
-
-speechSynthesis.speak(utterance);
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.8;
+    speechSynthesis.speak(utterance);
 
 }
 
-// PRATICAR PRONÚNCIA
+// PRATICAR PALAVRA
 
 function practiceWord(expectedWord) {
 
-const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
 
-if (!SpeechRecognition) {
-    alert('Reconhecimento de voz não suportado.');
-    return;
-}
-
-const recognition = new SpeechRecognition();
-
-recognition.lang = 'en-US';
-recognition.continuous = false;
-recognition.interimResults = false;
-recognition.maxAlternatives = 5;
-console.log(event.results[0]);
-
-recognition.onresult = function(event) {
-
-    const spoken =
-    event.results[0][0]
-    .transcript
-    .toLowerCase()
-    .replace(/[.,!?']/g, '')
-    .trim();
-
-    const expected =
-    expectedWord
-    .toLowerCase()
-    .replace(/[.,!?']/g, '')
-    .trim();
-
-    const result =
-        document.getElementById(
-            'result-' + expectedWord
-        );
-
-    if (spoken === expected) {
-
-        result.innerHTML =
-            ' ✅ Correto';
-
-    } else {
-
-        result.innerHTML =
-            ' ❌ Você disse: ' + spoken;
-
+    if (!SpeechRecognition) {
+        alert('Reconhecimento de voz não suportado.');
+        return;
     }
 
-};
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 5;
 
-recognition.start();
+    recognition.onresult = function(event) {
+
+        const spoken = event.results[0][0]
+            .transcript
+            .toLowerCase()
+            .replace(/[.,!?'"]/g, '')
+            .trim();
+
+        const expected = expectedWord
+            .toLowerCase()
+            .replace(/[.,!?'"]/g, '')
+            .trim();
+
+        const result = document.getElementById('result-' + expected);
+
+        // FIX #1: removido bloco morto fora do escopo (score/spoken/result inexistentes)
+        if (spoken === expected) {
+            result.textContent = '✅ Correto!';
+        } else {
+            result.textContent = '❌ Incorreto. Você disse: ' + spoken;
+        }
+
+    };
+
+    recognition.start();
 
 }
 
-async function practiceSentence(sentenceId, expectedSentence) {
+// PRATICAR SENTENÇA
 
-const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
+function practiceSentence(expectedSentence) {
 
-if (!SpeechRecognition) {
-    alert('Reconhecimento de voz não suportado.');
-    return;
-}
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
 
-const recognition = new SpeechRecognition();
-
-recognition.lang = 'en-US';
-recognition.interimResults = false;
-recognition.maxAlternatives = 1;
-
-recognition.onresult = async function(event) {
-
-    const spoken =
-        event.results[0][0].transcript.trim();
-
-    const result =
-        document.getElementById(
-            'sentence-result-' + sentenceId
-        );
-
-    result.innerHTML =
-        `<br>Esperado: ${expectedSentence}
-         <br>Você disse: ${spoken}
-         <br>✅ Registrado`;
-
-    const { error } =
-        await supabaseClient
-            .from('sentence_submissions')
-            .insert({
-                sentence_id: sentenceId,
-                audio_url: spoken
-            });
-
-    if (error) {
-        console.error(error);
+    if (!SpeechRecognition) {
+        alert('Reconhecimento de voz não suportado.');
+        return;
     }
 
-};
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
 
-recognition.start();
+    recognition.onresult = function(event) {
+
+        const spoken = event.results[0][0]
+            .transcript
+            .toLowerCase()
+            .replace(/[.,!?'"]/g, '')
+            .trim();
+
+        const expected = expectedSentence
+            .toLowerCase()
+            .replace(/[.,!?'"]/g, '')
+            .trim();
+
+        const spokenWords = spoken.split(' ');
+        const expectedWords = expected.split(' ');
+
+        const matches = spokenWords.filter(
+            word => expectedWords.includes(word)
+        ).length;
+
+        const score = Math.round(
+            (matches / expectedWords.length) * 100
+        );
+
+        if (score >= 90) {
+            alert('✅ Excelente! (' + score + '%)');
+        } else if (score >= 75) {
+            alert('🟡 Muito bom! (' + score + '%)');
+        } else if (score >= 60) {
+            alert('🟡 Quase lá! (' + score + '%)');
+        } else {
+            alert('❌ Vamos tentar novamente.\n\nPontuação: ' + score + '%');
+        }
+
+    };
+
+    recognition.start();
 
 }
 
 loadLesson();
+                     
