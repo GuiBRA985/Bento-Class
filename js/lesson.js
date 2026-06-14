@@ -178,7 +178,7 @@ recognition.onresult = function(event) {
         'Falado: [' + spoken + ']\n\n' +
         'Esperado: [' + expected + ']'
     );
-
+}
 if (spoken === expected) {
 
     alert(
