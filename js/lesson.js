@@ -20,7 +20,8 @@ if (!lessonResult.data || lessonResult.data.length === 0) {
 
 const lesson = lessonResult.data[0];
 
-document.getElementById('title').textContent = lesson.title;
+document.getElementById('title').textContent =
+    lesson.title || `Lesson ${lesson.lesson_number}`;
 
 // WORDS
 
@@ -30,23 +31,31 @@ const wordsResult = await supabaseClient
     .eq('lesson_id', lessonId)
     .order('word_order');
 
-const wordsList = document.getElementById('words');
+const wordsList =
+    document.getElementById('words');
+
 wordsList.innerHTML = '';
 
 wordsResult.data.forEach(word => {
 
-    const li = document.createElement('li');
+    const li =
+        document.createElement('li');
 
     li.innerHTML =
         word.word +
-        ' <button onclick="speakWord(\'' + word.word + '\')">🔊</button>' +
-        ' <button onclick="practiceWord(\'' + word.word + '\')">🎤</button>' +
-        ' <span id="result-' + word.word + '"></span>';
+        ' <button onclick="speakWord(\'' +
+        word.word +
+        '\')">🔊</button>' +
+        ' <button onclick="practiceWord(\'' +
+        word.word +
+        '\')">🎤</button>' +
+        ' <span id="result-' +
+        word.word +
+        '"></span>';
 
     wordsList.appendChild(li);
 
 });
-}
 
 // SENTENCES
 
@@ -56,38 +65,38 @@ const sentencesResult = await supabaseClient
     .eq('lesson_id', lessonId)
     .order('sentence_order');
 
-const sentencesDiv = document.getElementById('sentences');
+const sentencesDiv =
+    document.getElementById('sentences');
+
+sentencesDiv.innerHTML = '';
+
 sentencesResult.data.forEach(sentence => {
 
-const div = document.createElement('div');
+    const div =
+        document.createElement('div');
 
-div.innerHTML = `
-    <p>${sentence.sentence}</p>
+    div.innerHTML = `
+        <p>${sentence.sentence}</p>
 
-    <button
-        onclick="practiceSentence(
-            '${sentence.sentence}'
-        )">
-        🎤 Praticar frase
-    </button>
+        <button onclick="practiceSentence('${sentence.sentence}')">
+            🎤 Praticar frase
+        </button>
 
-    <span
-        id="sentence-result-${sentence.id}">
-    </span>
+        <hr>
+    `;
 
-    <hr>
-`;
-
-sentencesDiv.appendChild(div);
+    sentencesDiv.appendChild(div);
 
 });
+
 }
 
 // OUVIR PALAVRA
 
 function speakWord(word) {
 
-const utterance = new SpeechSynthesisUtterance(word);
+const utterance =
+    new SpeechSynthesisUtterance(word);
 
 utterance.lang = 'en-US';
 utterance.rate = 0.8;
@@ -96,7 +105,7 @@ speechSynthesis.speak(utterance);
 
 }
 
-// PRATICAR PRONÚNCIA
+// PRATICAR PALAVRA
 
 function practiceWord(expectedWord) {
 
@@ -105,18 +114,24 @@ const SpeechRecognition =
     window.webkitSpeechRecognition;
 
 if (!SpeechRecognition) {
-    alert('Reconhecimento de voz não suportado.');
+
+    alert(
+        'Reconhecimento de voz não suportado.'
+    );
+
     return;
 }
 
-const recognition = new SpeechRecognition();
+const recognition =
+    new SpeechRecognition();
 
 recognition.lang = 'en-US';
 
 recognition.onresult = function(event) {
 
     const spoken =
-        event.results[0][0].transcript
+        event.results[0][0]
+        .transcript
         .trim()
         .toLowerCase();
 
@@ -146,55 +161,7 @@ recognition.start();
 
 }
 
-async function practiceSentence(sentenceId, expectedSentence) {
-
-const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
-
-if (!SpeechRecognition) {
-    alert('Reconhecimento de voz não suportado.');
-    return;
-}
-
-const recognition = new SpeechRecognition();
-
-recognition.lang = 'en-US';
-recognition.interimResults = false;
-recognition.maxAlternatives = 1;
-
-recognition.onresult = async function(event) {
-
-    const spoken =
-        event.results[0][0].transcript.trim();
-
-    const result =
-        document.getElementById(
-            'sentence-result-' + sentenceId
-        );
-
-    result.innerHTML =
-        `<br>Esperado: ${expectedSentence}
-         <br>Você disse: ${spoken}
-         <br>✅ Registrado`;
-
-    const { error } =
-        await supabaseClient
-            .from('sentence_submissions')
-            .insert({
-                sentence_id: sentenceId,
-                audio_url: spoken
-            });
-
-    if (error) {
-        console.error(error);
-    }
-
-};
-
-recognition.start();
-
-}
+// PRATICAR SENTENÇA
 
 function practiceSentence(expectedSentence) {
 
@@ -249,4 +216,6 @@ recognition.onresult = function(event) {
 
 recognition.start();
 
+}
 
+loadLesson();
