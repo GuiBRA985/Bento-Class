@@ -31,7 +31,6 @@ async function loadLesson() {
         .eq('lesson_id', lessonId)
         .order('word_order');
 
-    // FIX #4: verificação de erro adicionada
     if (wordsResult.error) {
         alert('Erro ao carregar palavras: ' + wordsResult.error.message);
         return;
@@ -57,8 +56,6 @@ async function loadLesson() {
         };
 
         const result = document.createElement('span');
-
-        // FIX #2: normalizar o ID igual ao que é usado no getElementById
         result.id = 'result-' + word.word.toLowerCase().replace(/[.,!?'"]/g, '').trim();
 
         li.append(
@@ -82,7 +79,6 @@ async function loadLesson() {
         .eq('lesson_id', lessonId)
         .order('sentence_order');
 
-    // FIX #4: verificação de erro adicionada
     if (sentencesResult.error) {
         alert('Erro ao carregar sentenças: ' + sentencesResult.error.message);
         return;
@@ -98,7 +94,6 @@ async function loadLesson() {
         const p = document.createElement('p');
         p.textContent = sentence.sentence;
 
-        // FIX #3: substituído innerHTML com onclick inline por addEventListener
         const btn = document.createElement('button');
         btn.textContent = '🎤 Praticar frase';
         btn.addEventListener('click', () => practiceSentence(sentence.sentence));
@@ -110,14 +105,18 @@ async function loadLesson() {
 
     });
 
-// OUVIR PALAVRA
+} // ← FECHAMENTO DO loadLesson() — estava faltando isso!
+
+// OUVIR PALAVRA (soletra e depois fala)
 
 function speakWord(word) {
+
     const letras = word.toUpperCase().split('');
     let index = 0;
 
     function falarProximaLetra() {
         if (index < letras.length) {
+
             const utterance = new SpeechSynthesisUtterance(letras[index]);
             utterance.lang = 'en-US';
             utterance.rate = 0.7;
@@ -130,6 +129,7 @@ function speakWord(word) {
             speechSynthesis.speak(utterance);
 
         } else {
+
             // Terminou de soletrar, fala a palavra completa
             setTimeout(() => {
                 const utterancePalavra = new SpeechSynthesisUtterance(word);
@@ -137,11 +137,14 @@ function speakWord(word) {
                 utterancePalavra.rate = 0.8;
                 speechSynthesis.speak(utterancePalavra);
             }, 600);
+
         }
     }
 
     falarProximaLetra();
+
 }
+
 // PRATICAR PALAVRA
 
 function practiceWord(expectedWord) {
@@ -176,7 +179,6 @@ function practiceWord(expectedWord) {
 
         const result = document.getElementById('result-' + expected);
 
-        // FIX #1: removido bloco morto fora do escopo (score/spoken/result inexistentes)
         if (spoken === expected) {
             result.textContent = '✅ Correto!';
         } else {
@@ -209,46 +211,45 @@ function practiceSentence(expectedSentence) {
 
     recognition.onresult = function(event) {
 
-    // ✅ Só processa o resultado final
-    if (!event.results[0].isFinal) return;
+        // Só processa o resultado final
+        if (!event.results[0].isFinal) return;
 
-    const spoken = event.results[0][0]
-        .transcript
-        .toLowerCase()
-        .replace(/[.,!?'"]/g, '')
-        .trim();
+        const spoken = event.results[0][0]
+            .transcript
+            .toLowerCase()
+            .replace(/[.,!?'"]/g, '')
+            .trim();
 
-    const expected = expectedSentence
-        .toLowerCase()
-        .replace(/[.,!?'"]/g, '')
-        .trim();
+        const expected = expectedSentence
+            .toLowerCase()
+            .replace(/[.,!?'"]/g, '')
+            .trim();
 
-    const spokenWords = spoken.split(' ');
-    const expectedWords = expected.split(' ');
+        const spokenWords = spoken.split(' ');
+        const expectedWords = expected.split(' ');
 
-    const matches = spokenWords.filter(
-        word => expectedWords.includes(word)
-    ).length;
+        const matches = spokenWords.filter(
+            word => expectedWords.includes(word)
+        ).length;
 
-    const score = Math.round(
-        (matches / expectedWords.length) * 100
-    );
+        const score = Math.round(
+            (matches / expectedWords.length) * 100
+        );
 
-    if (score >= 90) {
-        alert('✅ Excelente! (' + score + '%)');
-    } else if (score >= 75) {
-        alert('🟡 Muito bom! (' + score + '%)');
-    } else if (score >= 60) {
-        alert('🟡 Quase lá! (' + score + '%)');
-    } else {
-        alert('❌ Vamos tentar novamente.\n\nPontuação: ' + score + '%');
-    }
+        if (score >= 90) {
+            alert('✅ Excelente! (' + score + '%)');
+        } else if (score >= 75) {
+            alert('🟡 Muito bom! (' + score + '%)');
+        } else if (score >= 60) {
+            alert('🟡 Quase lá! (' + score + '%)');
+        } else {
+            alert('❌ Vamos tentar novamente.\n\nPontuação: ' + score + '%');
+        }
 
-};
+    };
 
     recognition.start();
 
 }
 
 loadLesson();
-                     
