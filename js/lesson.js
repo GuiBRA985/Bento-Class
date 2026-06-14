@@ -80,6 +80,7 @@ div.innerHTML = `
 sentencesDiv.appendChild(div);
 
 });
+}
 
 // OUVIR PALAVRA
 
