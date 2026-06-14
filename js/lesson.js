@@ -174,6 +174,28 @@ const expected =
     const score =
     similarity(spoken, expected);
 
+    alert(
+        'Falado: [' + spoken + ']\n\n' +
+        'Esperado: [' + expected + ']'
+ );
+
+if (spoken === expected) {
+
+    alert(
+        '✅ Excelente pronúncia!'
+    );
+
+} else {
+
+    alert(
+        '❌ Você disse:\n\n' +
+        spoken +
+        '\n\nEsperado:\n\n' +
+        expectedSentence
+    );
+
+}
+    
 if (score >= 0.80) {
 
     } else {
