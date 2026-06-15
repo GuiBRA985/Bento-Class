@@ -271,22 +271,101 @@ recognition.start();
 window.uploadPhoto = async function() {
 
 const file =
-document.getElementById('photoInput')
-.files[0];
+    document.getElementById('photoInput')
+    .files[0];
 
 if (!file) {
 
-alert(
-    'Tire uma foto primeiro.'
-);
+    alert(
+        'Tire uma foto primeiro.'
+    );
 
-return;
+    return;
+}
 
+const {
+    data: { user }
+} =
+await supabaseClient.auth.getUser();
+
+if (!user) {
+
+    alert(
+        'Usuário não autenticado.'
+    );
+
+    return;
+}
+
+const fileName =
+    Date.now() +
+    '-' +
+    file.name;
+
+const { error: uploadError } =
+    await supabaseClient.storage
+        .from('handwriting')
+        .upload(
+            fileName,
+            file
+        );
+
+if (uploadError) {
+
+    alert(
+        'Erro ao enviar foto.'
+    );
+
+    console.error(uploadError);
+
+    return;
+}
+
+const {
+    data: publicUrlData
+} =
+supabaseClient.storage
+    .from('handwriting')
+    .getPublicUrl(
+        fileName
+    );
+
+const imageUrl =
+    publicUrlData.publicUrl;
+
+const { error: dbError } =
+    await supabaseClient
+        .from(
+            'handwriting_submissions'
+        )
+        .insert({
+
+            user_id:
+                user.id,
+
+            lesson_id:
+                lessonId,
+
+            image_url:
+                imageUrl
+
+        });
+
+if (dbError) {
+
+    alert(
+        'Erro ao salvar atividade.'
+    );
+
+    console.error(dbError);
+
+    return;
 }
 
 alert(
-'Foto selecionada: ' +
-file.name
+    '✅ Foto enviada com sucesso!'
 );
+
+};
 }
 loadLesson();
