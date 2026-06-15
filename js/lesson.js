@@ -423,3 +423,4 @@ window.location.href =
 };
 
 loadLesson();
+console.log('FIM DO ARQUIVO');
