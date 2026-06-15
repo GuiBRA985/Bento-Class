@@ -379,7 +379,4 @@ window.completeLesson = function() {
 window.location.href =
     'dashboard.html';
 
-};
-
 loadLesson();
-console.log('FIM DO ARQUIVO');
