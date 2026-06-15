@@ -268,4 +268,26 @@ recognition.start();
 
 }
 
+async function uploadPhoto() {
+
+const file =
+    document.getElementById('photoInput')
+    .files[0];
+
+if (!file) {
+
+    alert(
+        'Tire uma foto primeiro.'
+    );
+
+    return;
+}
+
+alert(
+    'Foto selecionada: ' +
+    file.name
+);
+
+}
+
 loadLesson();
