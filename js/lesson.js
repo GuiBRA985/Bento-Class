@@ -367,5 +367,4 @@ alert(
 );
 
 };
-}
 loadLesson();
