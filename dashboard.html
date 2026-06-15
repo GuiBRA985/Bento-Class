@@ -1,84 +1,203 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bento Class</title><style>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Bento Class</title><style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
 
 body{
-
     background:#1565C0;
-
+    min-height:100vh;
     color:white;
+}
 
-    font-family:Arial, sans-serif;
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
 
-    text-align:center;
+.header{
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(10px);
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:20px;
+}
 
-    padding:50px;
+.header h1{
+    font-size:32px;
+    margin-bottom:10px;
+}
 
+.header p{
+    opacity:.9;
+}
+
+.progress-card{
+    background:white;
+    color:#333;
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:20px;
+}
+
+.progress-bar{
+    height:20px;
+    background:#ddd;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:15px;
+}
+
+.progress-fill{
+    width:40%;
+    height:100%;
+    background:#1565C0;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+    margin-bottom:20px;
 }
 
 .card{
-
-    max-width:700px;
-
-    margin:auto;
-
+    background:white;
+    color:#333;
+    border-radius:20px;
+    padding:20px;
 }
 
-button{
+.card h3{
+    color:#1565C0;
+    margin-bottom:10px;
+}
 
-    padding:15px 30px;
+.card .number{
+    font-size:32px;
+    font-weight:bold;
+}
 
+.next-lesson{
+    background:white;
+    color:#333;
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:20px;
+}
+
+.btn{
+    background:#1565C0;
+    color:white;
     border:none;
-
-    border-radius:10px;
-
-    font-size:16px;
-
+    padding:15px 25px;
+    border-radius:12px;
     cursor:pointer;
+    margin-top:15px;
+    font-size:16px;
+}
+
+.path{
+    background:white;
+    color:#333;
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:20px;
+}
+
+.lesson{
+    padding:15px;
+    border-bottom:1px solid #eee;
+}
+
+.lesson:last-child{
+    border-bottom:none;
+}
+
+.feedback{
+    background:white;
+    color:#333;
+    border-radius:20px;
+    padding:25px;
+}
+
+.feedback h2{
+    color:#1565C0;
+    margin-bottom:15px;
+}
+
+@media(max-width:768px){
+
+.header h1{
+    font-size:24px;
+}
+
+.card .number{
+    font-size:26px;
+}
 
 }
 
-</style></head><body><div class="card"><h1>Bento Class</h1><h2 id="welcome"></h2><p>
+</style></head><body><div class="container"><div class="header"><h1>
+Olá, Estudante 👋
+</h1><p>
 A linguagem é a única coisa que te conecta ao mundo inteiro.
-</p><hr><h3>
-🚧 Aula inaugural em breve
+</p></div><div class="progress-card"><h2>Progresso Geral</h2><p>
+Nível Atual:
+🌎 Explorador do Idioma
+</p><div class="progress-bar">
+<div class="progress-fill"></div>
+</div><p style="margin-top:10px;">
+40% concluído
+</p></div><div class="cards"><div class="card">
+<h3>📖 Palavras</h3>
+<div class="number" id="wordsCount">
+0
+</div>
+</div><div class="card">
+<h3>🎤 Pronúncias</h3>
+<div class="number" id="pronunciationCount">
+0
+</div>
+</div><div class="card">
+<h3>✍️ Frases</h3>
+<div class="number" id="sentenceCount">
+0
+</div>
+</div><div class="card">
+<h3>📸 Atividades</h3>
+<div class="number" id="photoCount">
+0
+</div>
+</div></div><div class="next-lesson"><h2>📚 Próxima Aula</h2><h3>
+Lesson 1
 </h3><p>
-As lições serão liberadas na próxima atualização.
-</p><button onclick="logout()">
-Sair
-</button></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/supabase.js"></script><script>
+Pronúncia do som A
+</p><p style="margin-top:10px;">
+🔒 Disponível em breve
+</p><button class="btn">
+Aguardando Liberação
+</button></div><div class="path"><h2>
+🗺️ Trilha de Aprendizagem
+</h2><div class="lesson">
+✅ Aula 0 — Introdução
+</div><div class="lesson">
+🟡 Aula 1 — Sons do A
+</div><div class="lesson">
+🔒 Aula 2 — Sons do E
+</div><div class="lesson">
+🔒 Aula 3 — Sons do I
+</div><div class="lesson">
+🔒 Aula 4 — Conversação Básica
+</div></div><div class="feedback"><h2>
+🤖 Bento diz:
+</h2><p id="bentoMessage">Seu inglês está evoluindo.
 
-async function checkUser() {
+Sua caligrafia continua sendo um mistério arqueológico.
 
-    const {
-        data: { user }
-    } =
-    await supabaseClient.auth.getUser();
-
-    if (!user) {
-
-        window.location.href =
-            'login.html';
-
-        return;
-    }
-
-    document.getElementById('welcome')
-        .textContent =
-        'Olá, ' + user.email;
-
-}
-
-async function logout() {
-
-    await supabaseClient.auth.signOut();
-
-    window.location.href =
-        'login.html';
-
-}
-
-checkUser();
-
-</script></body></html>
+</p></div></div></body></html>
