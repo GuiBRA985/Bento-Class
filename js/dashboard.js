@@ -75,6 +75,31 @@ document.getElementById(
 ).textContent =
     completed;
 
+const messages = [
+
+"Seu inglês evoluiu. Sua letra continua parecendo bula de remédio.",
+
+"Parabéns. Hoje você pronunciou melhor que ontem.",
+
+"Eminem ainda não ligou. Continue treinando.",
+
+"Seu progresso está ótimo. Sua caligrafia segue misteriosa.",
+
+"Uma palavra por vez. Roma não foi construída em um dia."
+
+];
+
+document.getElementById(
+    'bentoMessage'
+).textContent =
+
+messages[
+    Math.floor(
+        Math.random() *
+        messages.length
+    )
+];
+
 }
 
 loadDashboard();
