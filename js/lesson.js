@@ -288,8 +288,6 @@ alert(
 file.name
 );
 
-}
-
 console.log("CHEGUEI NO FINAL DO ARQUIVO");
 
 loadLesson();
