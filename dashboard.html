@@ -52,15 +52,7 @@ Sair
 async function checkUser() {
 
     const {
-    data: { user }
-} =
-await supabaseClient.auth.getUser();
-
-alert(
-    user
-        ? user.email
-        : 'SEM USUARIO'
-);
+        data: { user }
     } =
     await supabaseClient.auth.getUser();
 
