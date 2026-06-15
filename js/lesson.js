@@ -268,7 +268,7 @@ recognition.start();
 
 }
 
-window.uploadPhoto = async function() {
+console.log(await supabaseClient.auth.getSession());window.uploadPhoto = async function() {
 
 const file =
     document.getElementById('photoInput')
