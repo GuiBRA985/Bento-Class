@@ -253,14 +253,15 @@ recognition.onresult = function(event) {
 
     } else {
 
-        alert(
-            '❌ Vamos tentar novamente.\n\n' +
-            'Pontuação: ' +
-            score +
-            '%'
-        );
+    alert(
+        '❌ Vamos tentar novamente.\n\n' +
+        'Pontuação: ' +
+        score +
+        '%'
+    );
 
- }
+}
+
 };
 
 recognition.start();
