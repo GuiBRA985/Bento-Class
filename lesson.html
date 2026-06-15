@@ -17,8 +17,21 @@
 <p>
 Escreva todas as frases desta lição em uma folha e tire uma foto.
 </p>
-<button onclick="uploadPhoto()">
-    📸 Tirar foto da atividade
+<input
+type="file"
+id="photoInput"
+accept="image/*"
+capture="environment"
+style="display:none">
+
+<button
+onclick="document.getElementById('photoInput').click()">
+📸 Tirar foto da atividade
+</button>
+
+<button
+onclick="uploadPhoto()">
+⬆️ Enviar foto
 </button>
 
 <br><br>
