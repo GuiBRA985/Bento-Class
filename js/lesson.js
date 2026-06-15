@@ -367,7 +367,7 @@ alert(
 );
 
 };
-
+console.log('COMPLETE LESSON CARREGADA');
 window.completeLesson = async function() {
 
 const {
