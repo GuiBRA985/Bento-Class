@@ -267,25 +267,28 @@ recognition.start();
 
 }
 
-async function uploadPhoto() {
+window.uploadPhoto = async function() {
 
 const file =
-    document.getElementById('photoInput')
-    .files[0];
+document.getElementById('photoInput')
+.files[0];
 
 if (!file) {
 
-    alert(
-        'Tire uma foto primeiro.'
-    );
+alert(
+    'Tire uma foto primeiro.'
+);
 
-    return;
+return;
+
 }
 
 alert(
-    'Foto selecionada: ' +
-    file.name
+'Foto selecionada: ' +
+file.name
 );
+
+}
 
 console.log("CHEGUEI NO FINAL DO ARQUIVO");
 
