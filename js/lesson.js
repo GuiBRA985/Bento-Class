@@ -260,7 +260,6 @@ recognition.onresult = function(event) {
             '%'
         );
 
-    }
 
 };
 
