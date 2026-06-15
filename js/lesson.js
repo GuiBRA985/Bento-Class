@@ -367,11 +367,22 @@ alert(
 );
 
 };
-window.completeLesson = function() {
-    alert('FUNCIONOU');
-};
+console.log('COMPLETE LESSON CARREGADA');
+window.completeLesson = async function() {
 
-loadLesson();
+const {
+    data: { user }
+} =
+await supabaseClient.auth.getUser();
+
+if (!user) {
+
+    alert(
+        'Usuário não autenticado.'
+    );
+
+    return;
+}
 
 const { error } =
     await supabaseClient
