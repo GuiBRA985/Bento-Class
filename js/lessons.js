@@ -1,6 +1,6 @@
 async function carregarLicoes() {
 
-    const result =
+const result =
 await supabaseClient
     .from('lessons')
     .select('*')
