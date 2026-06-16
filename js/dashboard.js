@@ -49,7 +49,12 @@ Math.min(
         * 100
     )
 );
-
+    
+document.getElementById(
+    'progressFill'
+).style.width =
+    percent + '%';
+    
 document.getElementById(
     'progressPercent'
 ).textContent =
