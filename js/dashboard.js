@@ -42,11 +42,12 @@ const completedLessons =
     progressResult.data.length;
 
 const percent =
-Math.round(
-(
-completedLessons /
-totalLessons
-) * 100
+Math.min(
+    100,
+    Math.round(
+        (completedLessons / totalLessons)
+        * 100
+    )
 );
 
 document.getElementById(
