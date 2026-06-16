@@ -421,9 +421,15 @@ window.location.href =
 
 };
 
-const session =
-    await supabaseClient.auth.getSession();
+supabaseClient.auth
+    .getSession()
+    .then(result => {
 
-console.log(session);
+        console.log(
+            'SESSION:',
+            result
+        );
+
+    });
 
 loadLesson();
