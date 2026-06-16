@@ -4,10 +4,7 @@ const result =
 await supabaseClient
     .from('lessons')
     .select('*')
-    .eq(
-        'subcategory',
-        'Short Vowels'
-    )
+    .eq('subcategory','Short Vowels')
     .order(
         'lesson_number'
     );
