@@ -353,9 +353,7 @@ const { error: dbError } =
 
 if (dbError) {
 
-    alert(
-        'Erro ao salvar atividade.'
-    );
+    alert(JSON.stringify(uploadError));
 
     console.error(dbError);
 
