@@ -421,5 +421,9 @@ window.location.href =
 
 };
 
+const session =
+    await supabaseClient.auth.getSession();
+
+console.log(session);
+
 loadLesson();
-console.log('FIM DO ARQUIVO');
