@@ -406,7 +406,7 @@ if (error) {
     console.error(error);
 
     alert(
-        'Erro ao salvar progresso.'
+        JSON.stringify(error)
     );
 
     return;
