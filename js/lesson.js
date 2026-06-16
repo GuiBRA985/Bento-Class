@@ -370,18 +370,75 @@ alert(
 
 window.completeLesson = async function() {
 
-const {
-    data: { user }
-} = await supabaseClient.auth.getUser();
+    const {
+        data: { user }
+    } = await supabaseClient.auth.getUser();
 
-if (!user) {
+    if (!user) {
+
+        alert('Usuário não autenticado.');
+        return;
+
+    }
+
+    const existing =
+        await supabaseClient
+            .from('lesson_progress')
+            .select('id')
+            .eq('user_id', user.id)
+            .eq('lesson_id', lessonId)
+            .maybeSingle();
+
+    if (existing.data) {
+
+        alert('✅ Aula já concluída.');
+
+        window.location.href =
+            'dashboard.html';
+
+        return;
+    }
+
+    const { error } =
+        await supabaseClient
+            .from('lesson_progress')
+            .insert({
+
+                user_id: user.id,
+
+                lesson_id: lessonId,
+
+                completed: true,
+
+                progress: 100,
+
+                created_at:
+                    new Date(),
+
+                updated_at:
+                    new Date()
+
+            });
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            'Erro ao salvar progresso.'
+        );
+
+        return;
+    }
 
     alert(
-        'Usuário não autenticado.'
+        '🎉 Aula concluída!'
     );
 
-    return;
-}
+    window.location.href =
+        'dashboard.html';
+
+};
 
 const { error } =
     await supabaseClient
