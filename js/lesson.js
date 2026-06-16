@@ -440,44 +440,6 @@ window.completeLesson = async function() {
 
 };
 
-const { error } =
-    await supabaseClient
-        .from('lesson_progress')
-        .upsert({
-
-            user_id: user.id,
-
-            lesson_id: lessonId,
-
-            completed: true,
-
-            progress: 100,
-
-            updated_at:
-                new Date()
-
-        });
-
-if (error) {
-
-    console.error(error);
-
-    alert(
-        JSON.stringify(error)
-    );
-
-    return;
-}
-
-alert(
-    '🎉 Aula concluída!'
-);
-
-window.location.href =
-    'dashboard.html';
-
-};
-
 supabaseClient.auth
     .getSession()
     .then(result => {
