@@ -1,9 +1,16 @@
 async function carregarLicoes() {
 
-    const { data, error } = await supabaseClient
-        .from('lessons')
-        .select('*')
-        .order('lesson_number');
+    const result =
+await supabaseClient
+    .from('lessons')
+    .select('*')
+    .eq(
+        'subcategory',
+        'Short Vowels'
+    )
+    .order(
+        'lesson_number'
+    );
 
     console.log("DATA:", data);
     console.log("ERROR:", error);
