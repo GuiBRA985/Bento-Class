@@ -13,11 +13,55 @@ if (!user) {
     return;
 }
 
+const lessonsResult =
+await supabaseClient
+    .from('lessons')
+    .select('id')
+    .eq(
+        'subcategory',
+        'Short Vowels'
+    );
+
+const totalLessons =
+    lessonsResult.data.length;
+    
 const progressResult =
-    await supabaseClient
-        .from('lesson_progress')
-        .select('*')
-        .eq('user_id', user.id);
+await supabaseClient
+    .from('lesson_progress')
+    .select('lesson_id')
+    .eq(
+        'user_id',
+        user.id
+    )
+    .eq(
+        'completed',
+        true
+    );
+
+const completedLessons =
+    progressResult.data.length;
+
+const percent =
+Math.round(
+(
+completedLessons /
+totalLessons
+) * 100
+);
+
+document.getElementById(
+    'progressPercent'
+).textContent =
+percent + '%';
+
+document.getElementById(
+    'blockProgress'
+).textContent =
+
+completedLessons +
+' / ' +
+totalLessons +
+' aulas concluídas';
 
 if (progressResult.error) {
 
