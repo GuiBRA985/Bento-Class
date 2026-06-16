@@ -312,11 +312,11 @@ const { error: uploadError } =
 
 if (uploadError) {
 
-    alert(
-        'Erro ao enviar foto.'
-    );
-
     console.error(uploadError);
+
+    alert(
+        JSON.stringify(uploadError)
+    );
 
     return;
 }
@@ -353,9 +353,11 @@ const { error: dbError } =
 
 if (dbError) {
 
-    alert(JSON.stringify(uploadError));
-
     console.error(dbError);
+
+    alert(
+        JSON.stringify(dbError)
+    );
 
     return;
 }
