@@ -1,3 +1,7 @@
+let wordsFinished = false;
+let sentencesFinished = false;
+let photoFinished = false;
+
 const params = new URLSearchParams(window.location.search);
 const lessonId = parseInt(params.get('id'));
 
