@@ -168,6 +168,25 @@ body {
 .sent-check { margin-left: auto; font-size: 16px; opacity: 0; padding-top: 2px; }
 .sent-btn.read .sent-check { opacity: 1; }
 
+.sent-card {
+  background: #f0f4fb;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  transition: all 0.15s;
+}
+.sent-card.read { background: #dcfce7; border-color: #16a34a; }
+.sent-top {
+  display: flex; gap: 10px; align-items: flex-start;
+  margin-bottom: 10px;
+}
+.sent-num { font-size: 12px; font-weight: 700; color: #2563C8; min-width: 20px; padding-top: 3px; flex-shrink: 0; }
+.sent-card.read .sent-num { color: #16a34a; }
+.sent-text { font-family: Georgia, serif; font-size: 15px; line-height: 1.6; color: #1a1a2e; flex: 1; }
+.sent-check { font-size: 16px; font-weight: 700; color: #16a34a; min-width: 16px; }
+.sent-actions { display: flex; gap: 8px; }
+.sent-tap-btn { font-size: 14px; color: #6b7280; }
+
 .divider { height: 1px; background: #e2e8f0; margin: 0 18px 16px; }
 .action-wrap { padding: 0 18px 20px; }
 .action-btn {
@@ -365,15 +384,26 @@ function renderSentences() {
   document.getElementById("card").innerHTML = `
     <div class="phase-label"><div class="phase-dot" style="background:#7c3aed"></div> Fase 2 — Frases</div>
     <div class="section">
-      <p class="instruction">Leia cada frase em voz alta. Toque para marcar como concluída.</p>
+      <p class="instruction">Toque em 🎤 e leia a frase em voz alta para validar.</p>
       <div class="sentence-list">
-        ${lesson.sentences.map((s,i) => `
-          <button class="sent-btn ${sentsDone.has(i)?'read':''}" onclick="tapSent(${i})">
-            <span class="sent-num">${i+1}.</span>
-            <span class="sent-text">${s}</span>
-            <span class="sent-check">✓</span>
-          </button>
-        `).join("")}
+        ${lesson.sentences.map((s,i) => {
+          const attr = s.replace(/'/g, "\\'");
+          return `
+          <div class="sent-card ${sentsDone.has(i)?'read':''}" id="scard-${i}">
+            <div class="sent-top">
+              <span class="sent-num">${i+1}.</span>
+              <span class="sent-text">${s}</span>
+              <span class="sent-check">${sentsDone.has(i)?'✓':''}</span>
+            </div>
+            <div class="sent-actions">
+              <button class="act-btn" id="sspeak-${i}" onclick="speakSent('${attr}',${i})" title="Ouvir">🔊</button>
+              <button class="act-btn" id="smic-${i}" onclick="recordSent('${attr}',${i})" title="Falar">🎤</button>
+              <button class="act-btn sent-tap-btn" onclick="tapSent(${i})" title="Marcar manualmente">✓</button>
+            </div>
+          </div>
+          <div id="sfb-${i}" style="padding: 0 4px 8px; display:none"></div>
+          `;
+        }).join("")}
       </div>
     </div>
     <div class="divider"></div>
@@ -559,35 +589,4 @@ function recordWord(word, idx) {
         if (btn) btn.disabled = false;
       }
     } else {
-      showFeedback(idx, 'err', `❌ Ouvi: "${alternatives[0]}" — tente de novo`);
-    }
-  };
-
-  rec.onerror = (e) => {
-    if (e.error === 'aborted') { showFeedback(idx, null, null); return; }
-    if (e.error === 'no-speech') { showFeedback(idx, 'err', '🔇 Não ouvi nada — tente de novo'); return; }
-    showFeedback(idx, 'err', `⚠️ Erro: ${e.error}`);
-  };
-
-  rec.onend = () => {
-    if (micBtn) micBtn.classList.remove('recording');
-    sttActive = null;
-  };
-
-  rec.start();
-}
-
-function showFeedback(idx, type, msg) {
-  const fb = document.getElementById(`fb-${idx}`);
-  if (!fb) return;
-  if (!type) { fb.style.display = 'none'; fb.innerHTML = ''; return; }
-  fb.style.display = 'block';
-  fb.innerHTML = `<span class="word-feedback ${type}">${msg}</span>`;
-}
-
-// ── INIT ─────────────────────────────────────────────────
-lesson = pickLesson();
-renderWords();
-</script>
-</body>
-</html>
+      showFeedback(idx, 'err', `❌ Ouvi: "${alterna
