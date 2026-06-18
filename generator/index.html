@@ -132,6 +132,26 @@ body {
   border-color: #2563C8;
   background: #ddeeff;
 }
+.act-btn.recording {
+  border-color: #dc2626;
+  background: #fee2e2;
+  animation: pulse-red 0.8s ease-in-out infinite;
+}
+@keyframes pulse-red {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+.word-feedback {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-block;
+}
+.word-feedback.ok  { background: #dcfce7; color: #16a34a; }
+.word-feedback.err { background: #fee2e2; color: #dc2626; }
+.word-feedback.wait { background: #fef9c3; color: #92400e; }
 
 .sentence-list { display: flex; flex-direction: column; gap: 8px; }
 .sent-btn {
@@ -320,8 +340,10 @@ function renderWords() {
             <div class="word-actions">
               <button class="act-btn" id="speak-${i}" onclick="speakWord('${w}',${i})" title="Ouvir">🔊</button>
               <button class="act-btn" id="spell-${i}" onclick="spellWord('${w}',${i})" title="Soletrar">🔤</button>
+              <button class="act-btn" id="mic-${i}" onclick="recordWord('${w}',${i})" title="Falar">🎤</button>
             </div>
           </div>
+          <div id="fb-${i}" style="padding: 0 16px 8px; display:none"></div>
         `).join("")}
       </div>
     </div>
@@ -484,6 +506,83 @@ function spellWord(word, idx) {
     speechSynthesis.speak(utt);
   }
   speakNext();
+}
+
+// ── STT (gravação) ───────────────────────────────────────
+let sttActive = null; // { idx, recognition }
+
+function recordWord(word, idx) {
+  // Se já está gravando essa palavra, cancela
+  if (sttActive && sttActive.idx === idx) {
+    sttActive.recognition.abort();
+    return;
+  }
+  // Cancela outra gravação ativa
+  if (sttActive) sttActive.recognition.abort();
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    showFeedback(idx, 'err', '⚠️ Seu navegador não suporta reconhecimento de voz');
+    return;
+  }
+
+  cancelTTS();
+
+  const rec = new SpeechRecognition();
+  rec.lang = 'en-US';
+  rec.interimResults = false;
+  rec.maxAlternatives = 5;
+  rec.continuous = false;
+
+  sttActive = { idx, recognition: rec };
+
+  const micBtn = document.getElementById(`mic-${idx}`);
+  if (micBtn) micBtn.classList.add('recording');
+  showFeedback(idx, 'wait', '🎤 Ouvindo...');
+
+  rec.onresult = (e) => {
+    const alternatives = Array.from(e.results[0]).map(a => a.transcript.trim().toLowerCase());
+    const expected = word.toLowerCase();
+    const matched = alternatives.some(alt => alt === expected || alt.includes(expected));
+
+    if (matched) {
+      showFeedback(idx, 'ok', `✅ Correto! "${alternatives[0]}"`);
+      // Marca como lida automaticamente
+      wordsDone.add(idx);
+      const row = document.getElementById(`wrow-${idx}`);
+      if (row) row.classList.add('read');
+      const check = row ? row.querySelector('.word-check') : null;
+      if (check) check.style.opacity = '1';
+      // Habilita botão avançar se todas lidas
+      if (wordsDone.size === lesson.words.length) {
+        const btn = document.querySelector('.action-btn');
+        if (btn) btn.disabled = false;
+      }
+    } else {
+      showFeedback(idx, 'err', `❌ Ouvi: "${alternatives[0]}" — tente de novo`);
+    }
+  };
+
+  rec.onerror = (e) => {
+    if (e.error === 'aborted') { showFeedback(idx, null, null); return; }
+    if (e.error === 'no-speech') { showFeedback(idx, 'err', '🔇 Não ouvi nada — tente de novo'); return; }
+    showFeedback(idx, 'err', `⚠️ Erro: ${e.error}`);
+  };
+
+  rec.onend = () => {
+    if (micBtn) micBtn.classList.remove('recording');
+    sttActive = null;
+  };
+
+  rec.start();
+}
+
+function showFeedback(idx, type, msg) {
+  const fb = document.getElementById(`fb-${idx}`);
+  if (!fb) return;
+  if (!type) { fb.style.display = 'none'; fb.innerHTML = ''; return; }
+  fb.style.display = 'block';
+  fb.innerHTML = `<span class="word-feedback ${type}">${msg}</span>`;
 }
 
 // ── INIT ─────────────────────────────────────────────────
