@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Word Games</title>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --success: #2ec4b6;
+            --danger: #e71d36;
+            --dark: #011627;
+            --light: #f6f7f8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--light); color: var(--dark); padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        header { text-align: center; margin-bottom: 20px; width: 100%; max-width: 500px; }
+        h1 { font-size: 1.6rem; color: var(--primary); margin-bottom: 5px; }
+        .nav-tabs { display: flex; width: 100%; max-width: 500px; background: #eee; padding: 5px; border-radius: 25px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 10px; border: none; background: transparent; border-radius: 20px; font-weight: bold; font-size: 0.9rem; cursor: pointer; transition: 0.3s; }
+        .tab-btn.active { background: var(--primary); color: white; }
+        .game-container { width: 100%; max-width: 500px; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: none; text-align: center; }
+        .game-container.active { display: block; }
+        
+        /* Estilos Comuns */
+        .btn { background: var(--primary); color: white; border: none; padding: 12px 24px; font-size: 1rem; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 15px; }
+        .feedback { margin-top: 15px; font-weight: bold; font-size: 1.1rem; min-height: 24px; }
+        .score { font-size: 0.9rem; color: #666; margin-bottom: 15px; }
+        
+        /* JOGO 1: Word Scramble */
+        .scrambled-word { font-size: 2rem; letter-spacing: 5px; font-weight: bold; color: var(--primary); margin: 15px 0; text-transform: uppercase; }
+        .game-input { width: 100%; padding: 12px; font-size: 1.1rem; border: 2px solid #ccc; border-radius: 8px; text-align: center; text-transform: uppercase; }
+        
+        /* JOGO 2: Word Building (Anagrans) */
+        .letters-pool { display: flex; justify-content: center; gap: 10px; margin: 15px 0; }
+        .letter-tile { background: #e0e0e0; padding: 12px; font-size: 1.3rem; font-weight: bold; border-radius: 5px; min-width: 40px; }
+        .found-words { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 15px; min-height: 40px; }
+        .word-badge { background: var(--success); color: white; padding: 5px 10px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; }
+
+        /* JOGO 3: Definition Match */
+        .definition-box { background: #f0f4f8; padding: 15px; border-radius: 8px; font-style: italic; margin-bottom: 20px; font-size: 1.05rem; line-height: 1.4; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .option-btn { background: white; border: 2px solid var(--primary); color: var(--primary); padding: 15px 10px; font-size: 1rem; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .option-btn:active { background: #f0f4f8; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>English Practice Games</h1>
+        <p style="color: #666; font-size: 0.9rem;">Review your English vocabulary</p>
+    </header>
+
+    <!-- Navegação em Abas para Celular -->
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchGame('scramble')">Scramble</button>
+        <button class="tab-btn" onclick="switchGame('builder')">Word Builder</button>
+        <button class="tab-btn" onclick="switchGame('match')">Definition</button>
+    </div>
+
+    <!-- JOGO 1: WORD SCRAMBLE (Desembaralhar) -->
+    <div id="game-scramble" class="game-container active">
+        <h3>Unscramble the Word!</h3>
+        <p style="color:#666; font-size:0.85rem; margin-top:5px;">Put the letters in the correct order</p>
+        <div class="scrambled-word" id="scramble-target">LOADING</div>
+        <input type="text" id="scramble-input" class="game-input" placeholder="Type your answer here" autocomplete="off">
+        <button class="btn" onclick="checkScramble()">Verify Answer</button>
+        <div id="scramble-feedback" class="feedback"></div>
+    </div>
+
+    <!-- JOGO 2: WORD BUILDER (Construir Palavras) -->
+    <div id="game-builder" class="game-container">
+        <h3>Make Words!</h3>
+        <p style="color:#666; font-size:0.85rem; margin-top:5px;">Find 3 hidden words using these letters</p>
+        <div class="letters-pool" id="builder-letters"></div>
+        <input type="text" id="builder-input" class="game-input" placeholder="Type a word" autocomplete="off">
+        <button class="btn" onclick="checkBuilder()">Submit Word</button>
+        <div id="builder-feedback" class="feedback"></div>
+        <div class="found-words" id="builder-found"></div>
+    </div>
+
+    <!-- JOGO 3: DEFINITION MATCH (Significados) -->
+    <div id="game-match" class="game-container">
+        <div class="score">Score: <span id="match-score">0</span></div>
+        <h3>Guess the Word!</h3>
+        <p style="color:#666; font-size:0.85rem; margin-bottom:15px;">Read the definition and choose the right word</p>
+        <div class="definition-box" id="match-definition">Loading definition...</div>
+        <div class="options-grid" id="match-options"></div>
+        <div id="match-feedback" class="feedback"></div>
+    </div>
+
+    <script>
+        // Banco de dados de palavras simples para demonstração
+        const vocabulary = [
+            { word: "COFFEE", definition: "A hot brown drink made from roasted seeds." },
+            { word: "TRAVEL", definition: "To go from one place to another, typically a long distance." },
+            { word: "WINDOW", definition: "An opening in a wall or door to let in light or air." },
+            { word: "SUMMER", definition: "The warmest season of the year." },
+            { word: "TEACHER", definition: "A person who helps students to learn." },
+            { word: "KITCHEN", definition: "A room where food is kept and cooked." }
+        ];
+
+        // Alternar entre os jogos nas abas
+        function switchGame(gameType) {
+            document.querySelectorAll('.game-container').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(`game-${gameType}`).classList.add('active');
+            event.target.classList.add('active');
+            
+            if(gameType === 'scramble') initScramble();
+            if(gameType === 'builder') initBuilder();
+            if(gameType === 'match') initMatch();
+        }
+
+        // --- LÓGICA JOGO 1: WORD SCRAMBLE ---
+        let currentScrambleWord = "";
+        function initScramble() {
+            let item = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+            currentScrambleWord = item.word;
+            let scrambled = currentScrambleWord.split('').sort(() => Math.random() - 0.5).join('');
+            while(scrambled === currentScrambleWord) { // Evita que caia na ordem certa
+                scrambled = currentScrambleWord.split('').sort(() => Math.random() - 0.5).join('');
+            }
+            document.getElementById('scramble-target').innerText = scrambled;
+            document.getElementById('scramble-input').value = "";
+            document.getElementById('scramble-feedback').innerText = "";
+        }
+        function checkScramble() {
+            let input = document.getElementById('scramble-input').value.toUpperCase().trim();
+            let feedback = document.getElementById('scramble-feedback');
+            if(input === currentScrambleWord) {
+                feedback.innerText = "Correct! 🎉";
+                feedback.style.color = "var(--success)";
+                setTimeout(initScramble, 1500);
+            } else {
+                feedback.innerText = "Try again! ❌";
+                feedback.style.color = "var(--danger)";
+            }
+        }
+
+        // --- LÓGICA JOGO 2: WORD BUILDER ---
+        const builderSets = [
+            { letters: ['E', 'A', 'T', 'M'], valid: ['EAT', 'TEA', 'MAT', 'MEAT', 'TEAM', 'ATE'] },
+            { letters: ['O', 'P', 'S', 'T'], valid: ['POT', 'TOP', 'STOP', 'POST', 'SPOT', 'TOPS'] }
+        ];
+        let currentBuilderSet = {};
+        let foundWordsList = [];
+        function initBuilder() {
+            currentBuilderSet = builderSets[Math.floor(Math.random() * builderSets.length)];
+            foundWordsList = [];
+            let pool = document.getElementById('builder-letters');
+            pool.innerHTML = "";
+            currentBuilderSet.letters.forEach(l => {
+                pool.innerHTML += `<div class="letter-tile">${l}</div>`;
+            });
+            document.getElementById('builder-found').innerHTML = "";
+            document.getElementById('builder-input').value = "";
+            document.getElementById('builder-feedback').innerText = "";
+        }
+        function checkBuilder() {
+            let input = document.getElementById('builder-input').value.toUpperCase().trim();
+            let feedback = document.getElementById('builder-feedback');
+            
+            if(currentBuilderSet.valid.includes(input)) {
+                if(foundWordsList.includes(input)) {
+                    feedback.innerText = "Already found! 💡";
+                    feedback.style.color = "orange";
+                } else {
+                    foundWordsList.push(input);
+                    document.getElementById('builder-found').innerHTML += `<span class="word-badge">${input}</span>`;
+                    feedback.innerText = "Good job! 👍";
+                    feedback.style.color = "var(--success)";
+      
