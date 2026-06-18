@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Word Games</title>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --success: #2ec4b6;
+            --danger: #e71d36;
+            --dark: #011627;
+            --light: #f6f7f8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--light); color: var(--dark); padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        header { text-align: center; margin-bottom: 20px; width: 100%; max-width: 500px; }
+        h1 { font-size: 1.6rem; color: var(--primary); margin-bottom: 5px; }
+        .nav-tabs { display: flex; width: 100%; max-width: 500px; background: #eee; padding: 5px; border-radius: 25px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 10px; border: none; background: transparent; border-radius: 20px; font-weight: bold; font-size: 0.9rem; cursor: pointer; }
+        .tab-btn.active { background: var(--primary); color: white; }
+        .game-container { width: 100%; max-width: 500px; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: none; text-align: center; }
+        .game-container.active { display: block; }
+        .btn { background: var(--primary); color: white; border: none; padding: 12px 24px; font-size: 1rem; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 15px; }
+        .feedback { margin-top: 15px; font-weight: bold; font-size: 1.1rem; min-height: 24px; }
+        
+        /* Scramble */
+        .scrambled-word { font-size: 2rem; letter-spacing: 5px; font-weight: bold; color: var(--primary); margin: 15px 0; text-transform: uppercase; }
+        .game-input { width: 100%; padding: 12px; font-size: 1.1rem; border: 2px solid #ccc; border-radius: 8px; text-align: center; text-transform: uppercase; }
+        
+        /* Definition Match */
+        .definition-box { background: #f0f4f8; padding: 15px; border-radius: 8px; font-style: italic; margin-bottom: 20px; font-size: 1.05rem; line-height: 1.4; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .option-btn { background: white; border: 2px solid var(--primary); color: var(--primary); padding: 15px 10px; font-size: 1rem; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        
+        /* Loading Spinner */
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>English Word Arena</h1>
+        <p style="color: #666; font-size: 0.9rem;">Interactive vocabulary booster</p>
+    </header>
+
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchGame('scramble')">Scramble</button>
+        <button class="tab-btn" onclick="switchGame('match')">Definitions</button>
+    </div>
+
+    <!-- JOGO 1: SCRAMBLE -->
+    <div id="game-scramble" class="game-container active">
+        <h3>Unscramble the Word!</h3>
+        <div class="scrambled-word" id="scramble-target">...</div>
+        <input type="text" id="scramble-input" class="game-input" placeholder="Type your answer" autocomplete="off">
+        <button class="btn" onclick="checkScramble()">Verify</button>
+        <div id="scramble-feedback" class="feedback"></div>
+    </div>
+
+    <!-- JOGO 2: DEFINITION MATCH -->
+    <div id="game-match" class="game-container">
+        <h3>Guess the Word!</h3>
+        <p style="color:#666; font-size:0.85rem; margin-bottom:15px;">Read the real definition and pick the word</p>
+        <div class="definition-box" id="match-definition"><div class="loader"></div></div>
+        <div class="options-grid" id="match-options"></div>
+        <div id="match-feedback" class="feedback"></div>
+    </div>
+
+    <script>
+        // Banco de dados expandido com 100 palavras reais de vocabulário acadêmico/cotidiano
+        const wordBank = [
+            "ability", "abroad", "accident", "achieve", "action", "activity", "actor", "addition", "address", "adult",
+            "advice", "afraid", "agency", "agenda", "agree", "airport", "alarm", "alcohol", "alive", "alliance",
+            "almost", "alone", "along", "already", "always", "amount", "ancient", "anger", "animal", "annual",
+            "answer", "anxiety", "anybody", "anyone", "anyway", "apartment", "apology", "appeal", "appearance", "apple",
+            "application", "appointment", "approve", "area", "argue", "argument", "army", "around", "arrival", "arrive",
+            "art", "article", "artist", "aside", "ask", "asleep", "aspect", "assault", "assert", "assess",
+            "assignment", "assist", "assistance", "assistant", "associate", "association", "assume", "assumption", "assurance", "atmosphere",
+            "attach", "attack", "attain", "attempt", "attendance", "attention", "attitude", "attorney", "attract", "attraction",
+            "attractive", "attribute", "auction", "audience", "audit", "author", "authority", "authorize", "autumn", "available",
+            "average", "avoid", "award", "aware", "awareness", "away", "awesome", "awful", "awkward", "baby"
+        ];
+
+        let currentWord = "";
+        let correctMatchWord = "";
+
+        function switchGame(gameType) {
+            document.querySelectorAll('.game-container').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(`game-${gameType}`).classList.add('active');
+            event.target.classList.add('active');
+            
+            if(gameType === 'scramble') initScramble();
+            if(gameType === 'match') initMatch();
+        }
+
+        // --- JOGO 1: SCRAMBLE ---
+        function initScramble() {
+            currentWord = wordBank[Math.floor(Math.random() * wordBank.length)].toUpperCase();
+            let scrambled = currentWord.split('').sort(() => Math.random() - 0.5).join('');
+            while(scrambled === currentWord) {
+                scrambled = currentWord.split('').sort(() => Math.random() - 0.5).join('');
+            }
+            document.getElementById('scramble-target').innerText = scrambled;
+            document.getElementById('scramble-input').value = "";
+            document.getElementById('scramble-feedback').innerText = "";
+        }
+
+        function checkScramble() {
+            let input = document.getElementById('scramble-input').value.toUpperCase().trim();
+            let feedback = document.getElementById('scramble-feedback');
+            if(input === currentWord) {
+                feedback.innerText = "Correct! 🎉";
+                feedback.style.color = "var(--success)";
+                setTimeout(initScramble, 1500);
+            } else {
+                feedback.innerText = "Try again! ❌";
+                feedback.style.color = "var(--danger)";
+            }
+        }
+
+        // --- JOGO 2: DEFINITIONS (API INTEGRATION) ---
+        async function fetchDefinition(word) {
+            try {
+                let response = await fetch(`https://dictionaryapi.dev{word}`);
+                if (!response.ok) return null;
+                let data = await response.json();
+                return data[0].meanings[0].definitions[0].definition;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        async function initMatch() {
+            const defBox = document.getElementById('match-definition');
+            const optionsGrid = document.getElementById('match-options');
+            document.getElementById('match-feedback').innerText = "";
+            defBox.innerHTML = '<div class="loader"></div>';
+            optionsGrid.innerHTML = '';
+
+            let definition = null;
+            let attempts = 0;
+
+            // Busca uma palavra válida que possua definição na API pública
+            while (!definition && attempts < 10) {
+                correctMatchWord = wordBank[Math.floor(Math.random() * wordBank.length)];
+                definition = await fetchDefinition(correctMatchWord);
+                attempts++;
+            }
+
+            if (!definition) {
+                defBox.innerText = "Error loading content. Please try again.";
+                return;
+            }
+
+            // Remove a palavra da própria definição para não dar spoiler do resultado
+            let censoredDefinition = definition.replace(new RegExp(correctMatchWord, 'gi'), "____");
+            defBox.innerText = `"${censoredDefinition}"`;
+
+            // Gera alternativas falsas erradas
+            let choices = [correctMatchWord];
+            while (choices.length < 4) {
+                let randomWord = wordBank[Math.floor(Math.random() * wordBank.length)];
+                if (!choices.includes(randomWord)) choices.push(randomWord);
+            }
+            choices.sort(() => Math.random() - 0.5);
+
+            optionsGrid.innerHTML = '';
+            choices.forEach(choice => {
+                optionsGrid.innerHTML += `<button class="option-btn" onclick="checkMatch('${choice}')">${choice.toUpperCase()}</button>`;
+            });
+        }
+
+        function checkMatch(selected) {
+            let feedback = document.getElementById('match-feedback');
+            if (selected === correctMatchWord) {
+                feedback.innerText = "Correct! 🎯";
+                feedback.style.color = "var(--success)";
+                setTimeout(initMatch, 1500);
+            } else {
+                feedback.innerText = "Wrong answer! 😢";
+                feedback.style.color = "var(--danger)";}}window.onload = () => {initScramble();};
+      
