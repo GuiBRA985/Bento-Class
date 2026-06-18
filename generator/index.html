@@ -1,16 +1,544 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bento Generator</title>
-</head>
+<title>Aula Fonética — Bento English</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  :root {
+    --blue:       #2563C8;
+    --blue-dark:  #1a4a9e;
+    --blue-light: #ddeeff;
+    --white:      #ffffff;
+    --bg:         #f0f4fb;
+    --text:       #1a1a2e;
+    --muted:      #6b7280;
+    --border:     #e2e8f0;
+    --green:      #16a34a;
+    --green-light:#dcfce7;
+    --radius:     16px;
+    --shadow:     0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--blue);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 0 40px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    width: 100%;
+    background: var(--blue-dark);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .back-btn {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .back-btn:hover { background: rgba(255,255,255,0.25); }
+  .header-info { flex: 1; }
+  .header-info .label {
+    font-size: 11px; color: rgba(255,255,255,0.65);
+    font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .header-info .title {
+    font-size: 16px; font-weight: 700; color: #fff; margin-top: 1px;
+  }
+  .step-badge {
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+    font-size: 12px; font-weight: 700;
+    padding: 4px 10px; border-radius: 20px;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap {
+    width: 100%; padding: 12px 20px 0;
+  }
+  .progress-track {
+    height: 6px; background: rgba(255,255,255,0.25); border-radius: 99px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: #fff; border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    margin: 14px 16px 0;
+    width: calc(100% - 32px);
+    max-width: 480px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  /* ── PHASE LABEL ── */
+  .phase-label {
+    display: flex; align-items: center; gap: 8px;
+    padding: 14px 18px 0;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
+    text-transform: uppercase; color: var(--blue);
+  }
+  .phase-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--blue);
+  }
+
+  /* ── WORD PHASE ── */
+  .word-area {
+    padding: 10px 18px 20px;
+  }
+  .word-instruction {
+    font-size: 13px; color: var(--muted); margin-bottom: 16px; line-height: 1.5;
+  }
+  .phoneme-tag {
+    display: inline-block;
+    background: var(--blue-light); color: var(--blue);
+    font-size: 13px; font-weight: 700;
+    padding: 4px 12px; border-radius: 20px; margin-bottom: 14px;
+  }
+  .word-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .word-card {
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 8px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    font-family: Georgia, serif;
+    letter-spacing: 0.5px;
+  }
+  .word-card:active { transform: scale(0.95); }
+  .word-card.read {
+    background: var(--green-light);
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .word-card.read::after {
+    content: " ✓";
+    font-size: 13px;
+  }
+
+  /* ── SENTENCE PHASE ── */
+  .sentence-area { padding: 10px 18px 20px; }
+  .sentence-instruction {
+    font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.5;
+  }
+  .sentence-list { display: flex; flex-direction: column; gap: 8px; }
+  .sentence-item {
+    display: flex; gap: 10px; align-items: flex-start;
+    background: var(--bg); border: 2px solid var(--border);
+    border-radius: 12px; padding: 12px 14px;
+    cursor: pointer; transition: all 0.15s;
+    user-select: none;
+  }
+  .sentence-item:active { transform: scale(0.98); }
+  .sentence-item.read {
+    background: var(--green-light);
+    border-color: var(--green);
+  }
+  .sentence-num {
+    font-size: 12px; font-weight: 700; color: var(--blue);
+    min-width: 20px; padding-top: 1px;
+  }
+  .sentence-item.read .sentence-num { color: var(--green); }
+  .sentence-text {
+    font-family: Georgia, serif;
+    font-size: 15px; line-height: 1.6; color: var(--text);
+  }
+  .sentence-check {
+    margin-left: auto; font-size: 16px; padding-top: 1px;
+    opacity: 0; transition: opacity 0.15s;
+  }
+  .sentence-item.read .sentence-check { opacity: 1; }
+
+  /* ── TIP BOX ── */
+  .tip-box {
+    margin: 0 18px 16px;
+    background: #fffbeb; border: 1.5px solid #f59e0b;
+    border-radius: 10px; padding: 10px 14px;
+    font-size: 12px; color: #92400e; line-height: 1.5;
+  }
+  .tip-box strong { display: block; margin-bottom: 2px; }
+
+  /* ── ACTION BUTTON ── */
+  .action-area { padding: 0 18px 20px; }
+  .action-btn {
+    width: 100%; padding: 16px;
+    background: var(--blue); color: #fff;
+    border: none; border-radius: 12px;
+    font-size: 16px; font-weight: 700; cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    font-family: inherit;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .action-btn:hover { background: var(--blue-dark); }
+  .action-btn:active { transform: scale(0.98); }
+  .action-btn:disabled {
+    background: var(--border); color: var(--muted); cursor: not-allowed;
+  }
+  .action-btn.complete {
+    background: var(--green);
+  }
+  .action-btn.complete:hover { background: #15803d; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px; background: var(--border); margin: 0 18px 16px;
+  }
+
+  /* ── COMPLETION SCREEN ── */
+  .completion {
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .completion-icon { font-size: 56px; margin-bottom: 16px; }
+  .completion-title { font-size: 22px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+  .completion-sub { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+  .completion-stats {
+    display: flex; gap: 12px; justify-content: center; margin-bottom: 24px;
+  }
+  .stat-box {
+    background: var(--bg); border-radius: 12px; padding: 12px 20px; text-align: center;
+  }
+  .stat-num { font-size: 24px; font-weight: 800; color: var(--blue); }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; font-weight: 600; }
+
+  /* ── LOADING ── */
+  .loading-state {
+    padding: 48px 24px; text-align: center;
+  }
+  .spinner {
+    width: 40px; height: 40px; border: 4px solid var(--border);
+    border-top-color: var(--blue); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── PATTERN HINT ── */
+  .pattern-pill {
+    display: inline-block;
+    background: var(--blue); color: #fff;
+    font-size: 14px; font-weight: 800;
+    padding: 5px 14px; border-radius: 20px;
+    font-family: Georgia, serif; letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .group-breadcrumb {
+    font-size: 11px; color: var(--muted);
+    padding: 0 18px 12px; display: flex; gap: 4px; align-items: center;
+  }
+  .crumb { color: var(--blue); font-weight: 600; }
+</style>
+</head>
 <body>
 
-<div id="root"></div>
+<!-- HEADER -->
+<div class="header">
+  <button class="back-btn" onclick="goBack()">‹</button>
+  <div class="header-info">
+    <div class="label">Short Vowels</div>
+    <div class="title" id="headerTitle">Carregando aula…</div>
+  </div>
+  <div class="step-badge" id="stepBadge">1 / 2</div>
+</div>
 
-<script type="module" src="/src/main.jsx"></script>
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+</div>
 
-</body>
-</html>
+<!-- MAIN CARD -->
+<div class="card" id="mainCard">
+  <div class="loading-state">
+    <div class="spinner"></div>
+    <div style="font-size:14px;color:#6b7280">Preparando sua aula…</div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────
+// LESSON DATA — 100% original content
+// ─────────────────────────────────────────────────────────
+const LESSONS = [
+  {
+    id: "short-a",
+    group: "Closed Syllables",
+    sub: "Short Vowels",
+    pattern: "a = /ă/",
+    words: ["cab","dab","jab","nab","tab","dam","jam","yam","gap","lap","nap","tap","zap","lax","wax","van","ban","pan","ran","tan","cap","map","rat","bat","cat","fat","hat","mat","pat","sat"],
+    sentences: [
+      "The cab has a gap in the tan cab top.",
+      "Dab the wax on the pan, Jan.",
+      "Max had a nap on the flat tan mat.",
+      "A fat rat ran and hid in the gap.",
+      "Ban the van from the dam road.",
+      "The cat sat on a bat and a hat.",
+      "Tap the map and zap the cap.",
+      "Pat the fat cat with a wet lap rag.",
+    ],
+  },
+  {
+    id: "short-i",
+    group: "Closed Syllables",
+    sub: "Short Vowels",
+    pattern: "i = /ĭ/",
+    words: ["bid","hid","kid","lid","dig","fig","jig","pig","wig","dim","rim","dip","hip","lip","nip","rip","sip","tip","zip","bit","hit","sit","fit","kit","pit","sit","win","fin","bin","pin"],
+    sentences: [
+      "The kid hid the lid in the dim bin.",
+      "A big pig did a jig on the rim.",
+      "Did Kim sip from the tip of the jug?",
+      "Zip up and tip the bin, Jim.",
+      "Rip the wig off the big pig, Sid.",
+      "Hit the pin in the pit with the kit.",
+      "Sit and fit the fin on the ship, Pip.",
+      "Nip the fig at the hip of the stem.",
+    ],
+  },
+  {
+    id: "short-u",
+    group: "Closed Syllables",
+    sub: "Short Vowels",
+    pattern: "u = /ŭ/",
+    words: ["bud","mud","bug","dug","hug","jug","mug","pug","rug","tug","bun","fun","run","sun","cut","gut","hut","nut","rut","but","cup","pup","pub","sub","hub","rub","dub","tub","gum","sum"],
+    sentences: [
+      "A pug in the mud got a big hug.",
+      "The bug dug under the sun-lit rug.",
+      "Run to the hut, but do not cut the bun.",
+      "A nut fell in the mud by the hut.",
+      "Cut the bun and put the nut in the mug.",
+      "The pup ran from the tub to the pub.",
+      "Rub the gum off the cup, son.",
+      "Tug the rug out of the rut and have fun.",
+    ],
+  },
+  {
+    id: "short-e",
+    group: "Closed Syllables",
+    sub: "Short Vowels",
+    pattern: "e = /ĕ/",
+    words: ["bed","fed","led","red","keg","leg","peg","gem","den","hen","pen","ten","web","get","jet","let","met","net","pet","wet","bet","set","beg","pep","yes","yen","yell","bell","fell","sell"],
+    sentences: [
+      "The red hen sat on ten eggs in the den.",
+      "Get the wet pet to the vet, Ned.",
+      "Peg the hem on the bed, Beth.",
+      "Let the vet check the leg of the hen.",
+      "Set the pen on the red web mat, Jen.",
+      "The bell fell off the red peg in the den.",
+      "Bet on the jet — ten men led the way.",
+      "Yell and sell the gem at the keg fest.",
+    ],
+  },
+  {
+    id: "short-o",
+    group: "Closed Syllables",
+    sub: "Short Vowels",
+    pattern: "o = /ŏ/",
+    words: ["bob","cob","job","mob","rob","sob","cog","dog","fog","hog","jog","log","cot","dot","got","hot","lot","pot","rot","fox","box","top","cop","hop","mop","pop","rod","cod","nod","pod"],
+    sentences: [
+      "The fox got hot on a log in the fog.",
+      "Don the dog can jog, not sob on the cot.",
+      "A hot pot on the cot can rot the top.",
+      "Bob the hog got a cob on the dot.",
+      "The cop got a box of cod on the dock.",
+      "Hop on top of the log, frog!",
+      "Pop the pod and nod at the rod by the box.",
+      "Mop the hot top of the pot, Rob.",
+    ],
+  },
+  {
+    id: "blend-sl",
+    group: "Closed Syllables",
+    sub: "Consonant Blends (front)",
+    pattern: "sl-",
+    words: ["slab","slag","slam","slap","slid","slim","slip","slit","slob","slop","slot","slug","slum","slung","slunk","slack","slang","slash","sleep","sleet"],
+    sentences: [
+      "Slim slid on a slab of wet slag.",
+      "The slug slunk into a slim slot in the wall.",
+      "Do not slop the pot or slam the lid shut.",
+      "Slip the slim slug off the wet stalk.",
+      "Slam the slot shut after the slug slips in.",
+      "The slack rope slid off the slab.",
+      "Slash the slum weeds and toss the slag.",
+      "Sleet and slop — not the best day to sleep.",
+    ],
+  },
+  {
+    id: "blend-st",
+    group: "Closed Syllables",
+    sub: "Consonant Blends (front)",
+    pattern: "st-",
+    words: ["stab","stag","stamp","stand","stem","step","stick","stiff","still","stomp","stop","stub","stuff","stump","stun","stock","stink","strap","strip","strong"],
+    sentences: [
+      "Stand still or the stag will stomp and stun you.",
+      "A stiff stem can stub the tip of a stick.",
+      "Step on the stamp, then stop at the stump.",
+      "Stomp the stem flat on the stone step.",
+      "Stun the bug, then stuff it in the stump slot.",
+      "Stock the stand with stiff stems at the stop.",
+      "The strap on the strip of cloth was strong.",
+      "Stab the stump with a stiff stick, then stop.",
+    ],
+  },
+  {
+    id: "blend-cr",
+    group: "Closed Syllables",
+    sub: "Consonant Blends (front)",
+    pattern: "cr-",
+    words: ["crab","crack","cram","crash","crept","crisp","crop","cross","crud","crust","crush","crux","crick","crest","crave","craft","crane","creep","crew","crown"],
+    sentences: [
+      "A crab can crash into the crisp crust of bread.",
+      "Cross the crack in the crust with care.",
+      "The crop crept up from the moist soft soil.",
+      "Crush the crisp shell, then cram it in the pot.",
+      "Cram the crust into the crab trap at the creek.",
+      "Cross the crick, but do not crush the crisp fern.",
+      "The crew crept past the crest on the crisp night.",
+      "Craft a crown and crave the crux of the story.",
+    ],
+  },
+  {
+    id: "digraph-sh",
+    group: "More Closed Syllables",
+    sub: "Consonant Digraphs & Trigraphs",
+    pattern: "sh",
+    words: ["shed","shelf","shell","ship","shop","shot","shout","show","shut","cash","clash","crash","dish","flash","fresh","gush","rush","trash","wish","rash","fish","bush","push","shack","shame","shape","share","sharp","shift","shine"],
+    sentences: [
+      "Shut the shed and rush to the ship on the dock.",
+      "She found a fresh shell on the shelf by the dish.",
+      "Flash the light to show the cash in the trash can.",
+      "Wash the shell and put it in the show dish.",
+      "A lash of rain hit the shell on the shelf.",
+      "Wish for fresh fish from the shop by the ship.",
+      "The ship shot past the shore with a gush of foam.",
+      "Push the bush aside and shine a sharp light.",
+    ],
+  },
+  {
+    id: "digraph-ch",
+    group: "More Closed Syllables",
+    sub: "Consonant Digraphs & Trigraphs",
+    pattern: "ch",
+    words: ["chain","chair","chalk","chance","change","check","chest","chick","chin","chip","chop","chore","chunk","bench","branch","bunch","catch","couch","inch","lunch","march","much","patch","reach","rich","such","teach","torch","chant","cheap"],
+    sentences: [
+      "Chop a chunk from the branch for the bench.",
+      "Check the torch and catch the chick on the branch.",
+      "Teach the child to reach a bunch of grapes.",
+      "The chalk on the chain left a patch on the chin.",
+      "March an inch at a time to reach the rich chest.",
+      "Such a chance to teach a chore is rich.",
+      "Chop the lunch and check the rich broth.",
+      "Sit on the couch, chant, and munch a cheap chip.",
+    ],
+  },
+  {
+    id: "digraph-th",
+    group: "More Closed Syllables",
+    sub: "Consonant Digraphs & Trigraphs",
+    pattern: "th",
+    words: ["that","them","then","there","these","they","thin","thing","think","this","those","three","through","thumb","bath","cloth","math","month","moth","path","teeth","tenth","with","thank","theft","thud","thick","threat","throb","thrust"],
+    sentences: [
+      "Think of three things that match the math on the path.",
+      "The thin moth flew through the thick cloth.",
+      "Thank the vet with a gift on the tenth month.",
+      "That thumb hurt with a thud on the bath ledge.",
+      "Three teeth fell on the path with a thump.",
+      "The thin threat went through the math club this month.",
+      "Think fast — the moth is through the cloth again.",
+      "This thick cloth is worth three times the theft.",
+    ],
+  },
+  {
+    id: "long-ae",
+    group: "Magic E Syllables",
+    sub: "a = /ā/ (game)",
+    pattern: "a_e = /ā/",
+    words: ["bake","blade","brave","cage","came","cane","cape","cave","chase","crane","crate","date","flame","frame","gaze","gave","grape","haze","lake","lane","late","made","make","name","page","pale","pave","place","plane","plate","race","rake","range","safe","sage","sake","same","save","shade","shape","skate","take","tale","tame","wake","wave"],
+    sentences: [
+      "Jake skates to the lake and waves from the safe lane.",
+      "Bake a grape cake and place it on a pale plate.",
+      "A brave crane came to the cave at a late date.",
+      "The flame in the frame made a haze in the cave shade.",
+      "Chase the tame crane along the grape lane, Blake.",
+      "Name a safe place to rake and grade the pale lane.",
+      "The tale of the brave cave sage made us gaze in awe.",
+      "Save the crate of grapes and bake a cake for the race.",
+    ],
+  },
+  {
+    id: "long-ie",
+    group: "Magic E Syllables",
+    sub: "i = /ī/ (like)",
+    pattern: "i_e = /ī/",
+    words: ["bite","bride","crime","dive","drive","fine","five","glide","hike","hide","hive","kite","knife","life","like","lime","line","mile","mine","nine","pine","pipe","pride","prize","ride","shine","side","site","size","slide","smile","spike","stride","stripe","time","tide","vine","wide","wife","wine","wise"],
+    sentences: [
+      "Fly the kite and slide down the wide pine-lined side.",
+      "The bride smiled and walked with stride and pride.",
+      "Shine a bright light on the vine by the pine line.",
+      "Dive to the right side and hide your smile in time.",
+      "Drive to the pine and hike the wide lime-green trail.",
+      "Nine miles on a bike, tide or no tide — prime time!",
+      "The prize is a fine knife on a pine vine spike.",
+      "Life is wise when the ride is wide and the wine is fine.",
+    ],
+  },
+  {
+    id: "long-oe",
+    group: "Magic E Syllables",
+    sub: "o = /ō/ (note)",
+    pattern: "o_e = /ō/",
+    words: ["bone","clone","close","code","cone","cope","core","cove","dome","drove","globe","grove","hole","home","hope","hose","joke","lone","mole","more","mope","nose","note","phone","pole","poke","pose","rope","rose","scope","slope","smoke","stone","stove","tone","throne","vote","whole","woke","zone"],
+    sentences: [
+      "A goat on a slope close to home snored by the stone.",
+      "The rose grove has a lone mole hole near the stone dome.",
+      "Note the smoke from the stove in the cove by the slope.",
+      "Hope to vote on the whole code before the phone tone ends.",
+      "The mole poked its nose from the hole by the stone hose.",
+      "Those who drove through the grove woke to rose-gold slopes.",
+      "Scope the whole globe — home is where the stone rose grows.",
+      "Rope the cone and pose it on the throne zone.",
+    ],
+  },
+  {
+    id: "ee-vowel",
+    group: "Vowel Digraph Syllables",
+    sub: "ee = /ē/",
+    pattern: "ee = /ē/",
+    words: ["bee","fee","free","glee","knee","see","tree","need","feed","seed","weed","speed","steel","wheel","feel","heel","peel","reel","keen","green","screen","sweep","sweet","sleep","creek","cheek","sheep","steep","three","breeze"],
+    sentences: [
+      "See the bee on the green tree by the creek.",
+      "The sheep felt free and full of glee in the breeze.",
+      "Feed t
