@@ -381,38 +381,35 @@ function renderSentences() {
   setProgress(50 + Math.round(sentsDone.size / lesson.sentences.length * 50));
 
   const allRead = sentsDone.size === lesson.sentences.length;
-  document.getElementById("card").innerHTML = `
-    <div class="phase-label"><div class="phase-dot" style="background:#7c3aed"></div> Fase 2 — Frases</div>
-    <div class="section">
-      <p class="instruction">Toque em 🎤 e leia a frase em voz alta para validar.</p>
-      <div class="sentence-list">
-        ${lesson.sentences.map((s,i) => {
-          const attr = s.replace(/'/g, "\\'");
-          return `
-          <div class="sent-card ${sentsDone.has(i)?'read':''}" id="scard-${i}">
-            <div class="sent-top">
-              <span class="sent-num">${i+1}.</span>
-              <span class="sent-text">${s}</span>
-              <span class="sent-check">${sentsDone.has(i)?'✓':''}</span>
-            </div>
-            <div class="sent-actions">
-              <button class="act-btn" id="sspeak-${i}" onclick="speakSent('${attr}',${i})" title="Ouvir">🔊</button>
-              <button class="act-btn" id="smic-${i}" onclick="recordSent('${attr}',${i})" title="Falar">🎤</button>
-              <button class="act-btn sent-tap-btn" onclick="tapSent(${i})" title="Marcar manualmente">✓</button>
-            </div>
-          </div>
-          <div id="sfb-${i}" style="padding: 0 4px 8px; display:none"></div>
-          `;
-        }).join("")}
-      </div>
-    </div>
-    <div class="divider"></div>
-    <div class="action-wrap">
-      <button class="action-btn green" onclick="complete()" ${allRead?'':'disabled'}>
-        ✓ Concluir Aula
-      </button>
-    </div>
-  `;
+
+  let sentHtml = '';
+  lesson.sentences.forEach(function(s, i) {
+    const attr = s.replace(/'/g, "\\'");
+    const isRead = sentsDone.has(i);
+    sentHtml += '<div class="sent-card ' + (isRead ? 'read' : '') + '" id="scard-' + i + '">';
+    sentHtml += '<div class="sent-top">';
+    sentHtml += '<span class="sent-num">' + (i+1) + '.</span>';
+    sentHtml += '<span class="sent-text">' + s + '</span>';
+    sentHtml += '<span class="sent-check">' + (isRead ? '✓' : '') + '</span>';
+    sentHtml += '</div>';
+    sentHtml += '<div class="sent-actions">';
+    sentHtml += '<button class="act-btn" id="sspeak-' + i + '" onclick="speakSent(\'' + attr + '\',' + i + ')" title="Ouvir">🔊</button>';
+    sentHtml += '<button class="act-btn" id="smic-' + i + '" onclick="recordSent(\'' + attr + '\',' + i + ')" title="Falar">🎤</button>';
+    sentHtml += '<button class="act-btn sent-tap-btn" onclick="tapSent(' + i + ')" title="Marcar manualmente">✓</button>';
+    sentHtml += '</div></div>';
+    sentHtml += '<div id="sfb-' + i + '" style="padding:0 4px 8px;display:none"></div>';
+  });
+
+  document.getElementById("card").innerHTML =
+    '<div class="phase-label"><div class="phase-dot" style="background:#7c3aed"></div> Fase 2 — Frases</div>' +
+    '<div class="section">' +
+    '<p class="instruction">Toque em 🎤 e leia a frase em voz alta para validar.</p>' +
+    '<div class="sentence-list">' + sentHtml + '</div>' +
+    '</div>' +
+    '<div class="divider"></div>' +
+    '<div class="action-wrap">' +
+    '<button class="action-btn green" onclick="complete()" ' + (allRead ? '' : 'disabled') + '>✓ Concluir Aula</button>' +
+    '</div>';
 }
 
 function renderDone() {
@@ -585,8 +582,4 @@ function recordWord(word, idx) {
       if (check) check.style.opacity = '1';
       // Habilita botão avançar se todas lidas
       if (wordsDone.size === lesson.words.length) {
-        const btn = document.querySelector('.action-btn');
-        if (btn) btn.disabled = false;
-      }
-    } else {
-      showFeedback(idx, 'err', `❌ Ouvi: "${alterna
+        
