@@ -211,6 +211,22 @@ body {
 </head>
 <body>
 
+<script>
+// DEBUG VISUAL - remover depois
+window.onerror = function(msg, src, line, col, err) {
+  var d = document.getElementById('debug-panel');
+  if (!d) {
+    d = document.createElement('div');
+    d.id = 'debug-panel';
+    d.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#fee;color:#c00;padding:12px;font-size:13px;z-index:9999;max-height:40vh;overflow:auto;border-top:2px solid #c00';
+    document.body.appendChild(d);
+  }
+  d.innerHTML += '<p><b>ERRO linha ' + line + ':</b> ' + msg + '</p>';
+  return false;
+};
+</script>
+
+
 <div class="header">
   <button class="back-btn" onclick="goBack()">‹</button>
   <div style="flex:1">
@@ -346,33 +362,32 @@ function renderWords() {
   setProgress(Math.round(wordsDone.size / lesson.words.length * 50));
 
   const allRead = wordsDone.size === lesson.words.length;
-  document.getElementById("card").innerHTML = `
-    <div class="phase-label"><div class="phase-dot"></div> Fase 1 — Palavras</div>
-    <div class="section">
-      <div class="pattern-tag">${lesson.sub}</div>
-      <p class="instruction">Toque na palavra para marcar como lida. Use os botões para ouvir e soletrar.</p>
-      <div class="word-list">
-        ${lesson.words.map((w,i) => `
-          <div class="word-row ${wordsDone.has(i)?'read':''}" id="wrow-${i}">
-            <button class="word-tap" onclick="tapWord(${i})">${w}</button>
-            <span class="word-check">✓</span>
-            <div class="word-actions">
-              <button class="act-btn" id="speak-${i}" onclick="speakWord('${w}',${i})" title="Ouvir">🔊</button>
-              <button class="act-btn" id="spell-${i}" onclick="spellWord('${w}',${i})" title="Soletrar">🔤</button>
-              <button class="act-btn" id="mic-${i}" onclick="recordWord('${w}',${i})" title="Falar">🎤</button>
-            </div>
-          </div>
-          <div id="fb-${i}" style="padding: 0 16px 8px; display:none"></div>
-        `).join("")}
-      </div>
-    </div>
-    <div class="divider"></div>
-    <div class="action-wrap">
-      <button class="action-btn" onclick="goSentences()" ${allRead?'':'disabled'}>
-        Avançar para Frases →
-      </button>
-    </div>
-  `;
+
+  let wordHtml = '';
+  lesson.words.forEach(function(w, i) {
+    const isRead = wordsDone.has(i);
+    wordHtml += '<div class="word-row ' + (isRead ? 'read' : '') + '" id="wrow-' + i + '">';
+    wordHtml += '<button class="word-tap" onclick="tapWord(' + i + ')">' + w + '</button>';
+    wordHtml += '<span class="word-check">✓</span>';
+    wordHtml += '<div class="word-actions">';
+    wordHtml += '<button class="act-btn" id="speak-' + i + '" onclick="speakWord(\'' + w + '\',' + i + ')" title="Ouvir">🔊</button>';
+    wordHtml += '<button class="act-btn" id="spell-' + i + '" onclick="spellWord(\'' + w + '\',' + i + ')" title="Soletrar">🔤</button>';
+    wordHtml += '<button class="act-btn" id="mic-' + i + '" onclick="recordWord(\'' + w + '\',' + i + ')" title="Falar">🎤</button>';
+    wordHtml += '</div></div>';
+    wordHtml += '<div id="fb-' + i + '" style="padding:0 16px 8px;display:none"></div>';
+  });
+
+  document.getElementById("card").innerHTML =
+    '<div class="phase-label"><div class="phase-dot"></div> Fase 1 — Palavras</div>' +
+    '<div class="section">' +
+    '<div class="pattern-tag">' + lesson.sub + '</div>' +
+    '<p class="instruction">Toque na palavra para marcar como lida. Use os botões para ouvir e soletrar.</p>' +
+    '<div class="word-list">' + wordHtml + '</div>' +
+    '</div>' +
+    '<div class="divider"></div>' +
+    '<div class="action-wrap">' +
+    '<button class="action-btn" onclick="goSentences()" ' + (allRead ? '' : 'disabled') + '>Avançar para Frases →</button>' +
+    '</div>';
 }
 
 function renderSentences() {
@@ -565,21 +580,4 @@ function recordWord(word, idx) {
 
   const micBtn = document.getElementById(`mic-${idx}`);
   if (micBtn) micBtn.classList.add('recording');
-  showFeedback(idx, 'wait', '🎤 Ouvindo...');
-
-  rec.onresult = (e) => {
-    const alternatives = Array.from(e.results[0]).map(a => a.transcript.trim().toLowerCase());
-    const expected = word.toLowerCase();
-    const matched = alternatives.some(alt => alt === expected || alt.includes(expected));
-
-    if (matched) {
-      showFeedback(idx, 'ok', `✅ Correto! "${alternatives[0]}"`);
-      // Marca como lida automaticamente
-      wordsDone.add(idx);
-      const row = document.getElementById(`wrow-${idx}`);
-      if (row) row.classList.add('read');
-      const check = row ? row.querySelector('.word-check') : null;
-      if (check) check.style.opacity = '1';
-      // Habilita botão avançar se todas lidas
-      if (wordsDone.size === lesson.words.length) {
-        
+  showFeedback(idx,
