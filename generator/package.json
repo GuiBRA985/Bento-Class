@@ -2,7 +2,7 @@
 
 {
   "scripts": {
-    "build": "pagecrypt src/index.html dist/index.html $q1w2e3r4 && cp -R src/css dist/ || true"
+    "build": "pagecrypt src/index.html .dist/index.html $q1w2e3r4 && cp -R src/css dist/ || true"
   }
 }
 
