@@ -1,40 +1,95 @@
-const quotes = [
-  "🌿 Every new word opens a new door.",
-  "🚀 You are one lesson away from unlocking something new.",
-  "💬 Learn a little. Speak a lot.",
-  "🌎 Every lesson brings you closer to the world.",
-  "✨ Keep learning. Your future self will thank you."
-];
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
 
-document.getElementById(
-  "dailyQuote"
-).textContent =
-  quotes[
-    Math.floor(
-      Math.random() * quotes.length
-    )
-  ];
+    // STATS
 
+    document.getElementById(
+      "streak"
+    ).textContent =
+      PROGRESS.streak;
 
-document.addEventListener("DOMContentLoaded", () => {
-  const modal = document.getElementById("pathModal");
-  const openBtn = document.getElementById("viewPath");
-  const closeBtn = document.getElementById("closeModal");
+    document.getElementById(
+      "points"
+    ).textContent =
+      PROGRESS.points;
 
-  const journey = document.getElementById("journey");
-  const currentBlock = document.getElementById("currentBlock");
-  const fullPath = document.getElementById("fullPath");
+    document.getElementById(
+      "lessonsDone"
+    ).textContent =
+      PROGRESS.completedLessons;
 
-  renderDashboard();
+    // QUOTES
 
-  function renderDashboard() {
+    const quotes = [
+      "🌿 Every new word opens a new door.",
+      "🚀 You are one lesson away from unlocking something new.",
+      "💬 Learn a little. Speak a lot.",
+      "🌎 Every lesson brings you closer to the world.",
+      "✨ Keep learning. Your future self will thank you."
+    ];
+
+    document.getElementById(
+      "dailyQuote"
+    ).textContent =
+      quotes[
+        Math.floor(
+          Math.random() *
+          quotes.length
+        )
+      ];
+
+    // CURRENT BLOCK
+
     renderCurrentBlock();
-    renderJourney();
-  }
 
-  function renderCurrentBlock() {
+    // JOURNEY
+
+    renderJourney();
+
+    // MODAL
+
+    const modal =
+      document.getElementById(
+        "pathModal"
+      );
+
+    document
+      .getElementById(
+        "viewPath"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          renderFullPath();
+
+          modal.style.display =
+            "flex";
+        }
+      );
+
+    document
+      .getElementById(
+        "closeModal"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          modal.style.display =
+            "none";
+        }
+      );
+  }
+);
+
+function renderCurrentBlock() {
+
   const group =
-    TAXONOMY[PROGRESS.currentGroup];
+    TAXONOMY[
+      PROGRESS.currentGroup
+    ];
 
   const sub =
     group.subgroups[
@@ -43,12 +98,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const percent =
     Math.round(
-      (PROGRESS.currentLesson /
-        PROGRESS.totalLessons) *
+      (
+        PROGRESS.currentLesson /
+        PROGRESS.totalLessons
+      ) *
       100
     );
 
-  currentBlock.innerHTML = `
+  document.getElementById(
+    "currentBlock"
+  ).innerHTML = `
+
     <div class="card">
 
       <h3>
@@ -66,7 +126,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <div
           class="progress-fill"
-          style="width:${percent}%">
+          style="
+            width:
+            ${percent}%;
+          ">
         </div>
 
       </div>
@@ -92,161 +155,88 @@ document.addEventListener("DOMContentLoaded", () => {
 
       </div>
 
+      <br>
+
       <button
-        class="primary-btn"
-        onclick="openGenerator()">
+        class="primary-btn">
 
         ▶ Continue Learning
 
       </button>
 
     </div>
+
   `;
-  }
-
-  function renderJourney() {
-  journey.innerHTML = "";
-
-  TAXONOMY.forEach((group, index) => {
-
-    const card =
-      document.createElement("div");
-
-    card.classList.add(
-      "path-node"
-    );
-
-    let icon = "🔒";
-
-    if (index < PROGRESS.currentGroup) {
-      icon = "🟢";
-      card.classList.add(
-        "completed"
-      );
-    }
-
-    else if (
-      index ===
-      PROGRESS.currentGroup
-    ) {
-      icon = "🟡";
-      card.classList.add(
-        "current"
-      );
-    }
-
-    else {
-      card.classList.add(
-        "locked"
-      );
-    }
-
-    card.innerHTML = `
-      <div class="path-title">
-        ${icon}
-        ${group.group}
-      </div>
-
-      <div class="path-sub">
-        ${group.subgroups.length}
-        módulos
-      </div>
-    `;
-
-    journey.appendChild(card);
-  });
 }
 
-  function renderPath() {
-    fullPath.innerHTML = "";
+function renderJourney() {
 
-    TAXONOMY.forEach((group, gIndex) => {
+  const journey =
+    document.getElementById(
+      "journey"
+    );
+
+  journey.innerHTML = "";
+
+  TAXONOMY.forEach(
+    group => {
 
       const card =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
-      card.style.marginBottom = "30px";
+      card.className =
+        "path-node";
 
-      const title =
-        document.createElement("h3");
+      card.innerHTML =
+        `<strong>
+          ${group.group}
+        </strong>`;
 
-      title.textContent =
-        group.group;
+      journey.appendChild(
+        card
+      );
+    }
+  );
+}
 
-      card.appendChild(title);
+function renderFullPath() {
+
+  const full =
+    document.getElementById(
+      "fullPath"
+    );
+
+  full.innerHTML = "";
+
+  TAXONOMY.forEach(
+    group => {
+
+      const div =
+        document.createElement(
+          "div"
+        );
+
+      div.style.marginBottom =
+        "25px";
+
+      div.innerHTML =
+        `<h3>
+          ${group.group}
+        </h3>`;
 
       group.subgroups.forEach(
-        (sub, sIndex) => {
+        sub => {
 
-          let icon = "🔒";
-
-          if (
-            gIndex < PROGRESS.currentGroup
-          ) {
-            icon = "✅";
-          }
-
-          if (
-            gIndex === PROGRESS.currentGroup &&
-            sIndex <
-              PROGRESS.currentSubgroup
-          ) {
-            icon = "✅";
-          }
-
-          if (
-            gIndex === PROGRESS.currentGroup &&
-            sIndex ===
-              PROGRESS.currentSubgroup
-          ) {
-            icon = "🟡";
-          }
-
-          const item =
-            document.createElement("div");
-
-          item.style.padding =
-            "8px 0";
-
-          item.textContent =
-            `${icon} ${sub}`;
-
-          card.appendChild(item);
+          div.innerHTML +=
+            `<p>
+              🔒 ${sub}
+            </p>`;
         }
       );
 
-      fullPath.appendChild(card);
-    });
-  }
-
-  if (openBtn) {
-    openBtn.addEventListener(
-      "click",
-      () => {
-        renderPath();
-        modal.style.display =
-          "flex";
-      }
-    );
-  }
-
-  if (closeBtn) {
-    closeBtn.addEventListener(
-      "click",
-      () => {
-        modal.style.display =
-          "none";
-      }
-    );
-  }
-});
-
-function openGenerator() {
-  const p = window.PROGRESS;
-
-  function openGenerator() {
-  const p = window.PROGRESS;
-
-  window.location.href =
-    `generator/index.html?group=${p.currentGroup}&sub=${p.currentSubgroup}&lesson=${p.currentLesson}`;
-  }
+      full.appendChild(div);
+    }
+  );
+}
