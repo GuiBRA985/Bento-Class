@@ -286,3 +286,44 @@ section h2 {
     align-items: stretch;
   }
 }
+
+.path-node {
+  background: white;
+  border-radius: 22px;
+  padding: 20px;
+  margin-bottom: 20px;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0,0,0,.08);
+
+  border-left: 8px solid #dcdcdc;
+
+  transition: .2s;
+}
+
+.path-node.current {
+  border-left: 8px solid #ffc107;
+}
+
+.path-node.completed {
+  border-left: 8px solid #22c55e;
+}
+
+.path-node.locked {
+  opacity: .7;
+}
+
+.path-node:hover {
+  transform: translateY(-3px);
+}
+
+.path-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.path-sub {
+  color: #666;
+}
