@@ -275,6 +275,16 @@ function renderFullPath() {
 }
 
 function openGenerator() {
+
+  if (!canStudy()) {
+
+    alert(
+      "Today's lessons are complete. Enjoy the games!"
+    );
+
+    return;
+  }
+
   alert(
     "Generator coming soon 🚀"
   );
