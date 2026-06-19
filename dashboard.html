@@ -15,145 +15,179 @@
 
 <body>
 
-  <header class="hero">
+<header class="hero">
 
-    <h1>Bento Class</h1>
+    <div class="hero-left">
 
-    <p class="subtitle">
-      Learn to Read English
-    </p>
+        <h1>Bento Class</h1>
 
-    <p class="description">
-      Aprenda inglês lendo, ouvindo,
-      falando e escrevendo através
-      de um método fonético
-      estruturado.
-    </p>
+        <p class="subtitle">
+            Learn to Read English
+        </p>
 
-    <div class="stats">
+        <p class="description">
+            Aprenda inglês lendo, ouvindo,
+            falando e escrevendo através
+            de um método fonético estruturado.
+        </p>
 
-      <div class="stat-card">
-        <span class="emoji">🔥</span>
-        <span id="streak">0</span>
-        <small>Dias</small>
-      </div>
+        <button
+            id="continueBtn"
+            class="primary-btn">
 
-      <div class="stat-card">
-        <span class="emoji">⭐</span>
-        <span id="points">0</span>
-        <small>Pontos</small>
-      </div>
+            ▶️ Continuar estudando
 
-      <div class="stat-card">
-        <span class="emoji">🏆</span>
-        <span id="completed">0</span>
-        <small>Blocos</small>
-      </div>
+        </button>
 
     </div>
 
-    <button
-      id="continueBtn"
-      class="primary-btn">
+    <div class="hero-right">
 
-      ▶️ Continuar estudando
+        <div class="stat-card">
+            <span>🔥</span>
+            <strong id="streak">0</strong>
+            <small>Dias</small>
+        </div>
 
-    </button>
+        <div class="stat-card">
+            <span>⭐</span>
+            <strong id="points">0</strong>
+            <small>Pontos</small>
+        </div>
 
-  </header>
+        <div class="stat-card">
+            <span>🏆</span>
+            <strong id="completed">0</strong>
+            <small>Blocos</small>
+        </div>
 
-  <main>
+    </div>
 
-    <section>
+</header>
 
-      <h2>
-        🗺️ Sua Jornada
-      </h2>
+<main>
 
-      <div id="journey"></div>
+    <section class="journey-section">
+
+        <div class="section-title">
+
+            <h2>
+                🗺️ Sua Jornada
+            </h2>
+
+            <button
+                id="viewPath"
+                class="secondary-btn">
+
+                Ver trajetória completa
+
+            </button>
+
+        </div>
+
+        <div id="journey"></div>
+
+    </section>
+
+    <section class="stats-section">
+
+        <div class="info-card">
+            <strong id="wordsCount">
+                0
+            </strong>
+
+            <span>
+                Palavras praticadas
+            </span>
+        </div>
+
+        <div class="info-card">
+            <strong id="sentencesCount">
+                0
+            </strong>
+
+            <span>
+                Frases lidas
+            </span>
+        </div>
+
+        <div class="info-card">
+            <strong id="accuracy">
+                0%
+            </strong>
+
+            <span>
+                Precisão de pronúncia
+            </span>
+        </div>
 
     </section>
 
     <section class="method">
 
-      <h2>
-        Como funciona
-      </h2>
+        <h2>
+            Como funciona
+        </h2>
 
-      <div class="features">
+        <div class="features">
 
-        <div class="feature">
-          🎧
-          <span>Escute</span>
+            <div class="feature">
+                🎧
+                <span>Escute</span>
+            </div>
+
+            <div class="feature">
+                🎤
+                <span>Pronuncie</span>
+            </div>
+
+            <div class="feature">
+                ✍️
+                <span>Escreva</span>
+            </div>
+
+            <div class="feature">
+                📖
+                <span>Leia</span>
+            </div>
+
+            <div class="feature">
+                📈
+                <span>Evolua</span>
+            </div>
+
         </div>
-
-        <div class="feature">
-          🎤
-          <span>Pronuncie</span>
-        </div>
-
-        <div class="feature">
-          ✍️
-          <span>Escreva</span>
-        </div>
-
-        <div class="feature">
-          📖
-          <span>Leia</span>
-        </div>
-
-        <div class="feature">
-          📈
-          <span>Evolua</span>
-        </div>
-
-      </div>
 
     </section>
 
-    <section>
+</main>
 
-      <h2>
-        Seu progresso
-      </h2>
+<div
+    id="pathModal"
+    class="modal hidden">
 
-      <div class="stats-grid">
+    <div class="modal-content">
 
-        <div class="info-card">
-          <strong id="wordsCount">
-            0
-          </strong>
-          <span>
-            Palavras praticadas
-          </span>
-        </div>
+        <h2>
+            🗺️ Jornada Completa
+        </h2>
 
-        <div class="info-card">
-          <strong id="sentencesCount">
-            0
-          </strong>
-          <span>
-            Frases lidas
-          </span>
-        </div>
+        <div id="fullPath"></div>
 
-        <div class="info-card">
-          <strong id="accuracy">
-            0%
-          </strong>
-          <span>
-            Precisão
-          </span>
-        </div>
+        <button
+            id="closePath"
+            class="primary-btn">
 
-      </div>
+            Fechar
 
-    </section>
+        </button>
 
-  </main>
+    </div>
 
-  <script src="js/taxonomy.js"></script>
-  <script src="js/dashboard.js"></script>
+</div>
+
+<script src="js/taxonomy.js"></script>
+<script src="js/dashboard.js"></script>
 
 </body>
 </html>
