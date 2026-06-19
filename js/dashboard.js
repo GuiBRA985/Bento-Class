@@ -1,3 +1,20 @@
+const welcome =
+  document.getElementById(
+    "welcomeMessage"
+  );
+
+const last =
+  DAILY.lastVisit;
+
+if (!last) {
+  welcome.innerHTML =
+    "👋 Welcome!<br>Let's begin your English journey.";
+}
+else {
+  welcome.innerHTML =
+    "👋 Welcome back!<br>Ready for today's lesson?";
+}
+
 document.addEventListener(
   "DOMContentLoaded",
   () => {
