@@ -244,6 +244,9 @@ document.addEventListener("DOMContentLoaded", () => {
 function openGenerator() {
   const p = window.PROGRESS;
 
+  function openGenerator() {
+  const p = window.PROGRESS;
+
   window.location.href =
     `generator/index.html?group=${p.currentGroup}&sub=${p.currentSubgroup}&lesson=${p.currentLesson}`;
-}
+  }
