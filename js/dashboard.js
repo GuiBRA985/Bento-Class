@@ -134,6 +134,32 @@ function renderCurrentBlock() {
     "currentBlock"
   ).innerHTML = `
 
+    <div class="goal-card">
+
+  <strong>
+    🎯 Today's Goal
+  </strong>
+
+  <p>
+    ${DAILY.lessonsToday}
+    of
+    ${DAILY.dailyLimit}
+    lessons completed
+  </p>
+
+  <div class="progress-bar">
+
+    <div
+      class="progress-fill"
+      style="
+        width:
+        ${dailyPercent}%;
+      ">
+    </div>
+
+  </div>
+
+</div>
     <div class="card">
 
       <h3>
