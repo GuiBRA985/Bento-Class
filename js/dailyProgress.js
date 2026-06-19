@@ -39,15 +39,15 @@ function completeLesson() {
   saveDaily();
 }
 
-window.DAILY =
-  JSON.parse(
-    localStorage.getItem("bentoDaily")
-  ) || {
-    lessonsToday: 0,
-    dailyLimit: 5,
-    gamesUnlocked: false,
-    lastVisit: null
-  };
+window.openGenerator = function () {
+
+  if (typeof canStudy === "function" && !canStudy()) {
+    alert("Today's lessons are complete. Play games!");
+    return;
+  }
+
+  alert("Generator coming soon 🚀");
+};
 
 function saveDaily() {
   localStorage.setItem(
