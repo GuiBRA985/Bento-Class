@@ -10,6 +10,13 @@ window.DAILY =
     lastVisit: null
   };
 
+function canStudy() {
+  return (
+    DAILY.lessonsToday <
+    DAILY.dailyLimit
+  );
+}
+
 function completeLesson() {
 
   if (
