@@ -216,6 +216,15 @@ function renderCurrentBlock() {
       </button>
 
     </div>
+    const buttonText =
+  DAILY.gamesUnlocked
+    ? "🎮 Play Games"
+    : "▶ Continue Learning";
+
+const buttonAction =
+  DAILY.gamesUnlocked
+    ? "playGames()"
+    : "openGenerator()";
 
   `;
 }
