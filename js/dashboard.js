@@ -103,86 +103,58 @@ document.addEventListener(
 
 function renderCurrentBlock() {
 
-  const group =
-    TAXONOMY[
-      PROGRESS.currentGroup
-    ];
+  const group = TAXONOMY[PROGRESS.currentGroup];
+  const sub = group.subgroups[PROGRESS.currentSubgroup];
 
-  const sub =
-    group.subgroups[
-      PROGRESS.currentSubgroup
-    ];
-
-  const percent =
-    Math.round(
-      (
-        PROGRESS.currentLesson /
-        PROGRESS.totalLessons
-      ) *
-      100
-    );
-
-  const dailyPercent =
-  Math.round(
-    (
-      DAILY.lessonsToday /
-      DAILY.dailyLimit
-    ) * 100
+  const percent = Math.round(
+    (PROGRESS.currentLesson / PROGRESS.totalLessons) * 100
   );
 
-  document.getElementById(
-    "currentBlock"
-  ).innerHTML = `
+  const dailyPercent = Math.round(
+    (DAILY.lessonsToday / DAILY.dailyLimit) * 100
+  );
 
+  const buttonText = DAILY.gamesUnlocked
+    ? "🎮 Play Games"
+    : "▶ Continue Learning";
+
+  const buttonAction = DAILY.gamesUnlocked
+    ? "playGames()"
+    : "openGenerator()";
+
+  document.getElementById("currentBlock").innerHTML = `
     <div class="goal-card">
-
-  <strong>
-    🎯 Today's Goal
-  </strong>
-
-  <p>
-    ${DAILY.lessonsToday}
-    of
-    ${DAILY.dailyLimit}
-    lessons completed
-  </p>
-
-  <div class="progress-bar">
-
-    <div
-      class="progress-fill"
-      style="
-        width:
-        ${dailyPercent}%;
-      ">
-    </div>
-
-  </div>
-
-</div>
-    <div class="card">
-
-      <h3>
-        📍 You are here
-      </h3>
+      <strong>🎯 Today's Goal</strong>
 
       <p>
-        ${group.group}
-        <br>
-        →
-        <strong>${sub}</strong>
+        ${DAILY.lessonsToday}
+        of
+        ${DAILY.dailyLimit}
+        lessons completed
       </p>
 
       <div class="progress-bar">
-
         <div
           class="progress-fill"
-          style="
-            width:
-            ${percent}%;
-          ">
+          style="width:${dailyPercent}%;">
         </div>
+      </div>
+    </div>
 
+    <div class="card">
+
+      <h3>📍 You are here</h3>
+
+      <p>
+        ${group.group}<br>
+        → <strong>${sub}</strong>
+      </p>
+
+      <div class="progress-bar">
+        <div
+          class="progress-fill"
+          style="width:${percent}%;">
+        </div>
       </div>
 
       <p>
@@ -193,42 +165,25 @@ function renderCurrentBlock() {
       </p>
 
       <div class="goal-card">
-
-        <strong>
-          🎯 Today's Goal
-        </strong>
+        <strong>🎯 Today's Goal</strong>
 
         <p>
-          Complete 1 lesson
-          <br>
+          Complete 1 lesson<br>
           Earn 50 points
         </p>
-
       </div>
 
       <br>
 
       <button
-        class="primary-btn">
-
-        ▶ Continue Learning
-
+        class="primary-btn"
+        onclick="${buttonAction}">
+        ${buttonText}
       </button>
 
     </div>
-  const buttonText =
-   DAILY.gamesUnlocked
-    ? "🎮 Play Games"
-    : "▶ Continue Learning";
-
-  const buttonAction =
-   DAILY.gamesUnlocked
-    ? "playGames()"
-    : "openGenerator()";
-
   `;
 }
-
 function renderJourney() {
 
   const journey =
