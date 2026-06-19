@@ -16,3 +16,19 @@ function saveDaily() {
     JSON.stringify(DAILY)
   );
 }
+
+const today =
+  new Date()
+    .toISOString()
+    .split("T")[0];
+
+if (
+  DAILY.lastVisit &&
+  DAILY.lastVisit !== today
+) {
+  DAILY.lessonsToday = 0;
+  DAILY.gamesUnlocked = false;
+}
+
+DAILY.lastVisit = today;
+saveDaily();
