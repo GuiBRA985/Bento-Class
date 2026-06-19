@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta
@@ -12,137 +12,94 @@
     rel="stylesheet"
     href="css/dashboard.css">
 </head>
-
 <body>
 
-  <header class="hero">
+<header class="hero">
 
-    <div>
-
-      <h1>Bento Class</h1>
-
-      <p class="subtitle">
-        Learn to Read English
-      </p>
-
-      <p class="description">
-        Aprenda inglês lendo, ouvindo,
-        falando e escrevendo através
-        de um método fonético estruturado.
-      </p>
-
-      <button
-        id="continueBtn"
-        class="primary-btn">
-
-        ▶️ Continuar estudando
-
-      </button>
-
-    </div>
-
-    <div class="stats">
-
-      <div class="stat-card">
-        <span>🔥</span>
-        <strong id="streak">
-          0
-        </strong>
-        <small>Dias</small>
-      </div>
-
-      <div class="stat-card">
-        <span>⭐</span>
-        <strong id="points">
-          0
-        </strong>
-        <small>Pontos</small>
-      </div>
-
-      <div class="stat-card">
-        <span>🏆</span>
-        <strong id="completed">
-          0
-        </strong>
-        <small>Blocos</small>
-      </div>
-
-    </div>
-
-  </header>
-
-  <main>
-
-   <header class="hero">
   <h1>Bento Class</h1>
   <p>Learn English Naturally</p>
+
 </header>
 
-<section class="stats">
+<main>
 
-  <div class="stat-card">
-    <span>🔥</span>
-    <strong id="streak">7</strong>
-    <small>Days</small>
-  </div>
+  <section class="stats">
 
-  <div class="stat-card">
-    <span>⭐</span>
-    <strong id="points">1250</strong>
-    <small>Points</small>
-  </div>
+    <div class="stat-card">
+      <span>🔥</span>
+      <strong id="streak"></strong>
+      <small>Days</small>
+    </div>
 
-  <div class="stat-card">
-    <span>🏆</span>
-    <strong id="lessonsDone">18</strong>
-    <small>Lessons</small>
-  </div>
+    <div class="stat-card">
+      <span>⭐</span>
+      <strong id="points"></strong>
+      <small>Points</small>
+    </div>
 
-</section>
+    <div class="stat-card">
+      <span>🏆</span>
+      <strong id="lessonsDone"></strong>
+      <small>Lessons</small>
+    </div>
 
-<section class="quote-card">
-  <p id="dailyQuote"></p>
-</section>
+  </section>
 
-<section id="currentBlock"></section>
+  <section class="quote-card">
+    <p id="dailyQuote"></p>
+  </section>
 
-<section id="journey"></section>
+  <section id="currentBlock"></section>
 
-<button
-  id="viewPath"
-  class="secondary-btn">
-  🗺️ View Learning Path
-</button> 
+  <section>
 
-  </main>
-
-  <div
-    <div id="pathModal">
-
-    <div class="modal-card">
+    <div class="section-header">
 
       <h2>
-        🗺️ Jornada Completa
+        🗺️ Your Journey
       </h2>
 
-      <div id="fullPath">
-      </div>
-
       <button
-        id="closeModal"
-        class="primary-btn">
+        id="viewPath"
+        class="secondary-btn">
 
-        Fechar
+        View Learning Path
 
       </button>
 
     </div>
 
+    <div id="journey"></div>
+
+  </section>
+
+</main>
+
+<div id="pathModal">
+
+  <div class="modal-card">
+
+    <h2>
+      🗺️ Learning Path
+    </h2>
+
+    <div id="fullPath"></div>
+
+    <button
+      id="closeModal"
+      class="primary-btn">
+
+      Close
+
+    </button>
+
   </div>
 
-  <script src="js/taxonomy.js"></script>
-  <script src="js/progress.js"></script>
-  <script src="js/dashboard.js"></script>
+</div>
+
+<script src="js/taxonomy.js"></script>
+<script src="js/progress.js"></script>
+<script src="js/dashboard.js"></script>
 
 </body>
 </html>
