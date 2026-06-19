@@ -60,7 +60,7 @@ window.TAXONOMY.forEach(group => {
 
 });
 
-// Abre o gerador já na categoria escolhida
+// Abre o gerador
 window.openGenerator =
 function(sub) {
 
