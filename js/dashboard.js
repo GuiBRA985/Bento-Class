@@ -273,3 +273,15 @@ function renderFullPath() {
     }
   );
 }
+
+function openGenerator() {
+  alert(
+    "Generator coming soon 🚀"
+  );
+}
+
+function playGames() {
+  alert(
+    "Games coming soon 🎮"
+  );
+}
