@@ -198,7 +198,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-function openGenerator(sub) {
+function openGenerator() {
+  const p = window.PROGRESS;
+
   window.location.href =
-    `generator/index.html?sub=${sub}`;
+    `generator/index.html?group=${p.currentGroup}&sub=${p.currentSubgroup}&lesson=${p.currentLesson}`;
 }
