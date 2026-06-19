@@ -231,27 +231,22 @@ section h2 {
 
 /* MODAL */
 
-.hidden {
-  display: none;
-}
-
 #pathModal {
+  display: none;
+
   position: fixed;
   inset: 0;
 
-  background:
-    rgba(
-      0,
-      0,
-      0,
-      .6
-    );
+  background: rgba(0,0,0,.6);
 
-  display: flex;
   justify-content: center;
   align-items: center;
 
   padding: 20px;
+}
+
+#pathModal.show {
+  display: flex;
 }
 
 .modal-card {
