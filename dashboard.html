@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>Bento Class</title>
+
+  <link
+    rel="stylesheet"
+    href="css/dashboard.css">
+</head>
+
+<body>
+
+  <header class="hero">
+
+    <div>
+
+      <h1>Bento Class</h1>
+
+      <p class="subtitle">
+        Learn to Read English
+      </p>
+
+      <p class="description">
+        Aprenda inglês lendo, ouvindo,
+        falando e escrevendo através
+        de um método fonético estruturado.
+      </p>
+
+      <button
+        id="continueBtn"
+        class="primary-btn">
+
+        ▶️ Continuar estudando
+
+      </button>
+
+    </div>
+
+    <div class="stats">
+
+      <div class="stat-card">
+        <span>🔥</span>
+        <strong id="streak">
+          0
+        </strong>
+        <small>Dias</small>
+      </div>
+
+      <div class="stat-card">
+        <span>⭐</span>
+        <strong id="points">
+          0
+        </strong>
+        <small>Pontos</small>
+      </div>
+
+      <div class="stat-card">
+        <span>🏆</span>
+        <strong id="completed">
+          0
+        </strong>
+        <small>Blocos</small>
+      </div>
+
+    </div>
+
+  </header>
+
+  <main>
+
+    <section>
+
+      <h2>
+        📚 Seu bloco atual
+      </h2>
+
+      <div id="currentBlock">
+      </div>
+
+    </section>
+
+    <section>
+
+      <div class="section-header">
+
+        <h2>
+          🗺️ Sua Jornada
+        </h2>
+
+        <button
+          id="viewPath"
+          class="secondary-btn">
+
+          Ver trajetória
+
+        </button>
+
+      </div>
+
+      <div id="journey">
+      </div>
+
+    </section>
+
+    <section>
+
+      <h2>
+        📈 Estatísticas
+      </h2>
+
+      <div class="stats-grid">
+
+        <div class="info-card">
+          <strong id="wordsCount">
+            0
+          </strong>
+          <span>
+            Palavras praticadas
+          </span>
+        </div>
+
+        <div class="info-card">
+          <strong id="sentencesCount">
+            0
+          </strong>
+          <span>
+            Frases lidas
+          </span>
+        </div>
+
+        <div class="info-card">
+          <strong id="accuracy">
+            0%
+          </strong>
+          <span>
+            Precisão
+          </span>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <div
+    id="pathModal"
+    class="hidden">
+
+    <div class="modal-card">
+
+      <h2>
+        🗺️ Jornada Completa
+      </h2>
+
+      <div id="fullPath">
+      </div>
+
+      <button
+        id="closeModal"
+        class="primary-btn">
+
+        Fechar
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <script src="js/taxonomy.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/dashboard.js"></script>
+
+</body>
+</html>
