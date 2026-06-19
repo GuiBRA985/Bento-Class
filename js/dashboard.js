@@ -122,6 +122,14 @@ function renderCurrentBlock() {
       100
     );
 
+  const dailyPercent =
+  Math.round(
+    (
+      DAILY.lessonsToday /
+      DAILY.dailyLimit
+    ) * 100
+  );
+
   document.getElementById(
     "currentBlock"
   ).innerHTML = `
