@@ -175,6 +175,22 @@ function renderCurrentBlock() {
 
       <br>
 
+${
+  DAILY.gamesUnlocked
+    ? `
+      <div class="goal-card">
+        <strong>
+          🎉 Today's lessons are complete!
+        </strong>
+
+        <p>
+          You unlocked today's games.
+        </p>
+      </div>
+    `
+    : ""
+}
+
       <button
   class="primary-btn"
   onclick="${buttonAction}">
