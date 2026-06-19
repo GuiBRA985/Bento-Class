@@ -10,6 +10,28 @@ window.DAILY =
     lastVisit: null
   };
 
+function completeLesson() {
+
+  if (
+    DAILY.lessonsToday >=
+    DAILY.dailyLimit
+  ) {
+    return;
+  }
+
+  DAILY.lessonsToday++;
+
+  if (
+    DAILY.lessonsToday >=
+    DAILY.dailyLimit
+  ) {
+    DAILY.gamesUnlocked =
+      true;
+  }
+
+  saveDaily();
+}
+
 function saveDaily() {
   localStorage.setItem(
     "bentoDaily",
