@@ -176,10 +176,12 @@ function renderCurrentBlock() {
       <br>
 
       <button
-        class="primary-btn"
-        onclick="${buttonAction}">
-        ${buttonText}
-      </button>
+  class="primary-btn"
+  onclick="${buttonAction}">
+
+  ${buttonText}
+
+</button>
 
     </div>
   `;
