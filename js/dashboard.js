@@ -1,70 +1,72 @@
-const lista =
+// Estatísticas temporárias
+document.getElementById("streak").textContent = 7;
+document.getElementById("points").textContent = 1250;
+document.getElementById("completed").textContent = 8;
+
+document.getElementById("wordsCount").textContent = 864;
+document.getElementById("sentencesCount").textContent = 211;
+document.getElementById("accuracy").textContent = "89%";
+
+const journey =
   document.getElementById(
-    'lista-licoes'
+    "journey"
   );
 
-lista.innerHTML = '';
-
+// Gera os grupos automaticamente
 window.TAXONOMY.forEach(group => {
 
-  // Título do grupo
-  const titulo =
-    document.createElement('h2');
+  const card =
+    document.createElement("div");
 
-  titulo.className =
-    'group-title';
+  card.className =
+    "lesson-card";
 
-  titulo.innerText =
-    group.group;
+  card.innerHTML = `
+    <h3>${group.group}</h3>
 
-  lista.appendChild(
-    titulo
-  );
+    <p>
+      ${group.subgroups.length}
+      categorias disponíveis
+    </p>
 
-  // Container dos cards
-  const container =
-    document.createElement('div');
+    <button>
+      Entrar
+    </button>
+  `;
 
-  container.className =
-    'group-container';
-
-  group.subgroups.forEach(sub => {
-
-    const card =
-      document.createElement('div');
-
-    card.className =
-      'lesson-card';
-
-    card.innerHTML = `
-      <h3>${sub}</h3>
-
-      <button
-        class="btn"
-        onclick="openGenerator('${encodeURIComponent(sub)}')">
-
-        Entrar
-
-      </button>
-    `;
-
-    container.appendChild(
-      card
+  const button =
+    card.querySelector(
+      "button"
     );
 
-  });
+  button.onclick =
+    () => {
 
-  lista.appendChild(
-    container
+      // Por enquanto abre
+      // o primeiro subgrupo
+
+      const firstSub =
+        group.subgroups[0];
+
+      window.location.href =
+        `generator/index.html?sub=${encodeURIComponent(firstSub)}`;
+
+    };
+
+  journey.appendChild(
+    card
   );
 
 });
 
-// Abre o gerador
-window.openGenerator =
-function(sub) {
+// Botão continuar
+document
+  .getElementById(
+    "continueBtn"
+  )
+  .onclick = () => {
 
-  window.location.href =
-    `generator/index.html?sub=${sub}`;
+    window.location.href =
+      "generator/index.html?sub=Short%20Vowels";
 
-};
+  };
