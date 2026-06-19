@@ -1,228 +1,71 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Bento Class</title><style>
+<body>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-}
+<header class="hero">
 
-body{
-    background:#1565C0;
-    min-height:100vh;
-    color:white;
-}
+    <h1>Bento Class</h1>
+    <p>Learn to Read English</p>
 
-.container{
-    max-width:1200px;
-    margin:auto;
-    padding:20px;
-}
+    <div class="stats">
 
-.header{
-    background:rgba(255,255,255,.12);
-    backdrop-filter:blur(10px);
-    border-radius:20px;
-    padding:25px;
-    margin-bottom:20px;
-}
+        <div>
+            🔥
+            <span id="streak">0</span>
+            dias
+        </div>
 
-.header h1{
-    font-size:32px;
-    margin-bottom:10px;
-}
+        <div>
+            ⭐
+            <span id="points">0</span>
+            pontos
+        </div>
 
-.header p{
-    opacity:.9;
-}
-
-.progress-card{
-    background:white;
-    color:#333;
-    border-radius:20px;
-    padding:25px;
-    margin-bottom:20px;
-}
-
-.progress-bar{
-    height:20px;
-    background:#ddd;
-    border-radius:20px;
-    overflow:hidden;
-    margin-top:15px;
-}
-
-.progress-fill{
-    width:0%;
-    height:100%;
-    background:#1565C0;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.card{
-    background:white;
-    color:#333;
-    border-radius:20px;
-    padding:20px;
-}
-
-.card h3{
-    color:#1565C0;
-    margin-bottom:10px;
-}
-
-.card .number{
-    font-size:32px;
-    font-weight:bold;
-}
-
-.next-lesson{
-    background:white;
-    color:#333;
-    border-radius:20px;
-    padding:25px;
-    margin-bottom:20px;
-}
-
-.btn{
-    background:#1565C0;
-    color:white;
-    border:none;
-    padding:15px 25px;
-    border-radius:12px;
-    cursor:pointer;
-    margin-top:15px;
-    font-size:16px;
-}
-
-.path{
-    background:white;
-    color:#333;
-    border-radius:20px;
-    padding:25px;
-    margin-bottom:20px;
-}
-
-.lesson{
-    padding:15px;
-    border-bottom:1px solid #eee;
-}
-
-.lesson:last-child{
-    border-bottom:none;
-}
-
-.feedback{
-    background:white;
-    color:#333;
-    border-radius:20px;
-    padding:25px;
-}
-
-.feedback h2{
-    color:#1565C0;
-    margin-bottom:15px;
-}
-
-@media(max-width:768px){
-
-.header h1{
-    font-size:24px;
-}
-
-.card .number{
-    font-size:26px;
-}
-
-}
-
-</style></head><body><div class="container"><div class="header">
-
-    <h1>👋 Olá, Estudante</h1>
-
-    <p>
-        Bem-vindo ao Bento English.
-        Um passo por dia vale mais que mil planos.
-    </p>
-
-</div>
-
-<div class="progress-card">
-
-    <h2>📚 BLOCO ATUAL</h2>
-
-    <h1 style="margin-top:10px;">
-        Short Vowels
-    </h1>
-
-    <div class="progress-bar">
-
-        <div
-            class="progress-fill"
-            id="progressFill">
+        <div>
+            🏆
+            <span id="completed">0</span>
+            blocos
         </div>
 
     </div>
 
-    <p style="margin-top:15px;">
-
-        <span id="progressPercent">
-            0%
-        </span>
-
-    </p>
-
-    <p id="blockProgress">
-
-        0 / 25 aulas concluídas
-
-    </p>
-
     <button
-        class="btn"
-        onclick="window.location.href='lessons.html'">
+        id="continueBtn"
+        class="primary-btn">
 
-        Entrar na Aula
+        Continuar estudando
 
     </button>
 
-</div>
+</header>
 
-<div class="path">
+<section>
 
-    <h2>🗺️ Jornada Bento</h2>
+    <h2>
+        🗺️ Sua Jornada
+    </h2>
 
-    <div class="lesson">
-        🟡 Short Vowels
+    <div id="journey"></div>
+
+</section>
+
+<section class="method">
+
+    <h2>
+        Como funciona
+    </h2>
+
+    <div class="features">
+
+        <div>🎧 Escute</div>
+        <div>🎤 Pronuncie</div>
+        <div>✍️ Escreva</div>
+        <div>📖 Leia</div>
+        <div>📈 Evolua</div>
+
     </div>
 
-    <div class="lesson">
-        🔒 Consonant Blends (Front)
-    </div>
+</section>
 
-    <div class="lesson">
-        🔒 Digraphs
-    </div>
-
-    <div class="lesson">
-        🔒 Long Vowels
-    </div>
-
-    <div class="lesson">
-        🔒 Reading Fluency
-    </div>
-
-    <div class="lesson">
-        🔒 Conversation
-    </div>
-
-</div>
 <script src="js/taxonomy.js"></script>
 <script src="js/dashboard.js"></script>
+
+</body>
