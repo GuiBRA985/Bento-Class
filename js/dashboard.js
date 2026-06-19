@@ -33,39 +33,75 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderCurrentBlock() {
-    const group =
-      TAXONOMY[PROGRESS.currentGroup];
+  const group =
+    TAXONOMY[PROGRESS.currentGroup];
 
-    const sub =
-      group.subgroups[
-        PROGRESS.currentSubgroup
+  const sub =
+    group.subgroups[
+      PROGRESS.currentSubgroup
+    ];
 
-      const percent =
-  Math.round(
-    (PROGRESS.currentLesson /
-      PROGRESS.totalLessons) *
-    100
-  );
-      ];
+  const percent =
+    Math.round(
+      (PROGRESS.currentLesson /
+        PROGRESS.totalLessons) *
+      100
+    );
 
-    currentBlock.innerHTML = `
-      <div class="card">
-        <h3>${group.group}</h3>
+  currentBlock.innerHTML = `
+    <div class="card">
+
+      <h3>
+        📍 You are here
+      </h3>
+
+      <p>
+        ${group.group}
+        <br>
+        →
+        <strong>${sub}</strong>
+      </p>
+
+      <div class="progress-bar">
+
+        <div
+          class="progress-fill"
+          style="width:${percent}%">
+        </div>
+
+      </div>
+
+      <p>
+        ${PROGRESS.currentLesson}
+        of
+        ${PROGRESS.totalLessons}
+        lessons completed
+      </p>
+
+      <div class="goal-card">
+
+        <strong>
+          🎯 Today's Goal
+        </strong>
 
         <p>
-          Você está estudando:
-          <strong>${sub}</strong>
+          Complete 1 lesson
+          <br>
+          Earn 50 points
         </p>
 
-        <button
-          class="primary-btn"
-          onclick="openGenerator('${encodeURIComponent(sub)}')">
-
-          Continuar
-
-        </button>
       </div>
-    `;
+
+      <button
+        class="primary-btn"
+        onclick="openGenerator()">
+
+        ▶ Continue Learning
+
+      </button>
+
+    </div>
+  `;
   }
 
   function renderJourney() {
