@@ -39,6 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const sub =
       group.subgroups[
         PROGRESS.currentSubgroup
+
+      const percent =
+  Math.round(
+    (PROGRESS.currentLesson /
+      PROGRESS.totalLessons) *
+    100
+  );
       ];
 
     currentBlock.innerHTML = `
