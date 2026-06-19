@@ -44,40 +44,57 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderJourney() {
-    journey.innerHTML = "";
+  journey.innerHTML = "";
 
-    TAXONOMY.forEach((group, index) => {
+  TAXONOMY.forEach((group, index) => {
 
-      let icon = "🔒";
+    const card =
+      document.createElement("div");
 
-      if (index < PROGRESS.currentGroup) {
-        icon = "🟢";
-      }
+    card.classList.add(
+      "path-node"
+    );
 
-      if (index === PROGRESS.currentGroup) {
-        icon = "🟡";
-      }
+    let icon = "🔒";
 
-      const card =
-        document.createElement("div");
+    if (index < PROGRESS.currentGroup) {
+      icon = "🟢";
+      card.classList.add(
+        "completed"
+      );
+    }
 
-      card.className = "card";
+    else if (
+      index ===
+      PROGRESS.currentGroup
+    ) {
+      icon = "🟡";
+      card.classList.add(
+        "current"
+      );
+    }
 
-      card.innerHTML = `
-        <h3>
-          ${icon}
-          ${group.group}
-        </h3>
+    else {
+      card.classList.add(
+        "locked"
+      );
+    }
 
-        <p>
-          ${group.subgroups.length}
-          módulos
-        </p>
-      `;
+    card.innerHTML = `
+      <div class="path-title">
+        ${icon}
+        ${group.group}
+      </div>
 
-      journey.appendChild(card);
-    });
-  }
+      <div class="path-sub">
+        ${group.subgroups.length}
+        módulos
+      </div>
+    `;
+
+    journey.appendChild(card);
+  });
+}
 
   function renderPath() {
     fullPath.innerHTML = "";
