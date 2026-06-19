@@ -1,3 +1,21 @@
+const quotes = [
+  "🌿 Every new word opens a new door.",
+  "🚀 You are one lesson away from unlocking something new.",
+  "💬 Learn a little. Speak a lot.",
+  "🌎 Every lesson brings you closer to the world.",
+  "✨ Keep learning. Your future self will thank you."
+];
+
+document.getElementById(
+  "dailyQuote"
+).textContent =
+  quotes[
+    Math.floor(
+      Math.random() * quotes.length
+    )
+  ];
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("pathModal");
   const openBtn = document.getElementById("viewPath");
