@@ -13,15 +13,6 @@ if (!user) {
     return;
 }
 
-const lessonsResult =
-await supabaseClient
-    .from('lessons')
-    .select('id')
-    .eq(
-        'subcategory',
-        'Short Vowels'
-    );
-
 const totalLessons =
     lessonsResult.data.length;
     
