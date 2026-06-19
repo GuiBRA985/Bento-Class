@@ -216,13 +216,13 @@ function renderCurrentBlock() {
       </button>
 
     </div>
-     const buttonText =
-      DAILY.gamesUnlocked
+  const buttonText =
+   DAILY.gamesUnlocked
     ? "🎮 Play Games"
     : "▶ Continue Learning";
 
-     const buttonAction =
-      DAILY.gamesUnlocked
+  const buttonAction =
+   DAILY.gamesUnlocked
     ? "playGames()"
     : "openGenerator()";
 
