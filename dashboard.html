@@ -1,71 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>Bento Class</title>
+
+  <link
+    rel="stylesheet"
+    href="css/dashboard.css">
+</head>
+
 <body>
 
-<header class="hero">
+  <header class="hero">
 
     <h1>Bento Class</h1>
-    <p>Learn to Read English</p>
+
+    <p class="subtitle">
+      Learn to Read English
+    </p>
+
+    <p class="description">
+      Aprenda inglês lendo, ouvindo,
+      falando e escrevendo através
+      de um método fonético
+      estruturado.
+    </p>
 
     <div class="stats">
 
-        <div>
-            🔥
-            <span id="streak">0</span>
-            dias
-        </div>
+      <div class="stat-card">
+        <span class="emoji">🔥</span>
+        <span id="streak">0</span>
+        <small>Dias</small>
+      </div>
 
-        <div>
-            ⭐
-            <span id="points">0</span>
-            pontos
-        </div>
+      <div class="stat-card">
+        <span class="emoji">⭐</span>
+        <span id="points">0</span>
+        <small>Pontos</small>
+      </div>
 
-        <div>
-            🏆
-            <span id="completed">0</span>
-            blocos
-        </div>
+      <div class="stat-card">
+        <span class="emoji">🏆</span>
+        <span id="completed">0</span>
+        <small>Blocos</small>
+      </div>
 
     </div>
 
     <button
-        id="continueBtn"
-        class="primary-btn">
+      id="continueBtn"
+      class="primary-btn">
 
-        Continuar estudando
+      ▶️ Continuar estudando
 
     </button>
 
-</header>
+  </header>
 
-<section>
+  <main>
 
-    <h2>
+    <section>
+
+      <h2>
         🗺️ Sua Jornada
-    </h2>
+      </h2>
 
-    <div id="journey"></div>
+      <div id="journey"></div>
 
-</section>
+    </section>
 
-<section class="method">
+    <section class="method">
 
-    <h2>
+      <h2>
         Como funciona
-    </h2>
+      </h2>
 
-    <div class="features">
+      <div class="features">
 
-        <div>🎧 Escute</div>
-        <div>🎤 Pronuncie</div>
-        <div>✍️ Escreva</div>
-        <div>📖 Leia</div>
-        <div>📈 Evolua</div>
+        <div class="feature">
+          🎧
+          <span>Escute</span>
+        </div>
 
-    </div>
+        <div class="feature">
+          🎤
+          <span>Pronuncie</span>
+        </div>
 
-</section>
+        <div class="feature">
+          ✍️
+          <span>Escreva</span>
+        </div>
 
-<script src="js/taxonomy.js"></script>
-<script src="js/dashboard.js"></script>
+        <div class="feature">
+          📖
+          <span>Leia</span>
+        </div>
+
+        <div class="feature">
+          📈
+          <span>Evolua</span>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section>
+
+      <h2>
+        Seu progresso
+      </h2>
+
+      <div class="stats-grid">
+
+        <div class="info-card">
+          <strong id="wordsCount">
+            0
+          </strong>
+          <span>
+            Palavras praticadas
+          </span>
+        </div>
+
+        <div class="info-card">
+          <strong id="sentencesCount">
+            0
+          </strong>
+          <span>
+            Frases lidas
+          </span>
+        </div>
+
+        <div class="info-card">
+          <strong id="accuracy">
+            0%
+          </strong>
+          <span>
+            Precisão
+          </span>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="js/taxonomy.js"></script>
+  <script src="js/dashboard.js"></script>
 
 </body>
+</html>
