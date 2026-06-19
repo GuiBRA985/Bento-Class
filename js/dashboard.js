@@ -295,3 +295,8 @@ function playGames() {
     "Games coming soon 🎮"
   );
 }
+
+function debugLesson() {
+  completeLesson();
+  location.reload();
+}
