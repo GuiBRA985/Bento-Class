@@ -361,3 +361,87 @@ section h2 {
 .progress-container small {
   color: #666;
 }
+
+.hero {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.hero h1 {
+  margin-bottom: 6px;
+  font-size: 2rem;
+}
+
+.hero p {
+  color: #666;
+}
+
+.stats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.stat-card {
+  flex: 1;
+  background: white;
+  border-radius: 18px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+}
+
+.stat-card span {
+  font-size: 24px;
+  display: block;
+}
+
+.stat-card strong {
+  display: block;
+  font-size: 20px;
+  margin: 6px 0;
+}
+
+.stat-card small {
+  color: #666;
+}
+
+.quote-card {
+  background: #f8f8f8;
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 25px;
+  text-align: center;
+  font-style: italic;
+}
+
+.progress-bar {
+  height: 14px;
+  background: #e6e6e6;
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 15px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #ffc107,
+    #ff9800
+  );
+}
+
+.goal-card {
+  background: #f8f8f8;
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 20px;
+}
+
+.unlock-card {
+  background: #eef7ff;
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 20px;
+}
