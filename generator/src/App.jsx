@@ -1138,7 +1138,8 @@ Return ONLY valid JSON, no markdown, no explanation:
 {
   "words": ["word1","word2","word3","word4","word5","word6","word7","word8","word9","word10","word11","word12","word13","word14","word15"],
   "sentences": ["Sentence 1.","Sentence 2.","Sentence 3.","Sentence 4.","Sentence 5.","Sentence 6.","Sentence 7.","Sentence 8."]
-}`;
+}`
+      export default AIGenerator;
 
     try {
       const res = await fetch("https://api.anthropic.com/v1/messages", {
