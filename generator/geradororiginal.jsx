@@ -1095,8 +1095,23 @@ const initialSub =
   ) || 0;
 
 function AIGenerator({ onAdd }) {
-  const [group, setGroup] = useState(TAXONOMY[0].group);
-  const [sub, setSub] = useState(TAXONOMY[0].subgroups[1].sub);
+  const [group, setGroup] =
+  useState(
+    TAXONOMY[
+      initialGroup
+    ].group
+  );
+
+const [sub, setSub] =
+  useState(
+    TAXONOMY[
+      initialGroup
+    ]
+      .subgroups[
+        initialSub
+      ]
+      .sub
+  );
   const [pattern, setPattern] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
