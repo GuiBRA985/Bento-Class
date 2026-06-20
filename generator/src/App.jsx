@@ -1,7 +1,7 @@
 export default function App() {
   return (
     <div style={{ padding: 40 }}>
-      <h1>Bento Generator Online 🚀</h1>
+      <h1>ONLINE 🚀</h1>
     </div>
   );
 }
