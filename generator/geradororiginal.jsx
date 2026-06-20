@@ -1079,6 +1079,21 @@ function LessonCard({ lesson, searchTerm }) {
 // ─────────────────────────────────────────────────────────────────────────────
 // AI GENERATOR
 // ─────────────────────────────────────────────────────────────────────────────
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
+
+const initialGroup =
+  parseInt(
+    params.get("group")
+  ) || 0;
+
+const initialSub =
+  parseInt(
+    params.get("sub")
+  ) || 0;
+
 function AIGenerator({ onAdd }) {
   const [group, setGroup] = useState(TAXONOMY[0].group);
   const [sub, setSub] = useState(TAXONOMY[0].subgroups[1].sub);
