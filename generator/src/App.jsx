@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { TAXONOMY } from "./data/taxonomy";
+
 export default function App() {
   return (
     <div
