@@ -148,33 +148,68 @@ export default function App() {
         {lesson.pattern}
       </p>
 
-      <h3>
-        Words
-      </h3>
+      <h3>Study Words</h3>
 
-      <ul>
-        {
-          lesson.words.map(word => (
-  <li key={word.text}>
-    {word.text}
-  </li>
-))
-        }
-      </ul>
+{lesson.words.map(word => (
 
-      <h3>
-        Sentences
-      </h3>
+  <div
+    key={word.text}
+    style={{
+      border: "1px solid #ddd",
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 12
+    }}
+  >
 
-      <ul>
-        {
-          lesson.sentences.map(sentence => (
-  <li key={sentence.text}>
-    {sentence.text}
-  </li>
-))
-        }
-      </ul>
+    <h4>{word.text}</h4>
+
+    <div
+      style={{
+        display: "flex",
+        gap: 10,
+        flexWrap: "wrap"
+      }}
+    >
+      <button>▶ Hear</button>
+      <button>🔤 Spell</button>
+      <button>🎙 Record</button>
+    </div>
+
+  </div>
+
+))}
+
+      <h3>Write and Speak</h3>
+
+{lesson.sentences.map(sentence => (
+
+  <div
+    key={sentence.text}
+    style={{
+      border: "1px solid #ddd",
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 12
+    }}
+  >
+
+    <p>{sentence.text}</p>
+
+    <div
+      style={{
+        display: "flex",
+        gap: 10,
+        flexWrap: "wrap"
+      }}
+    >
+      <button>📷 Upload Photo</button>
+      <button>🎙 Record Sentence</button>
+    </div>
+
+  </div>
+
+))}
 
     </div>
 
