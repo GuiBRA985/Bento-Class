@@ -32,6 +32,8 @@ export default function App() {
 
   const [sub] =
     useState(initialSub);
+  const [pattern, setPattern] =
+  useState("");
 
   return (
     <div
