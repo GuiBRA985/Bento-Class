@@ -1,3 +1,5 @@
+import { lessonTemplates }
+  from "./data/lessonTemplates";
 import { useState } from "react";
 import { TAXONOMY } from "./data/taxonomy";
 
