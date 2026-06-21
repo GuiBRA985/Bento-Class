@@ -46,25 +46,52 @@ export default function App() {
     >
       <h1>Bento Generator 🚀</h1>
 
-      <div
-        style={{
-          marginTop: "30px",
-          padding: "20px",
-          border: "1px solid #ddd",
-          borderRadius: "12px"
-        }}
-      >
-        <h2>Current Lesson</h2>
+<div
+  style={{
+    marginTop: 30,
+    padding: 20,
+    border: "1px solid #ddd",
+    borderRadius: 12
+  }}
+>
+  <h2>Current Lesson</h2>
 
-        <p>
-          <strong>Group:</strong>{" "}
-          {group}
-        </p>
+  <p>
+    <strong>Group:</strong> {group}
+  </p>
 
-        <p>
-          <strong>Subgroup:</strong>{" "}
-          {sub}
-        </p>
+  <p>
+    <strong>Subgroup:</strong> {sub}
+  </p>
+
+  <div
+    style={{
+      marginTop: 20
+    }}
+  >
+    <label>
+      Lesson Pattern
+    </label>
+
+    <input
+      value={pattern}
+      onChange={(e) =>
+        setPattern(
+          e.target.value
+        )
+      }
+      placeholder="Example: CVC"
+      style={{
+        display: "block",
+        width: "100%",
+        padding: 12,
+        marginTop: 10,
+        borderRadius: 8,
+        border: "1px solid #ccc"
+      }}
+    />
+  </div>
+</div>
       </div>
     </div>
   );
