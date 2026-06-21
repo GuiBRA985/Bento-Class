@@ -97,24 +97,31 @@ export default function App() {
   </div>
   <button
   onClick={() => {
-    setLesson({
-      group,
-      sub,
-      pattern,
-      words: [],
-      sentences: [],
-      activities: []
-    });
-  }}
-  style={{
-    marginTop: 20,
-    padding: "12px 20px",
-    border: "none",
-    borderRadius: 8,
-    background: "#2848ff",
-    color: "#fff",
-    cursor: "pointer"
-  }}
+
+  const lessonData =
+    lessonTemplates[group]?.[sub];
+
+  if (!lessonData) {
+    return;
+  }
+
+  setLesson({
+    title:
+      `${group} - ${sub}`,
+
+    group,
+    sub,
+
+    pattern:
+      lessonData.pattern,
+
+    words:
+      lessonData.words,
+
+    sentences:
+      lessonData.sentences
+  });
+}}
 >
   Generate Lesson
 </button>
