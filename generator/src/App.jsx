@@ -154,13 +154,11 @@ export default function App() {
 
       <ul>
         {
-          lesson.words.map(
-            word => (
-              <li key={word}>
-                {word}
-              </li>
-            )
-          )
+          lesson.words.map(word => (
+  <li key={word.text}>
+    {word.text}
+  </li>
+))
         }
       </ul>
 
@@ -170,15 +168,11 @@ export default function App() {
 
       <ul>
         {
-          lesson.sentences.map(
-            sentence => (
-              <li
-                key={sentence}
-              >
-                {sentence}
-              </li>
-            )
-          )
+          lesson.sentences.map(sentence => (
+  <li key={sentence.text}>
+    {sentence.text}
+  </li>
+))
         }
       </ul>
 
