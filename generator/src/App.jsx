@@ -125,6 +125,68 @@ export default function App() {
 >
   Generate Lesson
 </button>
+{
+  lesson && (
+
+    <div
+      style={{
+        marginTop: 30,
+        padding: 20,
+        border: "1px solid #ddd",
+        borderRadius: 12
+      }}
+    >
+
+      <h2>
+        {lesson.title}
+      </h2>
+
+      <p>
+        <strong>
+          Pattern:
+        </strong>{" "}
+        {lesson.pattern}
+      </p>
+
+      <h3>
+        Words
+      </h3>
+
+      <ul>
+        {
+          lesson.words.map(
+            word => (
+              <li key={word}>
+                {word}
+              </li>
+            )
+          )
+        }
+      </ul>
+
+      <h3>
+        Sentences
+      </h3>
+
+      <ul>
+        {
+          lesson.sentences.map(
+            sentence => (
+              <li
+                key={sentence}
+              >
+                {sentence}
+              </li>
+            )
+          )
+        }
+      </ul>
+
+    </div>
+
+  )
+}
+  
   {
   lesson && (
     <div
