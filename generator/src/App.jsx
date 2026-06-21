@@ -94,6 +94,16 @@ export default function App() {
     />
   </div>
   <button
+  onClick={() => {
+    setLesson({
+      group,
+      sub,
+      pattern,
+      words: [],
+      sentences: [],
+      activities: []
+    });
+  }}
   style={{
     marginTop: 20,
     padding: "12px 20px",
