@@ -116,6 +116,38 @@ export default function App() {
 >
   Generate Lesson
 </button>
+  {
+  lesson && (
+    <div
+      style={{
+        marginTop: 30,
+        padding: 20,
+        border: "1px solid #ddd",
+        borderRadius: 12,
+        background: "#fafafa"
+      }}
+    >
+      <h3>
+        Generated Lesson
+      </h3>
+
+      <p>
+        <strong>Group:</strong>{" "}
+        {lesson.group}
+      </p>
+
+      <p>
+        <strong>Subgroup:</strong>{" "}
+        {lesson.sub}
+      </p>
+
+      <p>
+        <strong>Pattern:</strong>{" "}
+        {lesson.pattern}
+      </p>
+    </div>
+  )
+  }
 </div>
       </div>
   );
