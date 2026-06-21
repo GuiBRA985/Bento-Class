@@ -93,8 +93,19 @@ export default function App() {
       }}
     />
   </div>
-  const [lesson, setLesson] =
-  useState(null);
+  <button
+  style={{
+    marginTop: 20,
+    padding: "12px 20px",
+    border: "none",
+    borderRadius: 8,
+    background: "#2848ff",
+    color: "#fff",
+    cursor: "pointer"
+  }}
+>
+  Generate Lesson
+</button>
 </div>
       </div>
   );
