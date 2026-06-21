@@ -34,6 +34,8 @@ export default function App() {
     useState(initialSub);
   const [pattern, setPattern] =
   useState("");
+  const [lesson, setLesson] =
+  useState(null);
 
   return (
     <div
