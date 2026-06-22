@@ -35,6 +35,44 @@ function spellWord(word) {
   });
 }
 
+function startRecording(expectedWord) {
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    alert(
+      "Speech recognition is not supported on this device."
+    );
+    return;
+  }
+
+  const recognition =
+    new SpeechRecognition();
+
+  recognition.lang = "en-US";
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  recognition.start();
+
+  recognition.onresult = (event) => {
+    const spoken =
+      event.results[0][0]
+        .transcript;
+
+    alert(
+      `You said: ${spoken}`
+    );
+  };
+
+  recognition.onerror = () => {
+    alert(
+      "Could not recognize speech."
+    );
+  };
+}
+
 export default function App() {
   const params = new URLSearchParams(window.location.search);
 
