@@ -80,7 +80,7 @@ function startRecording(
   !completedWords.includes(
     expectedWord
   )
-) {
+ {
   setCompletedWords(prev => [
     ...prev,
     expectedWord
