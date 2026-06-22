@@ -59,6 +59,45 @@ function startRecording(expectedWord) {
   recognition.onresult = (event) => {
     const spoken =
       event.results[0][0]
+        .transcript
+        .trim()
+        .toLowerCase();
+
+    const expected =
+      expectedWord
+        .trim()
+        .toLowerCase();
+
+    if (spoken === expected) {
+      alert(
+        `✅ Great!\n\nYou said: ${spoken}`
+      );
+    } else {
+      alert(
+        `❌ Try again.\n\nExpected: ${expected}\nYou said: ${spoken}`
+      );
+    }
+  };
+
+  recognition.onerror = () => {
+    alert(
+      "Could not recognize speech."
+    );
+  };
+}
+
+  const recognition =
+    new SpeechRecognition();
+
+  recognition.lang = "en-US";
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  recognition.start();
+
+  recognition.onresult = (event) => {
+    const spoken =
+      event.results[0][0]
         .transcript;
 
     alert(
