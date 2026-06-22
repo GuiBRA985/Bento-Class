@@ -14,21 +14,25 @@ function speak(text) {
 }
 function spellWord(word) {
   const letters =
-    word
-      .toUpperCase()
-      .split("")
-      .join(" ");
-
-  const utterance =
-    new SpeechSynthesisUtterance(
-      letters
-    );
-
-  utterance.lang = "en-US";
-  utterance.rate = 0.6;
+    word.toUpperCase().split("");
 
   speechSynthesis.cancel();
-  speechSynthesis.speak(utterance);
+
+  letters.forEach((letter, index) => {
+    setTimeout(() => {
+      const utterance =
+        new SpeechSynthesisUtterance(
+          letter
+        );
+
+      utterance.lang = "en-US";
+      utterance.rate = 0.5;
+
+      speechSynthesis.speak(
+        utterance
+      );
+    }, index * 1200);
+  });
 }
 
 export default function App() {
