@@ -12,6 +12,24 @@ function speak(text) {
   speechSynthesis.cancel();
   speechSynthesis.speak(utterance);
 }
+function spellWord(word) {
+  const letters =
+    word
+      .toUpperCase()
+      .split("")
+      .join(" ");
+
+  const utterance =
+    new SpeechSynthesisUtterance(
+      letters
+    );
+
+  utterance.lang = "en-US";
+  utterance.rate = 0.6;
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+}
 
 export default function App() {
   const params = new URLSearchParams(window.location.search);
