@@ -256,7 +256,13 @@ export default function App() {
 >
   🔤 Spell
 </button>
-      <button>🎙 Record</button>
+      <button
+  onClick={() =>
+    startRecording(word.text)
+  }
+>
+  🎙 Record
+</button>
     </div>
 
   </div>
