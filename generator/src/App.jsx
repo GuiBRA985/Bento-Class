@@ -179,8 +179,32 @@ export default function App() {
   </div>
 
 ))}
+<div
+  style={{
+    border: "1px solid #ddd",
+    borderRadius: 12,
+    padding: 20,
+    marginBottom: 20,
+    background: "#fafafa"
+  }}
+>
 
-      <h3>Write and Speak</h3>
+  <h3>
+    ✍️ Handwriting Practice
+  </h3>
+
+  <p>
+    Write all sentences on paper.
+    When you finish, take ONE picture
+    containing all sentences.
+  </p>
+
+  <button>
+    📷 Upload Handwriting
+  </button>
+
+</div>
+      <h3>🎙 Sentence Speaking Practice</h3>
 
 {lesson.sentences.map(sentence => (
 
@@ -203,7 +227,6 @@ export default function App() {
         flexWrap: "wrap"
       }}
     >
-      <button>📷 Upload Photo</button>
       <button>🎙 Record Sentence</button>
     </div>
 
