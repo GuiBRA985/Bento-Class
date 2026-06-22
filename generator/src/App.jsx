@@ -1,3 +1,6 @@
+const [completedWords, setCompletedWords] =
+  useState([]);
+
 import { lessonTemplates }
   from "./data/lessonTemplates";
 import { useState } from "react";
