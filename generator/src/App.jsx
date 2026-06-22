@@ -312,7 +312,11 @@ export default function App() {
 </button>
       <button
   onClick={() =>
-    startRecording(word.text)
+  startRecording(
+    word.text,
+    completedWords,
+    setCompletedWords
+  )
   }
 >
   🎙 Record
