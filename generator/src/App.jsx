@@ -76,23 +76,21 @@ function startRecording(
         .toLowerCase();
 
     if (spoken === expected) {
-      if (
-  !completedWords.includes(
-    expectedWord
-  )
- {
-  setCompletedWords(prev => [
-    ...prev,
-    expectedWord
-  ]);
-      }
-      alert(
-        `✅ Great!\n\nYou said: ${spoken}`
-      );
-    } else {
-      alert(
-        `❌ Try again.\n\nExpected: ${expected}\nYou said: ${spoken}`
-      );
+
+  if (
+    !completedWords.includes(
+      expectedWord
+    )
+  ) {
+    setCompletedWords(prev => [
+      ...prev,
+      expectedWord
+    ]);
+  }
+
+  alert(
+    `✅ Great!\n\nYou said: ${spoken}`
+  );
     }
   };
 
