@@ -271,7 +271,27 @@ export default function App() {
         </strong>{" "}
         {lesson.pattern}
       </p>
+<div
+  style={{
+    border: "1px solid #ddd",
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 20,
+    background: "#fafafa"
+  }}
+>
 
+  <h3>
+    Words Progress
+  </h3>
+
+  <p>
+    {completedWords.length}
+    /
+    {lesson.words.length}
+  </p>
+
+</div>
       <h3>Study Words</h3>
 
 {lesson.words.map(word => (
