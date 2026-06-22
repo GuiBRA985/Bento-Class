@@ -199,8 +199,21 @@ export default function App() {
         flexWrap: "wrap"
       }}
     >
-      <button>▶ Hear</button>
-      <button>🔤 Spell</button>
+      <button
+  onClick={() =>
+    speak(word.text)
+  }
+>
+  ▶ Hear
+</button>
+
+<button
+  onClick={() =>
+    spellWord(word.text)
+  }
+>
+  🔤 Spell
+</button>
       <button>🎙 Record</button>
     </div>
 
