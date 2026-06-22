@@ -2,6 +2,16 @@ import { lessonTemplates }
   from "./data/lessonTemplates";
 import { useState } from "react";
 import { TAXONOMY } from "./data/taxonomy";
+function speak(text) {
+  const utterance =
+    new SpeechSynthesisUtterance(text);
+
+  utterance.lang = "en-US";
+  utterance.rate = 0.8;
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+}
 
 export default function App() {
   const params = new URLSearchParams(window.location.search);
