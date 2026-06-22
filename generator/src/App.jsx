@@ -38,7 +38,11 @@ function spellWord(word) {
   });
 }
 
-function startRecording(expectedWord) {
+function startRecording(
+  expectedWord,
+  completedWords,
+  setCompletedWords
+) {
   const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
