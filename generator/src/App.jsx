@@ -306,7 +306,15 @@ export default function App() {
     }}
   >
 
-    <h4>{word.text}</h4>
+    <h4>
+  {
+    completedWords.includes(
+      word.text
+    )
+      ? "✅ " + word.text
+      : word.text
+  }
+</h4>
 
     <div
       style={{
