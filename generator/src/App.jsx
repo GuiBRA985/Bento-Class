@@ -125,7 +125,7 @@ function startRecording(
       "Could not recognize speech."
     );
   };
-}
+
 
 export default function App() {
   const params = new URLSearchParams(window.location.search);
