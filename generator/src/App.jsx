@@ -326,11 +326,8 @@ export default function App() {
 
     <h4>
   {
-    completedWords.includes(
-      word.text
-    )
-      ? "✅ " +
-        word.text
+    word.pronunciationPassed
+      ? "✅ " + word.text
       : word.text
   }
 </h4>
