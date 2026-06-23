@@ -226,21 +226,25 @@ export default function App() {
     }
 
     setLesson({
-      title:
-        `${group} - ${sub}`,
-
+      title: `${group} - ${sub}`,
       group,
       sub,
-
-      pattern:
-        lessonData.pattern,
-
-      words:
-        lessonData.words,
-
-      sentences:
-        lessonData.sentences
+      pattern: lessonData.pattern,
+      words: lessonData.words,
+      sentences: lessonData.sentences
     });
+  }}
+  style={{
+    marginTop: 16,
+    padding: "12px 20px",
+    borderRadius: 10,
+    border: "none",
+    background: "#2f6fed",
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: 600,
+    cursor: "pointer",
+    width: "100%"
   }}
 >
   Generate Lesson
