@@ -301,6 +301,24 @@ export default function App() {
       marginBottom: 12
     }}
   >
+    <h3>
+    Words Progress
+  </h3>
+
+  <p>
+    {completedWords.length}
+    /
+    {lesson.words.length}
+  </p>
+
+  <progress
+    value={completedWords.length}
+    max={lesson.words.length}
+    style={{
+      width: "100%",
+      height: 20
+    }}
+  />
 
     <h4>
   {
