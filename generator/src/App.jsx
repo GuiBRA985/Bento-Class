@@ -80,17 +80,33 @@ function startRecording(
       spoken === expected
     ) {
 
-      if (
-        !completedWords.includes(
-          expectedWord
-        )
-      ) {
-        setCompletedWords(
-          prev => [
-            ...prev,
-            expectedWord
-          ]
-        );
+      setCompletedWords(prev => {
+
+  if (
+    prev.includes(
+      expectedWord
+    )
+  ) {
+    return prev;
+  }
+
+  const updated = [
+    ...prev,
+    expectedWord
+  ];
+
+  const lessonKey =
+    `${lesson.group}-${lesson.sub}`;
+
+  saveProgress(
+    lessonKey,
+    {
+      words: updated
+    }
+  );
+
+  return updated;
+});
       }
 
       alert(
