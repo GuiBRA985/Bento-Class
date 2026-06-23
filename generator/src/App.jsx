@@ -270,6 +270,7 @@ saveProgress(
     />
   </div>
   <button
+  <button
   onClick={() => {
 
     const lessonData =
@@ -287,6 +288,24 @@ saveProgress(
       words: lessonData.words,
       sentences: lessonData.sentences
     });
+
+    const lessonKey =
+      `${group}-${sub}`;
+
+    saveProgress(
+      lessonKey,
+      {
+        startedAt:
+          new Date()
+            .toISOString(),
+
+        completed: false,
+
+        words: {},
+
+        sentences: {}
+      }
+    );
   }}
   style={{
     marginTop: 16,
