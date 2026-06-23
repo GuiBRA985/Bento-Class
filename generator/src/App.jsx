@@ -138,6 +138,20 @@ useEffect(() => {
   );
 }, [studentProgress]);
 
+  function saveProgress(
+  lessonKey,
+  data
+) {
+  setStudentProgress(prev => ({
+    ...prev,
+
+    [lessonKey]: {
+      ...prev[lessonKey],
+      ...data
+    }
+  }));
+}
+
   const [
     completedWords,
     setCompletedWords
