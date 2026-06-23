@@ -249,6 +249,24 @@ useEffect(() => {
         borderRadius: 8,
         border: "1px solid #ccc"
       }}
+
+      const lessonKey =
+  `${group}-${sub}`;
+
+saveProgress(
+  lessonKey,
+  {
+    startedAt:
+      new Date()
+        .toISOString(),
+
+    completed: false,
+
+    words: {},
+
+    sentences: {}
+  }
+);
     />
   </div>
   <button
