@@ -1,10 +1,8 @@
-const [completedWords, setCompletedWords] =
-  useState([]);
-
 import { lessonTemplates }
   from "./data/lessonTemplates";
 import { useState } from "react";
 import { TAXONOMY } from "./data/taxonomy";
+
 function speak(text) {
   const utterance =
     new SpeechSynthesisUtterance(text);
@@ -63,7 +61,10 @@ function startRecording(
 
   recognition.start();
 
-  recognition.onresult = (event) => {
+  recognition.onresult = (
+    event
+  ) => {
+
     const spoken =
       event.results[0][0]
         .transcript
@@ -75,60 +76,55 @@ function startRecording(
         .trim()
         .toLowerCase();
 
-    if (spoken === expected) {
+    if (
+      spoken === expected
+    ) {
 
-  if (
-    !completedWords.includes(
-      expectedWord
-    )
-  ) {
-    setCompletedWords(prev => [
-      ...prev,
-      expectedWord
-    ]);
-  }
+      if (
+        !completedWords.includes(
+          expectedWord
+        )
+      ) {
+        setCompletedWords(
+          prev => [
+            ...prev,
+            expectedWord
+          ]
+        );
+      }
 
-  alert(
-    `âœ… Great!\n\nYou said: ${spoken}`
-  );
+      alert(
+        `✅ Great!\n\nYou said: ${spoken}`
+      );
+
+    } else {
+
+      alert(
+        `❌ Try again.\n\nExpected: ${expected}\nYou said: ${spoken}`
+      );
+
     }
   };
 
-  recognition.onerror = () => {
-    alert(
-      "Could not recognize speech."
-    );
-  };
+  recognition.onerror =
+    () => {
+      alert(
+        "Could not recognize speech."
+      );
+    };
 }
 
-  const recognition =
-    new SpeechRecognition();
-
-  recognition.lang = "en-US";
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-
-  recognition.start();
-
-  recognition.onresult = (event) => {
-    const spoken =
-      event.results[0][0]
-        .transcript;
-
-    alert(
-      `You said: ${spoken}`
-    );
-  };
-
-  recognition.onerror = () => {
-    alert(
-      "Could not recognize speech."
-    );
-  };
-
-
 export default function App() {
-  const params = new URLSearchParams(window.location.search);
+
+  const [
+    completedWords,
+    setCompletedWords
+  ] = useState([]);
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
 
   const urlGroup = params.get("group");
   const urlSub = params.get("sub");
@@ -271,6 +267,36 @@ export default function App() {
         </strong>{" "}
         {lesson.pattern}
       </p>
+      <div
+  style={{
+    border: "1px solid #ddd",
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 20,
+    background: "#fafafa"
+  }}
+>
+
+  <h3>
+    Words Progress
+  </h3>
+
+  <p>
+    {completedWords.length}
+    /
+    {lesson.words.length}
+  </p>
+
+  <progress
+    value={completedWords.length}
+    max={lesson.words.length}
+    style={{
+      width: "100%",
+      height: 20
+    }}
+  />
+
+</div>
 <div
   style={{
     border: "1px solid #ddd",
@@ -311,7 +337,8 @@ export default function App() {
     completedWords.includes(
       word.text
     )
-      ? "âœ… " + word.text
+      ? "✅ " +
+        word.text
       : word.text
   }
 </h4>
@@ -340,14 +367,14 @@ export default function App() {
 </button>
       <button
   onClick={() =>
-  startRecording(
-    word.text,
-    completedWords,
-    setCompletedWords
-  )
+    startRecording(
+      word.text,
+      completedWords,
+      setCompletedWords
+    )
   }
 >
-  ðŸŽ™ Record
+  🎙 Record
 </button>
     </div>
 
