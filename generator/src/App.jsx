@@ -218,30 +218,30 @@ export default function App() {
   <button
   onClick={() => {
 
-  const lessonData =
-    lessonTemplates[group]?.[sub];
+    const lessonData =
+      lessonTemplates[group]?.[sub];
 
-  if (!lessonData) {
-    return;
-  }
+    if (!lessonData) {
+      return;
+    }
 
-  setLesson({
-    title:
-      `${group} - ${sub}`,
+    setLesson({
+      title:
+        `${group} - ${sub}`,
 
-    group,
-    sub,
+      group,
+      sub,
 
-    pattern:
-      lessonData.pattern,
+      pattern:
+        lessonData.pattern,
 
-    words:
-      lessonData.words,
+      words:
+        lessonData.words,
 
-    sentences:
-      lessonData.sentences
-  });
-}}
+      sentences:
+        lessonData.sentences
+    });
+  }}
 >
   Generate Lesson
 </button>
