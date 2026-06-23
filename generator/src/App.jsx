@@ -168,7 +168,7 @@ export default function App() {
         margin: "0 auto"
       }}
     >
-      <h1>Bento Generator ðŸš€</h1>
+      <h1>Bento Generator 🚀</h1>
 
 <div
   style={{
@@ -343,7 +343,7 @@ export default function App() {
     speak(word.text)
   }
 >
-  â–¶ Hear
+  ▶ Hear
 </button>
 
 <button
@@ -351,7 +351,7 @@ export default function App() {
     spellWord(word.text)
   }
 >
-  ðŸ”¤ Spell
+  🔤 Spell
 </button>
       <button
   onClick={() =>
@@ -380,7 +380,7 @@ export default function App() {
 >
 
   <h3>
-    âœï¸ Handwriting Practice
+    ✍️ Handwriting Practice
   </h3>
 
   <p>
@@ -390,11 +390,11 @@ export default function App() {
   </p>
 
   <button>
-    ðŸ“· Upload Handwriting
+    📷 Upload Handwriting
   </button>
 
 </div>
-      <h3>ðŸŽ™ Sentence Speaking Practice</h3>
+      <h3>🎙 Sentence Speaking Practice</h3>
 
 {lesson.sentences.map(sentence => (
 
@@ -417,7 +417,7 @@ export default function App() {
         flexWrap: "wrap"
       }}
     >
-      <button>ðŸŽ™ Record Sentence</button>
+      <button>🎙 Record Sentence</button>
     </div>
 
   </div>
