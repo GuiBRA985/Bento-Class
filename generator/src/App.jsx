@@ -1,6 +1,6 @@
 import { lessonTemplates }
   from "./data/lessonTemplates";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TAXONOMY } from "./data/taxonomy";
 
 function speak(text) {
@@ -115,6 +115,28 @@ function startRecording(
 }
 
 export default function App() {
+  const [studentProgress,
+  setStudentProgress
+] = useState(() => {
+
+  const saved =
+    localStorage.getItem(
+      "studentProgress"
+    );
+
+  return saved
+    ? JSON.parse(saved)
+    : {};
+});
+
+useEffect(() => {
+  localStorage.setItem(
+    "studentProgress",
+    JSON.stringify(
+      studentProgress
+    )
+  );
+}, [studentProgress]);
 
   const [
     completedWords,
