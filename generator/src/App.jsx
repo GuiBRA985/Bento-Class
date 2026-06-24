@@ -38,9 +38,8 @@ function spellWord(word) {
 
 function startRecording(
   expectedWord,
-  completedWords,
   setCompletedWords
-) {
+)
   const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
@@ -322,37 +321,30 @@ const [
 >
   Generate Lesson
 </button>
-    
-  lesson && (
 
-    <div
-      style={{
-        marginTop: 30,
-        padding: 20,
-        border: "1px solid #ddd",
-        borderRadius: 12
-      }}
-    >
+{lesson && (
 
-      <h2>
-        {lesson.title}
-      </h2>
+  <div
+    style={{
+      marginTop: 30,
+      padding: 20,
+      border: "1px solid #ddd",
+      borderRadius: 12
+    }}
+  >
+    <h2>
+      {lesson.title}
+    </h2>
 
-      <p>
-        <strong>
-          Pattern:
-        </strong>{" "}
-        {lesson.pattern}
-      </p>
-      <div
-  style={{
-    border: "1px solid #ddd",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 20,
-    background: "#fafafa"
-  }}
->
+    <p>
+      <strong>Pattern:</strong>{" "}
+      {lesson.pattern}
+    </p>
+
+    ...
+  </div>
+
+)}
 
   <h3>
     Words Progress
@@ -495,8 +487,7 @@ const [
   )
 }
   
-  {
-  lesson && (
+  {lesson && (
     <div
       style={{
         marginTop: 30,
