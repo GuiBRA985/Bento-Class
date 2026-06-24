@@ -330,7 +330,7 @@ const [
     >
   Generate Lesson
 </button>
-{
+    
   lesson && (
 
     <div
