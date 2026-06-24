@@ -327,7 +327,6 @@ const [
       );
     }
   }}
->
   Generate Lesson
 </button>
 {
