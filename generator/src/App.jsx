@@ -94,18 +94,6 @@ function startRecording(
     ...prev,
     expectedWord
   ];
-
-  const lessonKey =
-    `${lesson.group}-${lesson.sub}`;
-
-  saveProgress(
-    lessonKey,
-    {
-      words: updated
-    }
-  );
-
-  return updated;
 });
 
       alert(
