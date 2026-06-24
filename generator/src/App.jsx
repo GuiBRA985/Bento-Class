@@ -284,9 +284,6 @@ const [
       sentences: lessonData.sentences
     });
 
-    const lessonKey =
-      `${group}-${sub}`;
-
     const savedLesson =
       studentProgress?.[
         lessonKey
