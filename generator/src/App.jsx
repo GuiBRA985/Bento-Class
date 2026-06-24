@@ -172,6 +172,16 @@ useEffect(() => {
     setCompletedWords
   ] = useState([]);
 
+  const [
+  completedSentences,
+  setCompletedSentences
+] = useState([]);
+
+const [
+  handwritingUploaded,
+  setHandwritingUploaded
+] = useState(false);
+
   const params =
     new URLSearchParams(
       window.location.search
