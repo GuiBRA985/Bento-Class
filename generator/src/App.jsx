@@ -90,7 +90,7 @@ function startRecording(
     return prev;
   }
 
-  const updated = [
+  return [
     ...prev,
     expectedWord
   ];
