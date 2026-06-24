@@ -408,11 +408,13 @@ const [
   >
 
     <h4>
-  {
-    word.pronunciationPassed
-      ? "✅ " + word.text
-      : word.text
-  }
+{
+  completedWords.includes(
+    word.text
+  )
+    ? "✅ " + word.text
+    : word.text
+}
 </h4>
 
     <div
