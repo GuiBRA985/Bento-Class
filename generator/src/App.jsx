@@ -323,7 +323,6 @@ const [
 </button>
 
 {lesson && (
-
   <div
     style={{
       marginTop: 30,
@@ -332,18 +331,172 @@ const [
       borderRadius: 12
     }}
   >
-    <h2>
-      {lesson.title}
-    </h2>
+    <h2>{lesson.title}</h2>
 
     <p>
       <strong>Pattern:</strong>{" "}
       {lesson.pattern}
     </p>
 
-    ...
-  </div>
+    <div
+      style={{
+        border: "1px solid #ddd",
+        borderRadius: 12,
+        padding: 16,
+        marginBottom: 20,
+        background: "#fafafa"
+      }}
+    >
+      <h3>
+        Words Progress
+      </h3>
 
+      <p>
+        {completedWords.length}
+        /
+        {lesson.words.length}
+      </p>
+
+      <progress
+        value={
+          completedWords.length
+        }
+        max={
+          lesson.words.length
+        }
+        style={{
+          width: "100%",
+          height: 20
+        }}
+      />
+    </div>
+
+    <h3>
+      Study Words
+    </h3>
+
+    {lesson.words.map(
+      word => (
+        <div
+          key={word.text}
+          style={{
+            border:
+              "1px solid #ddd",
+            borderRadius: 12,
+            padding: 16,
+            marginBottom: 12
+          }}
+        >
+          <h4>
+            {completedWords.includes(
+              word.text
+            )
+              ? "✅ " +
+                word.text
+              : word.text}
+          </h4>
+
+          <div
+            style={{
+              display:
+                "flex",
+              gap: 10,
+              flexWrap:
+                "wrap"
+            }}
+          >
+            <button
+              onClick={() =>
+                speak(
+                  word.text
+                )
+              }
+            >
+              ▶ Hear
+            </button>
+
+            <button
+              onClick={() =>
+                spellWord(
+                  word.text
+                )
+              }
+            >
+              🔤 Spell
+            </button>
+
+            <button
+              onClick={() =>
+                startRecording(
+                  word.text,
+                  setCompletedWords
+                )
+              }
+            >
+              🎙 Record
+            </button>
+          </div>
+        </div>
+      )
+    )}
+
+    <div
+      style={{
+        border:
+          "1px solid #ddd",
+        borderRadius: 12,
+        padding: 20,
+        marginBottom: 20,
+        background:
+          "#fafafa"
+      }}
+    >
+      <h3>
+        ✍️ Handwriting
+        Practice
+      </h3>
+
+      <p>
+        Write all sentences on
+        paper and upload ONE
+        picture.
+      </p>
+
+      <button>
+        📷 Upload
+        Handwriting
+      </button>
+    </div>
+
+    <h3>
+      🎙 Sentence Speaking
+      Practice
+    </h3>
+
+    {lesson.sentences.map(
+      sentence => (
+        <div
+          key={sentence.text}
+          style={{
+            border:
+              "1px solid #ddd",
+            borderRadius: 12,
+            padding: 16,
+            marginBottom: 12
+          }}
+        >
+          <p>
+            {sentence.text}
+          </p>
+
+          <button>
+            🎙 Record
+            Sentence
+          </button>
+        </div>
+      )
+    )}
+  </div>
 )}
 
   <h3>
