@@ -299,22 +299,46 @@ const [
     const lessonKey =
       `${group}-${sub}`;
 
-    saveProgress(
-      lessonKey,
-      {
-        startedAt:
-          new Date()
-            .toISOString(),
+    const savedLesson =
+      studentProgress?.[
+        lessonKey
+      ];
 
-        completed: false,
+    if (!savedLesson) {
 
-        words: {},
+      saveProgress(
+        lessonKey,
+        {
+          startedAt:
+            new Date()
+              .toISOString(),
 
-        sentences: {}
-      }
-    );
+          completed: false,
+
+          words: [],
+
+          sentences: [],
+
+          handwriting: false
+        }
+      );
+
+    } else {
+
+      setCompletedWords(
+        savedLesson.words || []
+      );
+
+      setCompletedSentences(
+        savedLesson.sentences || []
+      );
+
+      setHandwritingUploaded(
+        savedLesson.handwriting ||
+          false
+      );
+    }
   }}
-  
 >
   Generate Lesson
 </button>
