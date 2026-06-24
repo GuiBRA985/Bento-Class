@@ -80,7 +80,7 @@ function startRecording(
       spoken === expected
     ) {
 
-      setCompletedWords(prev => {
+     setCompletedWords(prev => {
 
   if (
     prev.includes(
