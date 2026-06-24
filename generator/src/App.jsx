@@ -284,6 +284,9 @@ const [
       sentences: lessonData.sentences
     });
 
+    const lessonKey =
+      `${group}-${sub}`;
+
     const savedLesson =
       studentProgress?.[
         lessonKey
@@ -322,8 +325,9 @@ const [
         savedLesson.handwriting ||
           false
       );
- }}}
-    >
+    }
+  }}
+>
   Generate Lesson
 </button>
     
