@@ -269,17 +269,45 @@ const [
     const lessonData =
       lessonTemplates[group]?.[sub];
 
+    console.log(
+      "GROUP:",
+      group
+    );
+
+    console.log(
+      "SUB:",
+      sub
+    );
+
+    console.log(
+      "LESSON:",
+      lessonData
+    );
+
     if (!lessonData) {
+      alert(
+        `Lesson not found!\n\nGroup: ${group}\nSubgroup: ${sub}`
+      );
       return;
     }
 
     setLesson({
-      title: `${group} - ${sub}`,
+      title:
+        lessonData.title ||
+        `${group} - ${sub}`,
+
       group,
       sub,
-      pattern: lessonData.pattern,
-      words: lessonData.words,
-      sentences: lessonData.sentences
+
+      pattern:
+        lessonData.pattern || "",
+
+      words:
+        lessonData.words || [],
+
+      sentences:
+        lessonData.sentences ||
+        []
     });
 
     const lessonKey =
@@ -297,11 +325,21 @@ const [
           startedAt:
             new Date()
               .toISOString(),
+
           completed: false,
+
           words: [],
+
           sentences: [],
+
           handwriting: false
         }
+      );
+
+      setCompletedWords([]);
+      setCompletedSentences([]);
+      setHandwritingUploaded(
+        false
       );
     } else {
       setCompletedWords(
@@ -309,7 +347,8 @@ const [
       );
 
       setCompletedSentences(
-        savedLesson.sentences || []
+        savedLesson.sentences ||
+          []
       );
 
       setHandwritingUploaded(
@@ -354,7 +393,7 @@ const [
       <p>
         {completedWords.length}
         /
-        {lesson.words.length}
+        {lesson.words?.length || 0}
       </p>
 
       <progress
@@ -362,8 +401,8 @@ const [
           completedWords.length
         }
         max={
-          lesson.words.length
-        }
+  lesson.words?.length || 0
+}
         style={{
           width: "100%",
           height: 20
@@ -375,7 +414,7 @@ const [
       Study Words
     </h3>
 
-    {lesson.words.map(
+    {lesson.words?.map(
       word => (
         <div
           key={word.text}
@@ -473,7 +512,7 @@ const [
       Practice
     </h3>
 
-    {lesson.sentences.map(
+    {lesson.sentences?.map(
       sentence => (
         <div
           key={sentence.text}
