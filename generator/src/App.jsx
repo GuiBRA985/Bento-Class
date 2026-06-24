@@ -325,7 +325,7 @@ const [
         savedLesson.handwriting ||
           false
       );
- }}
+ }}}
     >
   Generate Lesson
 </button>
