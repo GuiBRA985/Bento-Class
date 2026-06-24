@@ -107,7 +107,6 @@ function startRecording(
 
   return updated;
 });
-      }
 
       alert(
         `✅ Great!\n\nYou said: ${spoken}`
