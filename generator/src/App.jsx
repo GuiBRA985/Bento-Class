@@ -39,7 +39,7 @@ function spellWord(word) {
 function startRecording(
   expectedWord,
   setCompletedWords
-)
+){
   const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
