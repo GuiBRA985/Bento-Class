@@ -267,7 +267,6 @@ const [
 
   <button
   onClick={() => {
-
     const lessonData =
       lessonTemplates[group]?.[sub];
 
@@ -293,26 +292,19 @@ const [
       ];
 
     if (!savedLesson) {
-
       saveProgress(
         lessonKey,
         {
           startedAt:
             new Date()
               .toISOString(),
-
           completed: false,
-
           words: [],
-
           sentences: [],
-
           handwriting: false
         }
       );
-
     } else {
-
       setCompletedWords(
         savedLesson.words || []
       );
