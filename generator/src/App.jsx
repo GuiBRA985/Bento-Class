@@ -562,7 +562,6 @@ const [
       <button>
         📷 Upload
         Handwriting
-      </button>
     </div>
 
     <h3>
