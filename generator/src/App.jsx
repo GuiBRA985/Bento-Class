@@ -343,13 +343,16 @@ const [
       );
     } else {
       setCompletedWords(
-        savedLesson.words || []
-      );
+  Array.isArray(savedLesson.words)
+    ? savedLesson.words
+    : []
+);
 
       setCompletedSentences(
-        savedLesson.sentences ||
-          []
-      );
+  Array.isArray(savedLesson.sentences)
+    ? savedLesson.sentences
+    : []
+);
 
       setHandwritingUploaded(
         savedLesson.handwriting ||
@@ -427,12 +430,10 @@ const [
           }}
         >
           <h4>
-            {completedWords.includes(
-              word.text
-            )
-              ? "✅ " +
-                word.text
-              : word.text}
+            {Array.isArray(completedWords) &&
+ completedWords.includes(word.text)
+  ? "✅ " + word.text
+  : word.text}
           </h4>
 
           <div
