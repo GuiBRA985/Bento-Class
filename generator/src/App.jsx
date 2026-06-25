@@ -537,6 +537,29 @@ const [
       )
     )}
   </div>
+
+  <div
+  style={{
+    marginTop: 30,
+    textAlign: "center"
+  }}
+>
+  <button
+    onClick={finishLesson}
+    style={{
+      padding: "14px 28px",
+      borderRadius: 12,
+      border: "none",
+      background: "#2f6fed",
+      color: "#fff",
+      fontSize: 18,
+      fontWeight: 600,
+      cursor: "pointer"
+    }}
+  >
+    ✅ Finish Lesson
+  </button>
+</div>
 )}
 </div>
 </div>
