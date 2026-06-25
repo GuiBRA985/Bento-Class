@@ -126,6 +126,63 @@ export default function App() {
       "studentProgress"
     );
 
+    function finishLesson() {
+  if (!lesson) return;
+
+  const missingWords =
+    lesson.words.length -
+    completedWords.length;
+
+  const missingSentences =
+    lesson.sentences.length -
+    completedSentences.length;
+
+  const errors = [];
+
+  if (missingWords > 0) {
+    errors.push(
+      `${missingWords} words remaining`
+    );
+  }
+
+  if (missingSentences > 0) {
+    errors.push(
+      `${missingSentences} sentences remaining`
+    );
+  }
+
+  if (!handwritingUploaded) {
+    errors.push(
+      "Handwriting photo not uploaded"
+    );
+  }
+
+  if (errors.length > 0) {
+    alert(
+      "You cannot finish this lesson yet.\n\n" +
+      errors.join("\n")
+    );
+    return;
+  }
+
+  const lessonKey =
+    `${lesson.group}-${lesson.sub}`;
+
+  saveProgress(
+    lessonKey,
+    {
+      completed: true,
+      completedAt:
+        new Date()
+          .toISOString()
+    }
+  );
+
+  alert(
+    "🎉 Lesson completed successfully!"
+  );
+}
+
   return saved
     ? JSON.parse(saved)
     : {};
